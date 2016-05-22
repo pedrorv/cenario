@@ -7,7 +7,7 @@
     <script type="text/javascript" src="js/specifications.js"></script>
     <script type="text/javascript" src="js/auxiliarfunctions.js"></script>
     <script type="text/javascript" src="js/vis1-2.js"></script>
-    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
   </head>
   <body>
 
@@ -21,7 +21,7 @@
           .attr("width", visConfig.width)
           .attr("height", visConfig.height);
 
-      d3.json("data.json", function(error, json) {
+      d3.json("js/data.json", function(error, json) {
         if (error) return console.warn(error);
         var dataCircles = json;
         var dataBars = returnBarsData(dataCircles);
