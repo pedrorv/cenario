@@ -1,6 +1,8 @@
 var visConfig = {
+  // SVGS Width and Height
   width: 1036,
   height: 738,
+  // General View Visualization Specs
   circleBiggerRadius: 29.5,
   circleSmallerRadius: 3,
   wCircleMargin: 10,
@@ -8,7 +10,8 @@ var visConfig = {
   hYearMargin: 25,
   wYearMargin: 28,
   wMargin: 37,
-  hMargin: 60,
+  hMargin: 0,
+  // Utilities
   months: {
     0: "janeiro",
     1: "fevereiro",

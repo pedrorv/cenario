@@ -49,16 +49,6 @@ function returnMinDataCircles(dataset, property) {
   return min;
 }
 
-function separateData(array, product) {
-  var newArray = [];
-  for (var i = 0; i < array.length; i++) {
-    if (array[i]["products"][product]) {
-      newArray.push(array[i]);
-    }
-  }
-  return newArray;
-}
-
 function deleteVis() {
   d3.select("g.vis").remove();
 }
