@@ -11,26 +11,33 @@ function createVis() {
     var visYear = vis.append("g")
       .attr("class", year);
     for (var month in visConfig.dataCircles[year]) {
-      if (parseInt(month) < 4 && visConfig.years[year] < 4) {
-        visYear.append("circle")
-          .attr("class", month + "/" + year)
-          .attr("cx", function () {
-            var monthInt = parseInt(month);
-            var yearInt = visConfig.years[year];
-            var circlePosisition = (((monthInt-1)%3) * (visConfig.circleBiggerRadius*2) + visConfig.circleBiggerRadius) + ((yearInt%4) * visConfig.circleBiggerRadius * 3 * 2);
-            var circleMargin = visConfig.wCircleMargin + (visConfig.wCircleMargin * (yearInt%4)) + ((monthInt-1)%3) * visConfig.wCircleMargin;
-            var yearsMargin = (yearInt%4) * visConfig.wYearMargin;
-            return visConfig.wMargin + circlePosisition + circleMargin + yearsMargin;
-          })
-          .attr("cy", function() {
-            return 100;
-          })
-          .attr("r", function() {
-            var rangeVal = maxDataCircles - minDataCircles;
-            var rangeRadius = visConfig.circleBiggerRadius - visConfig.circleSmallerRadius;
-            return visConfig.circleSmallerRadius + (visConfig.dataCircles[year][month]["Títulos"] - minDataCircles)*rangeRadius/rangeVal
-          });
-      }
+      visYear.append("circle")
+        .attr("class", month + "/" + year)
+        .attr("cx", function () {
+          var monthInt = parseInt(month);
+          var monthProp = ((monthInt-1)%3);
+          var yearInt = visConfig.years[year];
+          var yearProp = yearInt%4;
+          var circlePosisition = (monthProp * (visConfig.circleBiggerRadius*2) + visConfig.circleBiggerRadius) + (yearProp * visConfig.circleBiggerRadius * 3 * 2);
+          var circleMargin = visConfig.wCircleMargin + (visConfig.wCircleMargin * yearProp) + monthProp * visConfig.wCircleMargin + (yearProp * visConfig.wCircleMargin * 4);
+          var yearsMargin = yearProp * visConfig.wYearMargin;
+          return visConfig.wMargin + circlePosisition + circleMargin + yearsMargin;
+        })
+        .attr("cy", function() {
+          var monthInt = parseInt(month);
+          var monthProp = Math.floor((monthInt-1)/3);
+          var yearInt = visConfig.years[year];
+          var yearProp = Math.floor(yearInt/4);
+          var circlePosisition = (monthProp * (visConfig.circleBiggerRadius*2)) + visConfig.circleBiggerRadius + (yearProp * visConfig.circleBiggerRadius * 4 * 2);
+          var circleMargin = visConfig.hCircleMargin + (visConfig.hCircleMargin * yearProp) + monthProp * visConfig.hCircleMargin + (yearProp * visConfig.hCircleMargin * 5);
+          var yearsMargin = yearProp * visConfig.hYearMargin + visConfig.hYearMargin;
+          return visConfig.hMargin + circlePosisition + circleMargin + yearsMargin;
+        })
+        .attr("r", function() {
+          var rangeVal = maxDataCircles - minDataCircles;
+          var rangeRadius = visConfig.circleBiggerRadius - visConfig.circleSmallerRadius;
+          return visConfig.circleSmallerRadius + (visConfig.dataCircles[year][month]["Títulos"] - minDataCircles)*rangeRadius/rangeVal
+        });
     }
   }
 }
