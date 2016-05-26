@@ -58,3 +58,7 @@ function separateData(array, product) {
   }
   return newArray;
 }
+
+function deleteVis() {
+  d3.select("g.vis").remove();
+}
