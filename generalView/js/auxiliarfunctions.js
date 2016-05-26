@@ -13,12 +13,14 @@ function getBoundingBoxWidthAndHeight(selection) {
 function returnCirclesData(data) {
     var data2 = {};
     for (var year in data) {
-      data2[year] = [];
+      data2[year] = {};
       for (var title in data[year]) {
-        if(!data2[year][parseInt(data[year][title]["Mês"])]) {
-          data2[year][parseInt(data[year][title]["Mês"])] = 1;
+        if(!data2[year][data[year][title]["Mês"]]) {
+          data2[year][data[year][title]["Mês"]] = {
+            "Títulos": 0
+          };
         } else {
-          data2[year][data2[year][parseInt(data[year][title]["Mês"])]] += 1;
+          data2[year][data[year][title]["Mês"]]["Títulos"] += 1;
         }
       }
     }
@@ -46,18 +48,6 @@ function returnMinDataCircles(dataset, property) {
   }
   return min;
 }
-
-function returnMaxDataBars(dataset, property) {
-  var max = 0;
-  for (var year in dataset) {
-    for (var month in dataset[year]) {
-      if (dataset[year][month][property] > max)
-        max = dataset[year][month][property];
-    }
-  }
-  return max;
-}
-
 
 function separateData(array, product) {
   var newArray = [];
