@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica;
+}
+
+svg {
+  display: block;
+}
+
+path {
+  fill: none;
+  stroke: black;
+  stroke-width: 2px;
+}
+
+text.title {
+	font-size: 20px;
+	font-family: "Helvetica Neue", Helvetica;
+}
+
+text.shadow {
+    stroke: white;
+    stroke-width: 2.5px;
+    opacity: 0.9;
+}
+
+circle.movie {
+  fill: #8B1CC6;
+  opacity: 0.6;
+}
+
+line.month {
+  stroke: gray;
+  stroke-width: 1px;
+}
+
+line.guide {
+  stroke: gray;
+  stroke-width: 0.3px;
+}
