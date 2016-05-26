@@ -10,20 +10,17 @@ function getBoundingBoxWidthAndHeight(selection) {
     return [bbox.width, bbox.height];
 }
 
-function returnBarsData(data) {
+function returnCirclesData(data) {
     var data2 = {};
-    var counts = ["Salas", "Público", "Renda"];
     for (var year in data) {
       data2[year] = {};
-      for (var month in data[year]) {
-        data2[year][month] = {};
-        for (var i = 0; i < 3; i++) {
-          data2[year][month][counts[i]] = 0;
-        }
-        for (var title in data[year][month]) {
-          for (var i = 0; i < 3; i++) {
-            data2[year][month][counts[i]] += data[year][month][title][counts[i]];
-          }
+      for (var title in data[year]) {
+        if(!data2[year][data[year][title]["Mês"]]) {
+          data2[year][data[year][title]["Mês"]] = {
+            "Títulos": 0
+          };
+        } else {
+          data2[year][data[year][title]["Mês"]]["Títulos"] += 1;
         }
       }
     }
@@ -34,10 +31,8 @@ function returnMaxDataCircles(dataset, property) {
   var max = 0;
   for (var year in dataset) {
     for (var month in dataset[year]) {
-      for (var movie in dataset[year][month]) {
-        if (dataset[year][month][movie][property] > max)
-          max = dataset[year][month][movie][property];
-      }
+        if (dataset[year][month][property] > max)
+          max = dataset[year][month][property];
     }
   }
   return max;
