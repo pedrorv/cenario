@@ -2,7 +2,7 @@ var visConfig = {
   width: 1036,
   height: 738,
   circleBiggerRadius: 29.5,
-  circleSmallerRadius: 7,
+  circleSmallerRadius: 3,
   wCircleMargin: 10,
   hCircleMargin: 12,
   yearMargin: 25,
@@ -30,5 +30,7 @@ var visConfig = {
     "2013": 4,
     "2014": 5,
     "2015": 6
-  }
+  },
+  data: {},
+  dataCircles: {}
 };

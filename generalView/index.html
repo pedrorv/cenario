@@ -23,8 +23,8 @@
 
       d3.json("js/data.json", function(error, json) {
         if (error) return console.warn(error);
-        var dataCircles = json;
-        var dataBars = returnCirclesData(dataCircles);
+        visConfig.data = json;
+        visConfig.dataCircles = returnCirclesData(visConfig.data);
         //createVis(dataCircles, dataBars);
       });
 
