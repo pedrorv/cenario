@@ -77,6 +77,10 @@ div.logo {
   border-bottom: 2px solid #57b4c9;
 }
 
+.vis-selector li:hover {
+  background-color: #57b4c9;
+}
+
 .vis-selector li:first-child {
   margin-top: 28px;
 }
@@ -84,6 +88,10 @@ div.logo {
 .nav li {
   border-top: 2px solid #cb7d9f;
   border-bottom: 2px solid #cb7d9f;
+}
+
+.nav li:hover {
+  background-color: #cb7d9f;
 }
 
 .nav li:first-child {
