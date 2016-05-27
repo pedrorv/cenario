@@ -22,6 +22,7 @@ function createVisOverview() {
       var visYear = vis.append("g")
         .attr("class", year);
       for (var month in visConfig.dataCircles[year]) {
+        var cx, cy;
         visYear.append("circle")
           .attr("class", month + "/" + year)
           .attr("cx", function () {
@@ -32,7 +33,8 @@ function createVisOverview() {
             var circlePosisition = (monthProp * (visConfig.circleBiggerRadius*2) + visConfig.circleBiggerRadius) + (yearProp * visConfig.circleBiggerRadius * 3 * 2);
             var circleMargin = visConfig.wCircleMargin + (visConfig.wCircleMargin * yearProp) + monthProp * visConfig.wCircleMargin + (yearProp * visConfig.wCircleMargin * 4);
             var yearsMargin = yearProp * visConfig.wYearMargin;
-            return visConfig.wMargin + circlePosisition + circleMargin + yearsMargin;
+            cx = visConfig.wMargin + circlePosisition + circleMargin + yearsMargin;
+            return cx;
           })
           .attr("cy", function() {
             var monthInt = parseInt(month),
@@ -42,7 +44,8 @@ function createVisOverview() {
             var circlePosisition = (monthProp * (visConfig.circleBiggerRadius*2)) + visConfig.circleBiggerRadius + (yearProp * visConfig.circleBiggerRadius * 4 * 2);
             var circleMargin = visConfig.hCircleMargin + (visConfig.hCircleMargin * yearProp) + monthProp * visConfig.hCircleMargin + (yearProp * visConfig.hCircleMargin * 5);
             var yearsMargin = yearProp * visConfig.hYearMargin + visConfig.hYearMargin;
-            return visConfig.hMargin + circlePosisition + circleMargin + yearsMargin;
+            cy = visConfig.hMargin + circlePosisition + circleMargin + yearsMargin;
+            return cy;
           })
           .attr("r", function() {
             var rangeVal = maxDataCircles - minDataCircles;
@@ -50,6 +53,15 @@ function createVisOverview() {
             return visConfig.circleSmallerRadius + (visConfig.dataCircles[year][month]["Títulos"] - minDataCircles)*rangeRadius/rangeVal
           })
           .attr("títulos", visConfig.dataCircles[year][month]["Títulos"]);
+
+        visYear.append("text")
+          .attr("x", cx)
+          .attr("y", function() {
+            return cy - 2;
+          })
+          .attr("text-anchor", "middle")
+          .attr("font-size", 6)
+          .text(visConfig.months[parseInt(month)-1]);
       }
     }
   }
