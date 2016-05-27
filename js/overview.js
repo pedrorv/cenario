@@ -55,6 +55,7 @@ function createVisOverview() {
           .attr("títulos", visConfig.dataCircles[year][month]["Títulos"]);
 
         visYear.append("text")
+          .attr("class", "month")
           .attr("x", cx)
           .attr("y", function() {
             return cy - 2 - visConfig.circleBiggerRadius;
@@ -63,6 +64,22 @@ function createVisOverview() {
           .attr("font-size", 10)
           .text(visConfig.months[parseInt(month)-1]);
       }
+
+      visYear.append("text")
+        .attr("class", "year")
+        .attr("x", function() {
+          var circle = "circle.1/" + year;
+          var cx = d3.selectAll(circle)[0][0].attributes.cx.value;
+          return parseFloat(cx) - visConfig.circleBiggerRadius;
+        })
+        .attr("y", function() {
+          var circle = "circle.1/" + year;
+          var cy = d3.selectAll(circle)[0][0].attributes.cy.value;
+          return parseFloat(cy) - visConfig.circleBiggerRadius - visConfig.hYearMargin;
+        })
+        .attr("text-anchor", "start")
+        .attr("font-size", 14)
+        .text(year);
     }
   }
 }
