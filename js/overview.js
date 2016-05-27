@@ -58,10 +58,10 @@ function createVisOverview() {
         visYear.append("text")
           .attr("x", cx)
           .attr("y", function() {
-            return cy - 2 - radius;
+            return cy - 5 - radius;
           })
           .attr("text-anchor", "middle")
-          .attr("font-size", 8)
+          .attr("font-size", 14)
           .text(visConfig.months[parseInt(month)-1]);
       }
     }
