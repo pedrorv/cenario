@@ -1,4 +1,4 @@
-function createVis() {
+function createVisOverview() {
 
   var vis = d3.select("svg")
     .append("g")
