@@ -15,8 +15,8 @@ function createVisOverview() {
       .append("g")
       .attr("class", "vis");
 
-    var maxDataCircles = returnMaxDataCircles(visConfig.dataCircles, "Títulos"),
-        minDataCircles = returnMinDataCircles(visConfig.dataCircles, "Títulos");
+    var maxDataCircles = returnMaxDataCircles(visConfig.dataCircles, "Titulos"),
+        minDataCircles = returnMinDataCircles(visConfig.dataCircles, "Titulos");
 
     for (var year in visConfig.dataCircles) {
       var visYear = vis.append("g")
@@ -50,12 +50,11 @@ function createVisOverview() {
           .attr("r", function() {
             var rangeVal = maxDataCircles - minDataCircles;
             var rangeRadius = visConfig.circleBiggerRadius - visConfig.circleSmallerRadius;
-            return visConfig.circleSmallerRadius + (visConfig.dataCircles[year][month]["Títulos"] - minDataCircles)*rangeRadius/rangeVal;
+            return visConfig.circleSmallerRadius + (visConfig.dataCircles[year][month]["Titulos"] - minDataCircles)*rangeRadius/rangeVal;
           })
-          .attr("títulos", visConfig.dataCircles[year][month]["Títulos"]);
+          .attr("titulos", visConfig.dataCircles[year][month]["Titulos"]);
 
         visYear.append("text")
-          .attr("class", "month")
           .attr("x", cx)
           .attr("y", function() {
             return cy - 2 - visConfig.circleBiggerRadius;
@@ -64,22 +63,6 @@ function createVisOverview() {
           .attr("font-size", 10)
           .text(visConfig.months[parseInt(month)-1]);
       }
-
-      visYear.append("text")
-        .attr("class", "year")
-        .attr("x", function() {
-          var circle = "circle.1/" + year;
-          var cx = d3.selectAll(circle)[0][0].attributes.cx.value;
-          return parseFloat(cx) - visConfig.circleBiggerRadius;
-        })
-        .attr("y", function() {
-          var circle = "circle.1/" + year;
-          var cy = d3.selectAll(circle)[0][0].attributes.cy.value;
-          return parseFloat(cy) - visConfig.circleBiggerRadius - visConfig.hYearMargin;
-        })
-        .attr("text-anchor", "start")
-        .attr("font-size", 14)
-        .text(year);
     }
   }
 }
