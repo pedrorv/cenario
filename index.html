@@ -20,8 +20,8 @@
       <nav class="vis-selector">
         <ul>
           <li class="vis-selection overview vis-selected"><a href="#">Visão Geral</a></li>
-          <li class="vis-selection"><a href="#">Vis 3</a></li>
           <li class="vis-selection"><a href="#">Vis 2</a></li>
+          <li class="vis-selection"><a href="#">Vis 3</a></li>
           <li class="vis-selection"><a href="#">Vis 4</a></li>
         </ul>
       </nav>
@@ -44,12 +44,17 @@
           .attr("width", visConfig.width)
           .attr("height", visConfig.height);
 
-      var visSelectors = d3.selectAll(".vis-selection").on("click", function() {
+      function visualSelection(reference) {
         d3.selectAll(".vis-selection").classed("vis-selected", false);
-        d3.select(this).classed("vis-selected", true);
+        d3.select(reference).classed("vis-selected", true);
+      }
+
+      var visSelectors = d3.selectAll(".vis-selection").on("click", function() {
+        visualSelection(this);
       });
 
       var visOverview = d3.select(".overview").on("click", function() {
+        visualSelection(this);
         deleteVis();
         createVisOverview();
       });
