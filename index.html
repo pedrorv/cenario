@@ -2,16 +2,55 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <script type="text/javascript" src="js/d3.v3.min.js"></script>
+    <script type="text/javascript" src="js/specifications.js"></script>
+    <script type="text/javascript" src="js/auxiliarfunctions.js"></script>
+    <script type="text/javascript" src="js/vis1-0.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Dosis:400' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300' rel='stylesheet' type='text/css'>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
   </head>
   <body>
 
-	<h1>Visualizations</h1>
-	<ul>
-		<li><a href="monthsAndMovies/volume.html">Volume</a></li>
-		<li><a href="monthsAndMovies/abacodireita.html">Abaco Direita</a></li>
-		<li><a href="monthsAndMovies/abacoesquerda.html">Abaco Esquerda</a></li>
-	</ul>
-   
+    <aside class="menu">
+      <div class="logo">
+        <h1>CEN&Aacute;RIO</h1>
+        <h3>Visualiza&ccedil;&otilde;es sobre a din&acirc;mica do cinema no Brasil</h3>
+      </div>
+      <nav class="vis-selector">
+        <ul>
+          <li><a href="#">Vis 1</a></li>
+          <li><a href="#">Vis 2</a></li>
+          <li><a href="#">Vis 3</a></li>
+          <li><a href="#">Vis 4</a></li>
+        </ul>
+      </nav>
+      <nav class="nav">
+        <ul>
+          <li><a href="#">Sobre o projeto</a></li>
+          <li><a href="#">Quem</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <div id="visualization"></div>
+    </main>
+
+
+    <script type="text/javascript">
+
+      // Create an svg tag of the right size
+      var svg = d3.select("#visualization").append("svg:svg")
+          .attr("width", visConfig.width)
+          .attr("height", visConfig.height);
+
+      d3.json("js/data.json", function(error, json) {
+        if (error) return console.warn(error);
+        visConfig.data = json;
+        visConfig.dataCircles = returnCirclesData(visConfig.data);
+        createVis();
+      });
+
+    </script>
   </body>
 </html>
