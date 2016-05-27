@@ -10,23 +10,48 @@ function getBoundingBoxWidthAndHeight(selection) {
     return [bbox.width, bbox.height];
 }
 
-function returnCirclesData(data) {
-    var data2 = {};
-    for (var year in data) {
-      data2[year] = {};
-      for (var title in data[year]) {
-        if(!data2[year][data[year][title]["Mês"]]) {
-          data2[year][data[year][title]["Mês"]] = {
+function returnCirclesData(dataset) {
+    var newDataset = {};
+    for (var year in dataset) {
+      newDataset[year] = {};
+      for (var title in dataset[year]) {
+        if(!newDataset[year][dataset[year][title]["Mês"]]) {
+          newDataset[year][dataset[year][title]["Mês"]] = {
             "Titulos": 1,
-            "Publico": data[year][title]["Público"]
+            "Publico": dataset[year][title]["Público"],
+            "Renda": dataset[year][title]["Renda"],
+            "Gêneros": {
+              "Ficção": 0,
+              "Documentário": 0,
+              "Animação": 0
+            }
           };
+          newDataset[year][dataset[year][title]["Mês"]]["Gêneros"][dataset[year][title]["Gênero"]]++;
         } else {
-          data2[year][data[year][title]["Mês"]]["Titulos"] += 1;
-          data2[year][data[year][title]["Mês"]]["Publico"] += data[year][title]["Público"];
+          newDataset[year][dataset[year][title]["Mês"]]["Titulos"] += 1;
+          newDataset[year][dataset[year][title]["Mês"]]["Publico"] += dataset[year][title]["Público"];
+          newDataset[year][dataset[year][title]["Mês"]]["Renda"] += dataset[year][title]["Renda"];
+          newDataset[year][dataset[year][title]["Mês"]]["Gêneros"][dataset[year][title]["Gênero"]]++;
         }
       }
     }
-    return data2;
+    return newDataset;
+}
+
+function returnMoviesData(dataset) {
+    var newDataset = {};
+    for (var year in dataset) {
+      newDataset[year] = [[],[],[],[],[],[],[],[],[],[],[],[]];
+      for (var title in dataset[year]) {
+        newDataset[year][parseInt(dataset[year][title]["Mês"])-1].push(dataset[year][title]);
+      }
+      for (var month in newDataset[year]) {
+        newDataset[year][month].sort(function(a,b) {
+          return b["Público"] - a["Público"];
+        });
+      }
+    }
+    return newDataset;
 }
 
 function returnMaxDataCircles(dataset, property) {
