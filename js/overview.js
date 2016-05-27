@@ -57,7 +57,7 @@ function createVisOverview() {
         visYear.append("text")
           .attr("x", cx)
           .attr("y", function() {
-            return cy - 5 - visConfig.circleBiggerRadius;
+            return cy - 2 - visConfig.circleBiggerRadius;
           })
           .attr("text-anchor", "middle")
           .attr("font-size", 10)
