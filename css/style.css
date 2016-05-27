@@ -85,6 +85,10 @@ div.logo {
   margin-top: 28px;
 }
 
+li.vis-selected {
+  background-color: #57b4c9;
+}
+
 .nav li {
   border-top: 2px solid #cb7d9f;
   border-bottom: 2px solid #cb7d9f;

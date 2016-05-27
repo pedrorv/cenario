@@ -19,10 +19,10 @@
       </div>
       <nav class="vis-selector">
         <ul>
-          <li><a href="#">Visão Geral</a></li>
-          <li><a href="#">Vis 2</a></li>
-          <li><a href="#">Vis 3</a></li>
-          <li><a href="#">Vis 4</a></li>
+          <li class="vis-selection overview vis-selected"><a href="#">Visão Geral</a></li>
+          <li class="vis-selection"><a href="#">Vis 3</a></li>
+          <li class="vis-selection"><a href="#">Vis 2</a></li>
+          <li class="vis-selection"><a href="#">Vis 4</a></li>
         </ul>
       </nav>
       <nav class="nav">
@@ -44,12 +44,17 @@
           .attr("width", visConfig.width)
           .attr("height", visConfig.height);
 
-      d3.json("js/data.json", function(error, json) {
-        if (error) return console.warn(error);
-        visConfig.data = json;
-        visConfig.dataCircles = returnCirclesData(visConfig.data);
+      var visSelectors = d3.selectAll(".vis-selection").on("click", function() {
+        d3.selectAll(".vis-selection").classed("vis-selected", false);
+        d3.select(this).classed("vis-selected", true);
+      });
+
+      var visOverview = d3.select(".overview").on("click", function() {
+        deleteVis();
         createVisOverview();
       });
+
+      createVisOverview();
 
     </script>
   </body>
