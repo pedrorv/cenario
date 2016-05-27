@@ -22,7 +22,7 @@ function createVisOverview() {
       var visYear = vis.append("g")
         .attr("class", year);
       for (var month in visConfig.dataCircles[year]) {
-        var cx, cy;
+        var cx, cy, radius;
         visYear.append("circle")
           .attr("class", month + "/" + year)
           .attr("cx", function () {
@@ -50,7 +50,8 @@ function createVisOverview() {
           .attr("r", function() {
             var rangeVal = maxDataCircles - minDataCircles;
             var rangeRadius = visConfig.circleBiggerRadius - visConfig.circleSmallerRadius;
-            return visConfig.circleSmallerRadius + (visConfig.dataCircles[year][month]["Títulos"] - minDataCircles)*rangeRadius/rangeVal
+            radius = visConfig.circleSmallerRadius + (visConfig.dataCircles[year][month]["Títulos"] - minDataCircles)*rangeRadius/rangeVal;
+            return radius;
           })
           .attr("títulos", visConfig.dataCircles[year][month]["Títulos"]);
 
@@ -60,7 +61,7 @@ function createVisOverview() {
             return cy - 2;
           })
           .attr("text-anchor", "middle")
-          .attr("font-size", 6)
+          .attr("font-size", 8)
           .text(visConfig.months[parseInt(month)-1]);
       }
     }
