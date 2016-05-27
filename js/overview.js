@@ -15,8 +15,12 @@ function createVisOverview() {
       .append("g")
       .attr("class", "vis");
 
-    var maxDataCircles = returnMaxDataCircles(visConfig.dataCircles, "Titulos"),
-        minDataCircles = returnMinDataCircles(visConfig.dataCircles, "Titulos");
+    var maxDataCirclesTitles = returnMaxDataCircles(visConfig.dataCircles, "Titulos"),
+        minDataCirclesTitles = returnMinDataCircles(visConfig.dataCircles, "Titulos"),
+        maxDataCirclesPublic = returnMaxDataCircles(visConfig.dataCircles, "Publico"),
+        minDataCirclesPublic = returnMinDataCircles(visConfig.dataCircles, "Publico");
+
+    var fillScale = d3.scale.linear().domain([minDataCirclesPublic,maxDataCirclesPublic]).range(["#e1f3f3","#020f15"]);
 
     for (var year in visConfig.dataCircles) {
       var visYear = vis.append("g")
@@ -48,11 +52,13 @@ function createVisOverview() {
             return cy;
           })
           .attr("r", function() {
-            var rangeVal = maxDataCircles - minDataCircles;
+            var rangeVal = maxDataCirclesTitles - minDataCirclesTitles;
             var rangeRadius = visConfig.circleBiggerRadius - visConfig.circleSmallerRadius;
-            return visConfig.circleSmallerRadius + (visConfig.dataCircles[year][month]["Titulos"] - minDataCircles)*rangeRadius/rangeVal;
+            return visConfig.circleSmallerRadius + (visConfig.dataCircles[year][month]["Titulos"] - minDataCirclesTitles)*rangeRadius/rangeVal;
           })
-          .attr("titulos", visConfig.dataCircles[year][month]["Titulos"]);
+          .attr("titulos", visConfig.dataCircles[year][month]["Titulos"])
+          .attr("publico", visConfig.dataCircles[year][month]["Publico"])
+          .attr("fill", fillScale(visConfig.dataCircles[year][month]["Publico"]));
 
         visYear.append("text")
           .attr("x", cx)
@@ -79,5 +85,15 @@ function createVisOverview() {
         .attr("font-size", 14)
         .text(year);
     }
+
+    vis.append("text")
+      .attr("x", function() {
+        return visConfig.width - visConfig.wMargin;
+      })
+      .attr("y", function() {
+        return visConfig.height - visConfig.hYearMargin;
+      })
+      .attr("text-anchor", "end")
+      .text("2009 a 2014 - Visão Geral");
   }
 }

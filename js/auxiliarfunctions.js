@@ -17,10 +17,12 @@ function returnCirclesData(data) {
       for (var title in data[year]) {
         if(!data2[year][data[year][title]["Mês"]]) {
           data2[year][data[year][title]["Mês"]] = {
-            "Titulos": 0
+            "Titulos": 1,
+            "Publico": data[year][title]["Público"]
           };
         } else {
           data2[year][data[year][title]["Mês"]]["Titulos"] += 1;
+          data2[year][data[year][title]["Mês"]]["Publico"] += data[year][title]["Público"];
         }
       }
     }
