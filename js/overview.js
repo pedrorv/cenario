@@ -4,15 +4,9 @@ function createVisOverview() {
     d3.json("js/data.json", function(error, json) {
       if (error) return console.warn(error);
       visConfig.data = json;
-      console.time("Retorno dados Meses");
       visConfig.dataCircles = returnCirclesData(visConfig.data);
-      console.timeEnd("Retorno dados Meses");
-      console.time("Gerar visualização");
       createVis();
-      console.timeEnd("Gerar visualização");
-      console.time("Dados Highlight");
       visConfig.dataHighlight = returnMoviesData(visConfig.data);
-      console.timeEnd("Dados Highlight");
     });
   } else {
     createVis();
@@ -67,8 +61,13 @@ function createVisOverview() {
           })
           .attr("titulos", visConfig.dataCircles[year][month]["Titulos"])
           .attr("publico", visConfig.dataCircles[year][month]["Publico"])
+          .attr("mes", month)
+          .attr("ano", year)
           .attr("fill", fillScale(visConfig.dataCircles[year][month]["Publico"]))
-          .on("click", monthHighlight);
+          .on("click", function() {
+            var self = d3.select(this);
+            monthHighlight(self.attr("mes"), self.attr("ano"));
+          });
 
         visYear.append("text")
           .attr("x", cx)
@@ -107,7 +106,7 @@ function createVisOverview() {
       .text("2009 a 2014 - Visão Geral");
   }
 
-  function monthHighlight() {
+  function monthHighlight(month, year) {
     var visBox = d3.select("g.vis")
       .append("g")
       .attr("class", "lightbox");
@@ -125,6 +124,7 @@ function createVisOverview() {
       .attr("opacity", 0.3);
 
     visBox.append("rect")
+      .attr("class", "highlight")
       .attr("x", function() {
         return visConfig.width/2 - visConfig.wMonthHighlight/2;
       })
@@ -142,9 +142,28 @@ function createVisOverview() {
       .attr("fill", "white")
       .attr("opacity", 0)
       .transition()
-      .delay(500)
+      .delay(300)
       .duration(500)
       .attr("opacity", 1);
+
+    visBox.append("text")
+      .attr("class", "header")
+      .attr("x", function() {
+        return parseInt(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightTextMargin;
+      })
+      .attr("y", function() {
+        return parseInt(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightMargin + visConfig.HighlightHeadersSize;
+      })
+      .attr("text-anchor", "start")
+      .text(function() {
+        return visConfig.months[parseInt(month)-1] + " - " + year;
+      })
+      .attr("opacity", 0)
+      .transition()
+      .delay(700)
+      .duration(300)
+      .attr("opacity", 1);
+
   }
 
   function removeHighlight() {

@@ -23,21 +23,27 @@ var visConfig = {
   // Month Hightlight Box Config
   wMonthHighlight: 500,
   hMonthHighlight: 300,
+  wHighlightMargin: 14,
+  hHighlightMargin: 15,
+  wHighlightTextMargin: 20,
+  hHighlightTextMargin: 9,
+  HighlightHeadersSize: 15,
+  HighlightTextsSize: 13,
 
   // Utilities
   months: {
-    0: "janeiro",
-    1: "fevereiro",
-    2: "março",
-    3: "abril",
-    4: "maio",
-    5: "junho",
-    6: "julho",
-    7: "agosto",
-    8: "setembro",
-    9: "outubro",
-    10: "novembro",
-    11: "dezembro"
+    0: "Janeiro",
+    1: "Fevereiro",
+    2: "Março",
+    3: "Abril",
+    4: "Maio",
+    5: "Junho",
+    6: "Julho",
+    7: "Agosto",
+    8: "Setembro",
+    9: "Outubro",
+    10: "Novembro",
+    11: "Dezembro"
   },
   years: {
     "2009": 0,

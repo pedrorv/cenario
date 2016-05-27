@@ -102,3 +102,9 @@ li.vis-selected {
 .nav li:first-child {
   margin-top: 45px;
 }
+
+text.header {
+  font-family: "Open Sans", sans-serif;
+  font-size: 15px;
+  fill: #272626;
+}
