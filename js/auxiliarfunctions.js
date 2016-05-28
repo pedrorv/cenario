@@ -17,8 +17,8 @@ function returnCirclesData(dataset) {
       for (var title in dataset[year]) {
         if(!newDataset[year][dataset[year][title]["Mês"]]) {
           newDataset[year][dataset[year][title]["Mês"]] = {
-            "Titulos": 1,
-            "Publico": dataset[year][title]["Público"],
+            "Títulos": 1,
+            "Público": dataset[year][title]["Público"],
             "Renda": dataset[year][title]["Renda"],
             "Gêneros": {
               "Ficção": 0,
@@ -28,8 +28,8 @@ function returnCirclesData(dataset) {
           };
           newDataset[year][dataset[year][title]["Mês"]]["Gêneros"][dataset[year][title]["Gênero"]]++;
         } else {
-          newDataset[year][dataset[year][title]["Mês"]]["Titulos"] += 1;
-          newDataset[year][dataset[year][title]["Mês"]]["Publico"] += dataset[year][title]["Público"];
+          newDataset[year][dataset[year][title]["Mês"]]["Títulos"] += 1;
+          newDataset[year][dataset[year][title]["Mês"]]["Público"] += dataset[year][title]["Público"];
           newDataset[year][dataset[year][title]["Mês"]]["Renda"] += dataset[year][title]["Renda"];
           newDataset[year][dataset[year][title]["Mês"]]["Gêneros"][dataset[year][title]["Gênero"]]++;
         }
@@ -74,6 +74,21 @@ function returnMinDataCircles(dataset, property) {
     }
   }
   return min;
+}
+
+function formatNumber(number) {
+  var numberStr = "" + number,
+      newNumberStr = [],
+      j = numberStr.length-1,
+      i = 0;
+  for (; j >= 0; j--) {
+    newNumberStr.unshift(numberStr[j]);
+    i++;
+    if ((i%3 == 0) && j > 0) {
+      newNumberStr.unshift(".");
+    }
+  }
+  return newNumberStr.join("");
 }
 
 function deleteVis() {

@@ -105,6 +105,19 @@ li.vis-selected {
 
 text.header {
   font-family: "Open Sans", sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   fill: #272626;
+  font-weight: 600;
+}
+
+text.info {
+  font-family: "Open Sans", sans-serif;
+  font-size: 13px;
+  fill: #272626;
+  font-weight: 300;
+}
+
+line.highlight-division {
+  stroke-width: 0.5;
+  stroke: #999;
 }
