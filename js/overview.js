@@ -61,12 +61,12 @@ function createVisOverview() {
           })
           .attr("titulos", visConfig.dataCircles[year][month]["Títulos"])
           .attr("publico", visConfig.dataCircles[year][month]["Público"])
-          .attr("mes", month)
-          .attr("ano", year)
+          .attr("month", month)
+          .attr("year", year)
           .attr("fill", fillScale(visConfig.dataCircles[year][month]["Público"]))
           .on("click", function() {
             var self = d3.select(this);
-            monthHighlight(self.attr("mes"), self.attr("ano"));
+            monthHighlight(self.attr("month"), self.attr("year"));
           });
 
         visYear.append("text")
@@ -104,6 +104,7 @@ function createVisOverview() {
       })
       .attr("text-anchor", "end")
       .text("2009 a 2014 - Visão Geral");
+
   }
 
   function monthHighlight(month, year) {
@@ -148,11 +149,12 @@ function createVisOverview() {
 
     visBox.append("text")
       .attr("class", "header")
+      .attr("id", "header1")
       .attr("x", function() {
-        return parseInt(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
       })
       .attr("y", function() {
-        return parseInt(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightMargin + visConfig.HighlightHeadersSize;
+        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightMargin + visConfig.HighlightHeadersSize;
       })
       .attr("text-anchor", "start")
       .text(function() {
@@ -168,16 +170,16 @@ function createVisOverview() {
       .attr("class", "highlight-division")
       .attr("id", "line1")
       .attr("x1", function() {
-        return parseInt(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
       })
       .attr("y1", function() {
-        return parseInt(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine1Spacing;
+        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine1Spacing;
       })
       .attr("x2", function() {
-        return parseInt(d3.select("rect.highlight").attr("x")) + visConfig.wMonthHighlight - visConfig.wHighlightMargin;
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wMonthHighlight - visConfig.wHighlightMargin;
       })
       .attr("y2", function() {
-        return parseInt(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine1Spacing;
+        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine1Spacing;
       })
       .attr("opacity", 0)
       .transition()
@@ -189,16 +191,16 @@ function createVisOverview() {
       .attr("class", "highlight-division")
       .attr("id", "line2")
       .attr("x1", function() {
-        return parseInt(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
       })
       .attr("y1", function() {
-        return parseInt(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine2Spacing;
+        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine2Spacing;
       })
       .attr("x2", function() {
-        return parseInt(d3.select("rect.highlight").attr("x")) + visConfig.wMonthHighlight - visConfig.wHighlightMargin;
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wMonthHighlight - visConfig.wHighlightMargin;
       })
       .attr("y2", function() {
-        return parseInt(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine2Spacing;
+        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine2Spacing;
       })
       .attr("opacity", 0)
       .transition()
@@ -209,10 +211,10 @@ function createVisOverview() {
     visBox.append("text")
       .attr("class", "info")
       .attr("x", function() {
-        return parseInt(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
       })
       .attr("y", function() {
-        return parseInt(d3.select("line#line1").attr("y1")) + visConfig.hHighlightTextMargin + visConfig.HighlightTextsSize;
+        return parseFloat(d3.select("line#line1").attr("y1")) + visConfig.hHighlightTextMargin + visConfig.HighlightTextsSize;
       })
       .attr("text-anchor", "start")
       .text(function() {
@@ -227,10 +229,10 @@ function createVisOverview() {
     visBox.append("text")
       .attr("class", "info")
       .attr("x", function() {
-        return parseInt(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
       })
       .attr("y", function() {
-        return parseInt(d3.select("line#line2").attr("y1")) - visConfig.hHighlightTextMargin;
+        return parseFloat(d3.select("line#line2").attr("y1")) - visConfig.hHighlightTextMargin;
       })
       .attr("text-anchor", "start")
       .text(function() {
@@ -244,15 +246,16 @@ function createVisOverview() {
 
     visBox.append("text")
       .attr("class", "header")
+      .attr("id", "header2")
       .attr("x", function() {
-        return parseInt(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
       })
       .attr("y", function() {
-        return parseInt(d3.select("line#line2").attr("y1")) + visConfig.hHighlightTextMargin + visConfig.HighlightHeadersSize;
+        return parseFloat(d3.select("line#line2").attr("y1")) + visConfig.hHighlightMargin + visConfig.HighlightHeadersSize;
       })
       .attr("text-anchor", "start")
       .text(function() {
-        return "Filmes mais vistos";
+        return "Filmes mais vistos entre os " + visConfig.dataCircles[year][month]["Títulos"] + " lançados";
       })
       .attr("opacity", 0)
       .transition()
@@ -260,6 +263,75 @@ function createVisOverview() {
       .duration(300)
       .attr("opacity", 1);
 
+    for (var i = 0; i < 5; i++) {
+      visBox.append("circle")
+        .attr("class", "movies-ranking")
+        .attr("id", "ranked-movie-" + i)
+        .attr("cx", function() {
+          var boxX = parseFloat(d3.select("rect.highlight").attr("x"));
+          var position = (visConfig.wMonthHighlight - 2*visConfig.wHighlightMargin - 2*visConfig.circleRankingBiggerRadius) / 4;
+          return boxX + visConfig.wHighlightMargin + visConfig.circleRankingBiggerRadius + (position * i);
+        })
+        .attr("cy", function() {
+          var headerY = parseFloat(d3.select("text#header2").attr("y"));
+          return headerY + visConfig.circleRankingBiggerRadius + visConfig.circleRankingHMargin;
+        })
+        .attr("r", function() {
+          var max = visConfig.dataHighlight[year][parseInt(month)-1][0]["Público"];
+          var min = visConfig.dataHighlight[year][parseInt(month)-1][4]["Público"];
+          var rangeVal = max - min;
+          var rangeRadius = visConfig.circleRankingBiggerRadius - visConfig.circleRankingSmallerRadius;
+          return visConfig.circleRankingSmallerRadius + (visConfig.dataHighlight[year][parseInt(month)-1][i]["Público"] - min)*rangeRadius/rangeVal;
+        })
+        .attr("i", i)
+        .attr("year", year)
+        .attr("month", month)
+        .attr("opacity", 0)
+        .on("click", function() {
+          var self = d3.select(this);
+          var index = parseInt(self.attr("i"));
+          showFilmDetail(index, self, self.attr("month"), self.attr("year"));
+        })
+        .transition()
+        .delay(700)
+        .duration(300)
+        .attr("opacity", 0.7)
+        .each("end", function() {
+          var index0 = d3.select("circle#ranked-movie-0");
+          showFilmDetail(0, index0, index0.attr("month"), index0.attr("year"));
+        });
+    }
+
+  }
+
+  function showFilmDetail(index, referenceCircle, month, year) {
+
+    d3.selectAll("text#header3").remove();
+
+    d3.selectAll("circle.movies-ranking").attr("opacity", 0.7);
+    referenceCircle.attr("opacity", 1);
+
+
+    var visBox = d3.select("g.lightbox");
+
+    visBox.append("text")
+      .attr("class", "header")
+      .attr("id", "header3")
+      .attr("x", function() {
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+      })
+      .attr("y", function() {
+        return parseFloat(d3.select("circle#ranked-movie-0").attr("cy")) + visConfig.circleRankingBiggerRadius + visConfig.circleRankingHMargin + visConfig.HighlightHeadersSize;
+      })
+      .attr("text-anchor", "start")
+      .text(function() {
+        return visConfig.dataHighlight[parseInt(year)][parseInt(month)-1][index]["Título"];
+      })
+      .attr("opacity", 0)
+      .transition()
+      .delay(200)
+      .duration(300)
+      .attr("opacity", 1);
   }
 
   function removeHighlight() {

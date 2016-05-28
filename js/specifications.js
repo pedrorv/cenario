@@ -21,15 +21,18 @@ var visConfig = {
   hMargin: 0,
 
   // Month Hightlight Box Config
-  wMonthHighlight: 503,
+  wMonthHighlight: 523,
   hMonthHighlight: 312,
   wHighlightMargin: 30,
   hHighlightMargin: 17,
-  hHighlightTextMargin: 12,
+  hHighlightTextMargin: 15,
   HighlightHeadersSize: 16,
   HighlightTextsSize: 13,
   hHighlightLine1Spacing: 51,
-  hHighlightLine2Spacing: 118,
+  hHighlightLine2Spacing: 122,
+  circleRankingBiggerRadius: 25,
+  circleRankingSmallerRadius: 7.5,
+  circleRankingHMargin: 15,
 
   // Utilities
   months: {

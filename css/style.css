@@ -30,8 +30,8 @@ ul li {
 a {
   text-decoration: none;
   color: #272626;
-  font-weight: 600;
-  font-size: 16px;
+  font-weight: 400;
+  font-size: 16px;top
   padding: 5px;
 }
 
@@ -54,6 +54,7 @@ div.logo {
   background-color: #272626;
   color: #fff;
   border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 .logo h1 {
@@ -82,12 +83,20 @@ div.logo {
   background-color: #57b4c9;
 }
 
+.vis-selector li:hover a {
+  font-weight: 600;
+}
+
 .vis-selector li:first-child {
   margin-top: 28px;
 }
 
 li.vis-selected {
   background-color: #57b4c9;
+}
+
+li.vis-selected a {
+  font-weight: 600;
 }
 
 .nav li {
@@ -120,4 +129,8 @@ text.info {
 line.highlight-division {
   stroke-width: 0.5;
   stroke: #999;
+}
+
+circle.movies-ranking {
+  fill: #67a338;
 }
