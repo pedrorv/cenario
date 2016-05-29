@@ -113,6 +113,7 @@ function createVisOverview() {
       .attr("class", "lightbox");
 
     visBox.append("rect")
+      .attr("id", "lightbox")
       .attr("x", 0)
       .attr("y", 0)
       .attr("width", visConfig.width)
@@ -161,6 +162,26 @@ function createVisOverview() {
         return visConfig.months[parseInt(month)-1] + " - " + year;
       })
       .attr("opacity", 0)
+      .transition()
+      .delay(700)
+      .duration(300)
+      .attr("opacity", 1);
+
+    visBox.append("text")
+      .attr("class", "header")
+      .attr("id", "close")
+      .attr("x", function() {
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wMonthHighlight - visConfig.wHighlightMargin;
+      })
+      .attr("y", function() {
+        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightMargin + visConfig.HighlightHeadersSize;
+      })
+      .attr("text-anchor", "end")
+      .text("X")
+      .attr("opacity", 0)
+      .on("click", function() {
+        removeHighlight();
+      })
       .transition()
       .delay(700)
       .duration(300)
@@ -406,6 +427,8 @@ function createVisOverview() {
       .delay(200)
       .duration(300)
       .attr("opacity", 1);
+
+
   }
 
   function removeHighlight() {

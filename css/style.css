@@ -134,3 +134,15 @@ line.highlight-division {
 circle.movies-ranking {
   fill: #67a338;
 }
+
+circle:hover {
+  cursor: pointer;
+}
+
+rect#lightbox:hover {
+  cursor: pointer;
+}
+
+text#close:hover {
+    cursor: pointer;
+}
