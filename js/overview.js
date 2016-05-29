@@ -306,13 +306,15 @@ function createVisOverview() {
 
   function showFilmDetail(index, referenceCircle, month, year) {
 
-    d3.selectAll("text#header3").remove();
+    d3.select("g.movie-info").remove();
 
     d3.selectAll("circle.movies-ranking").attr("opacity", 0.7);
     referenceCircle.attr("opacity", 1);
 
 
-    var visBox = d3.select("g.lightbox");
+    var visBox = d3.select("g.lightbox")
+      .append("g")
+      .attr("class", "movie-info");
 
     visBox.append("text")
       .attr("class", "header")
@@ -325,7 +327,79 @@ function createVisOverview() {
       })
       .attr("text-anchor", "start")
       .text(function() {
-        return visConfig.dataHighlight[parseInt(year)][parseInt(month)-1][index]["Título"];
+        return visConfig.dataHighlight[year][parseInt(month)-1][index]["Título"];
+      })
+      .attr("opacity", 0)
+      .transition()
+      .delay(200)
+      .duration(300)
+      .attr("opacity", 1);
+
+    visBox.append("text")
+      .attr("class", "info")
+      .attr("x", function() {
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+      })
+      .attr("y", function() {
+        return parseFloat(d3.select("text#header3").attr("y")) + visConfig.hHighlightTextMargin + visConfig.HighlightTextsSize;
+      })
+      .attr("text-anchor", "start")
+      .text(function() {
+        return "Gênero: " + visConfig.dataHighlight[year][parseInt(month)-1][index]["Gênero"];
+      })
+      .attr("opacity", 0)
+      .transition()
+      .delay(200)
+      .duration(300)
+      .attr("opacity", 1);
+
+    visBox.append("text")
+      .attr("class", "info")
+      .attr("x", function() {
+        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+      })
+      .attr("y", function() {
+        return parseFloat(d3.select("text#header3").attr("y")) + 2*visConfig.hHighlightTextMargin + 2*visConfig.HighlightTextsSize;
+      })
+      .attr("text-anchor", "start")
+      .text(function() {
+        return "Nacionalidade: " + visConfig.dataHighlight[year][parseInt(month)-1][index]["País"];
+      })
+      .attr("opacity", 0)
+      .transition()
+      .delay(200)
+      .duration(300)
+      .attr("opacity", 1);
+
+    visBox.append("text")
+      .attr("class", "info")
+      .attr("x", function() {
+        return parseFloat(d3.select("circle#ranked-movie-2").attr("cx"));
+      })
+      .attr("y", function() {
+        return parseFloat(d3.select("text#header3").attr("y")) + visConfig.hHighlightTextMargin + visConfig.HighlightTextsSize;
+      })
+      .attr("text-anchor", "start")
+      .text(function() {
+        return "Público: " + formatNumber(visConfig.dataHighlight[year][parseInt(month)-1][index]["Público"]);
+      })
+      .attr("opacity", 0)
+      .transition()
+      .delay(200)
+      .duration(300)
+      .attr("opacity", 1);
+
+    visBox.append("text")
+      .attr("class", "info")
+      .attr("x", function() {
+        return parseFloat(d3.select("circle#ranked-movie-2").attr("cx"));
+      })
+      .attr("y", function() {
+        return parseFloat(d3.select("text#header3").attr("y")) + 2*visConfig.hHighlightTextMargin + 2*visConfig.HighlightTextsSize;
+      })
+      .attr("text-anchor", "start")
+      .text(function() {
+        return "Renda: R$" + formatNumber(visConfig.dataHighlight[year][parseInt(month)-1][index]["Renda"]);
       })
       .attr("opacity", 0)
       .transition()

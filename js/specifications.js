@@ -22,7 +22,7 @@ var visConfig = {
 
   // Month Hightlight Box Config
   wMonthHighlight: 523,
-  hMonthHighlight: 312,
+  hMonthHighlight: 327,
   wHighlightMargin: 30,
   hHighlightMargin: 17,
   hHighlightTextMargin: 15,
