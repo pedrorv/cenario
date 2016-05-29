@@ -23,7 +23,7 @@ function createVisOverview() {
         maxDataCirclesPublic = returnMaxDataCircles(visConfig.dataCircles, "Público"),
         minDataCirclesPublic = returnMinDataCircles(visConfig.dataCircles, "Público");
 
-    var fillScale = d3.scale.linear().domain([minDataCirclesPublic,maxDataCirclesPublic]).range(["#e1f3f3","#020f15"]);
+    var fillScale = d3.scale.linear().domain([minDataCirclesPublic,maxDataCirclesPublic]).range(["#6eced3","#1f0133"]);
 
     for (var year in visConfig.dataCircles) {
       var visYear = vis.append("g")
