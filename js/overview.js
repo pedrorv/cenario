@@ -316,7 +316,7 @@ function createVisOverview() {
         .transition()
         .delay(700)
         .duration(300)
-        .attr("opacity", 0.7)
+        .attr("opacity", 0.3)
         .each("end", function() {
           var index0 = d3.select("circle#ranked-movie-0");
           showFilmDetail(0, index0, index0.attr("month"), index0.attr("year"));
@@ -329,7 +329,7 @@ function createVisOverview() {
 
     d3.select("g.movie-info").remove();
 
-    d3.selectAll("circle.movies-ranking").attr("opacity", 0.7);
+    d3.selectAll("circle.movies-ranking").attr("opacity", 0.3);
     referenceCircle.attr("opacity", 1);
 
 

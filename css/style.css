@@ -132,7 +132,8 @@ line.highlight-division {
 }
 
 circle.movies-ranking {
-  fill: #67a338;
+  /* fill: #67a338; */
+  fill: #cb7d9f;
 }
 
 circle:hover {
