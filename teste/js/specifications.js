@@ -30,7 +30,7 @@ var visConfig = {
   hMonthMargin: 25,
   hMonthBox: 17,
   monthBoxHexValue: "#666666",
-  monthBoxTextSize: 16,
+  monthBoxTextSize: 14,
 
   // Vis Margins
   wMargin: 37,

@@ -13,14 +13,14 @@
   </head>
   <body>
 
-    <main class="main-content">
-      <div id="visualization"></div>
-    </main>
+    <div class="visualization">
+
+    </div>
 
     <script type="text/javascript">
 
       // Create an svg tag of the right size
-      var svg = d3.select("#visualization").append("svg:svg")
+      var svg = d3.select("div.visualization").append("svg")
           .attr("width", visConfig.width)
           .attr("height", visConfig.height);
 

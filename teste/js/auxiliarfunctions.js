@@ -1,15 +1,3 @@
-function getBoundingBoxCenter(selection) {
-    var element = selection.node(),
-        bbox = element.getBBox();
-    return [bbox.x + bbox.width/2, bbox.y + bbox.height/2];
-}
-
-function getBoundingBoxWidthAndHeight(selection) {
-    var element = selection.node(),
-        bbox = element.getBBox();
-    return [bbox.width, bbox.height];
-}
-
 function returnCirclesData(dataset) {
     var newDataset = {};
     for (var year in dataset) {
@@ -97,6 +85,59 @@ function returnXPosition(index) {
 
 function returnYPosition(index) {
   return visConfig.hMonthMargin + visConfig.hMonthBox + 4 + (index * ((visConfig.circleBiggerRadius * 2) + visConfig.hCircleMargin)) + visConfig.circleBiggerRadius;
+}
+
+function testXPosition(x) {
+  var index = (x - 64 - visConfig.circleBiggerRadius) / ((visConfig.circleBiggerRadius * 2) + visConfig.wCircleMargin);
+  if (Math.abs(index - Math.floor(index + 0.5)) <= 0.3) {
+    return Math.floor(index + 0.5);
+  }
+  return false;
+}
+
+function testYPosition(y) {
+  var index = (y - visConfig.hMonthMargin - visConfig.circleBiggerRadius - visConfig.hMonthBox - 4) / ((visConfig.circleBiggerRadius * 2) + visConfig.wCircleMargin);
+  if (Math.abs(index - Math.floor(index + 0.5)) <= 0.3) {
+    return Math.floor(index + 0.5);
+  }
+  return false;
+}
+
+function moveAllSpecificMonthDrag(index, month, dx) {
+  d3.selectAll("rect.month[currentmonth='" + month + "']")
+    .attr("x", function() {
+      return returnXPosition(index) - visConfig.circleBiggerRadius + dx;
+    });
+
+  d3.select("text.month[currentmonth='" + month + "']")
+    .attr("x", function() {
+      return returnXPosition(index) + dx;
+    });
+
+  d3.selectAll("circle[currentmonth='" + month + "']")
+    .attr("cx", function() {
+      return returnXPosition(index) + dx;
+    });
+}
+
+function scaleSvg(windowWidth, visWidth, baseVisResolutionWidth) {
+  var proportion = visWidth/baseVisResolutionWidth;
+  var finalWidth = windowWidth * proportion;
+
+  var ratio = finalWidth/visWidth;
+
+  d3.select("svg")
+    .attr("width", function() { return visConfig.width * ratio; })
+    .attr("height", function() { return visConfig.height * ratio; });
+
+  d3.select("g.vis")
+    .attr("transform", function() {
+      return "scale(" + ratio + ")";
+    });
+}
+
+function moveAllSpecificYear(year) {
+
 }
 
 function deleteVis() {

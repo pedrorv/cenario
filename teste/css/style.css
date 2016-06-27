@@ -1,11 +1,13 @@
 body {
   margin: 0 auto;
-  margin-top: 25px;
   display: block;
-  width: 1366px;
-  font-size: 14px;
   font-family: 'Open Sans', sans-serif;
   background-color: #fff;
+}
+
+div.visualization {
+  margin: 0 auto;
+  width: 90%;
 }
 
 svg {
@@ -30,6 +32,13 @@ text.info {
 line.highlight-division {
   stroke-width: 0.5;
   stroke: #999;
+}
+
+text.month {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
 }
 
 circle.movies-ranking {

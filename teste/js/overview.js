@@ -14,6 +14,25 @@ function createVisOverview() {
   }
 
   function createVis() {
+
+    // var drag = d3.behavior.drag()
+    //     .on("drag", function() {
+    //         var dx = d3.event.dx,
+    //             dy = d3.event.dy,
+    //             self = this,
+    //             svg = d3.select("svg");
+    //         var x = returnXPosition(parseInt(self.attr("currentmonth")));
+    //         var coordinates = d3.mouse(svg);
+    //         var index = testXPosition(coordinates[0]);
+    //         if (index) {
+    //           if (index > parseInt(self.attr("currentmonth"))) {
+    //
+    //           }
+    //         }
+    //         d3.selectAll("*[currentmonth='"+self.attr("currentmonth")+"']")
+    //         })
+    //     });
+
     var vis = d3.select("svg")
       .append("g")
       .attr("class", "vis");
@@ -43,7 +62,9 @@ function createVisOverview() {
           return visConfig.height - visConfig.hBottomMargin;
         })
         .attr("stroke", visConfig.verticalGuidelineHexValue)
-        .attr("stroke-width", visConfig.guidelineStrokeWidth);
+        .attr("stroke-width", visConfig.guidelineStrokeWidth)
+        .attr("originalmonth", month)
+        .attr("currentmonth", month);
     }
 
     for (var year in visConfig.dataCircles) {
@@ -61,7 +82,9 @@ function createVisOverview() {
           return returnYPosition(visConfig.years[year]);
         })
         .attr("stroke", visConfig.horizontalGuidelineHexValue)
-        .attr("stroke-width", visConfig.guidelineStrokeWidth);
+        .attr("stroke-width", visConfig.guidelineStrokeWidth)
+        .attr("originalyear", year)
+        .attr("currentyear", year);
     }
 
     var visMonths = vis.append("g")
@@ -69,15 +92,19 @@ function createVisOverview() {
 
     for (var month in visConfig.months) {
       visMonths.append("rect")
+        .attr("class", "month")
         .attr("x", function() {
           return returnXPosition(parseInt(month)) - visConfig.circleBiggerRadius;
         })
         .attr("y", visConfig.hMonthMargin)
         .attr("width", (visConfig.circleBiggerRadius*2))
         .attr("height", visConfig.hMonthBox)
-        .attr("fill", visConfig.monthBoxHexValue);
+        .attr("fill", visConfig.monthBoxHexValue)
+        .attr("originalmonth", month)
+        .attr("currentmonth", month);
 
       visMonths.append("text")
+        .attr("class", "month")
         .attr("x", function() {
           return returnXPosition(parseInt(month));
         })
@@ -86,7 +113,62 @@ function createVisOverview() {
         })
         .attr("text-anchor", "middle")
         .attr("fill", "#ffffff")
-        .text(visConfig.months[month]);
+        .attr("font-size", visConfig.monthBoxTextSize)
+        .text(visConfig.months[month])
+        .attr("originalmonth", month)
+        .attr("currentmonth", month);
+
+      visMonths.append("rect")
+        .attr("class", "month")
+        .attr("x", function() {
+          return returnXPosition(parseInt(month)) - visConfig.circleBiggerRadius;
+        })
+        .attr("y", visConfig.hMonthMargin)
+        .attr("width", (visConfig.circleBiggerRadius*2))
+        .attr("height", visConfig.hMonthBox)
+        .attr("fill", "#ffffff")
+        .attr("opacity", 0.01)
+        .attr("originalmonth", month)
+        .attr("currentmonth", month);
+        // .on("drag", function() {
+        //   var self = this;
+        //   //,
+        //   //     svg = d3.select("svg");
+        //   // var x = returnXPosition(parseInt(self.attr("currentmonth")));
+        //   // var coordinates = d3.mouse(svg);
+        //   // var index = testXPosition(coordinates[0]);
+        //   // if (index) {
+        //   //   if (index > parseInt(self.attr("currentmonth"))) {
+        //   //
+        //   //   }
+        //   // }
+        //   // d3.selectAll("*[currentmonth='"+self.attr("currentmonth")+"']")
+        // })
+        // .on("dragend", function() {
+        //   var self = d3.select(this),
+        //     svg = d3.select("svg");
+        //   var x = returnXPosition(parseInt(self.attr("currentmonth")));
+        //   var coordinates = d3.mouse(svg.node());
+        //   var index = testXPosition(coordinates[0]);
+        //   console.log(index);
+        //   var originalmonth = parseInt(self.attr("originalmonth"));
+        //
+        //   if (index !== false) {
+        //     d3.selectAll("rect.month[originalmonth='" + originalmonth + "']")
+        //       .transition()
+        //       .duration(300)
+        //       .attr("x", function() {
+        //         return returnXPosition(index)- visConfig.circleBiggerRadius;
+        //       });
+        //
+        //     d3.select("text.month[originalmonth='" + originalmonth + "']")
+        //       .transition()
+        //       .duration(300)
+        //       .attr("x", function() {
+        //         return returnXPosition(index);
+        //       });
+        //   }
+        // });
     }
 
     for (var year in visConfig.dataCircles) {
@@ -109,12 +191,14 @@ function createVisOverview() {
           })
           .attr("titulos", visConfig.dataCircles[year][month]["Títulos"])
           .attr("publico", visConfig.dataCircles[year][month]["Público"])
-          .attr("month", month)
-          .attr("year", year)
+          .attr("originalmonth", month)
+          .attr("currentmonth", month)
+          .attr("originalyear", year)
+          .attr("currentyear", year)
           .attr("fill", fillScale(visConfig.dataCircles[year][month]["Público"]))
           .on("click", function() {
             var self = d3.select(this);
-            monthHighlight(self.attr("month"), self.attr("year"));
+            monthHighlight(self.attr("originalmonth"), self.attr("originalyear"));
           });
       }
 
@@ -127,8 +211,13 @@ function createVisOverview() {
         })
         .attr("text-anchor", "start")
         .attr("font-size", visConfig.yearTextSize)
-        .text(year);
+        .text(year)
+        .attr("originalyear", year)
+        .attr("currentyear", year);
     }
+
+    var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    scaleSvg(w, visConfig.width, 1366);
 
   }
 
@@ -330,13 +419,13 @@ function createVisOverview() {
           return visConfig.circleRankingSmallerRadius + (visConfig.dataHighlight[year][parseInt(month)-1][i]["Público"] - min)*rangeRadius/rangeVal;
         })
         .attr("i", i)
-        .attr("year", year)
-        .attr("month", month)
+        .attr("originalmonth", month)
+        .attr("originalyear", year)
         .attr("opacity", 0)
         .on("click", function() {
           var self = d3.select(this);
           var index = parseInt(self.attr("i"));
-          showFilmDetail(index, self, self.attr("month"), self.attr("year"));
+          showFilmDetail(index, self, self.attr("originalmonth"), self.attr("originalyear"));
         })
         .transition()
         .delay(700)
@@ -344,7 +433,7 @@ function createVisOverview() {
         .attr("opacity", 0.3)
         .each("end", function() {
           var index0 = d3.select("circle#ranked-movie-0");
-          showFilmDetail(0, index0, index0.attr("month"), index0.attr("year"));
+          showFilmDetail(0, index0, index0.attr("originalmonth"), index0.attr("originalyear"));
         });
     }
 
@@ -459,4 +548,5 @@ function createVisOverview() {
   function removeHighlight() {
     d3.select("g.lightbox").remove();
   }
+
 }
