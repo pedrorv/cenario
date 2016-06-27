@@ -120,21 +120,26 @@ function moveAllSpecificMonthDrag(index, month, dx) {
     });
 }
 
-function scaleSvg(windowWidth, visWidth, baseVisResolutionWidth) {
-  var proportion = visWidth/baseVisResolutionWidth;
-  var finalWidth = windowWidth * proportion;
-
-  var ratio = finalWidth/visWidth;
-
+function scaleSvg(ratio) {
   d3.select("svg")
     .attr("width", function() { return visConfig.width * ratio; })
     .attr("height", function() { return visConfig.height * ratio; });
+}
 
+function scaleRatio(windowWidth, visWidth, baseVisResolutionWidth) {
+  var proportion = visWidth/baseVisResolutionWidth;
+  var finalWidth = windowWidth * proportion;
+
+  return finalWidth/visWidth;
+}
+
+function scaleVis(ratio) {
   d3.select("g.vis")
     .attr("transform", function() {
       return "scale(" + ratio + ")";
     });
 }
+
 
 function moveAllSpecificYear(year) {
 

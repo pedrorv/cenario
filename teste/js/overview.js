@@ -1,4 +1,4 @@
-function createVisOverview() {
+function createVisOverview(userWindowWidth) {
 
   if (!visConfig.dataCircles) {
     d3.json("js/data.json", function(error, json) {
@@ -216,8 +216,8 @@ function createVisOverview() {
         .attr("currentyear", year);
     }
 
-    var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    scaleSvg(w, visConfig.width, 1366);
+
+    scaleVis(scaleRatio(userWindowWidth, visConfig.width, 1366));
 
   }
 
