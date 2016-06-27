@@ -29,6 +29,13 @@
 
       createVisOverview(userWindowWidth);
 
+      d3.select(window).on("resize", function() {
+        var userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+            ratio = scaleRatio(userWindowWidth, visConfig.width, 1366);
+        scaleSvg(ratio);
+        scaleVis(ratio);
+      });
+
     </script>
   </body>
 </html>
