@@ -140,6 +140,22 @@ function scaleVis(ratio) {
     });
 }
 
+function moveMainElementsY(position, currentValue, duration) {
+  d3.selectAll("text[currentyear='"+currentValue+"']")
+    .transition()
+    .duration(duration)
+    .attr("y", function() {
+      return position + (visConfig.yearTextSize/3);
+    });
+
+  d3.selectAll("circle[currentyear='"+currentValue+"']")
+    .transition()
+    .duration(duration)
+    .attr("cy", function() {
+      return position;
+    });
+}
+
 function moveAllElementsY(indexShift, initialIndex, currentValue) {
   var shiftAux = d3.selectAll("[currentyear='"+initialIndex+"']");
   var selfCurrAux = d3.selectAll("[currentyear='"+currentValue+"']");
@@ -148,7 +164,7 @@ function moveAllElementsY(indexShift, initialIndex, currentValue) {
     .transition()
     .duration(visConfig.monthMovingDuration)
     .attr("y", function() {
-      return returnYPosition(indexShift);
+      return returnYPosition(indexShift) + (visConfig.yearTextSize/3);
     });
 
   d3.selectAll("circle[currentyear='"+initialIndex+"']")
@@ -162,6 +178,28 @@ function moveAllElementsY(indexShift, initialIndex, currentValue) {
   selfCurrAux.attr("currentyear", initialIndex);
 }
 
+function moveMainElementsX(position, currentValue, duration) {
+  d3.selectAll("rect[currentmonth='"+currentValue+"']")
+    .transition()
+    .duration(duration)
+    .attr("x", function() {
+      return position - visConfig.circleBiggerRadius;
+    });
+
+  d3.selectAll("text[currentmonth='"+currentValue+"']")
+    .transition()
+    .duration(duration)
+    .attr("x", function() {
+      return position;
+    });
+
+  d3.selectAll("circle[currentmonth='"+currentValue+"']")
+    .transition()
+    .duration(duration)
+    .attr("cx", function() {
+      return position;
+    });
+}
 
 function moveAllElementsX(indexShift, initialIndex, currentValue) {
   var shiftAux = d3.selectAll("[currentmonth='"+initialIndex+"']");

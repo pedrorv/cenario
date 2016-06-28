@@ -23,23 +23,9 @@ function createVisOverview(userWindowWidth) {
             var index = testXPosition(dx);
             index = (index < 0) ? 0 : (index > 11) ? 11 : index;
 
-            var x = returnXPosition(parseInt(self.attr("currentmonth")));
             var selfCurrentMonth = parseInt(self.attr("currentmonth"));
 
-            d3.selectAll("rect[currentmonth='"+selfCurrentMonth+"']")
-              .attr("x", function() {
-                return dx - visConfig.circleBiggerRadius;
-              });
-
-            d3.selectAll("text[currentmonth='"+selfCurrentMonth+"']")
-              .attr("x", function() {
-                return dx;
-              });
-
-            d3.selectAll("circle[currentmonth='"+selfCurrentMonth+"']")
-              .attr("cx", function() {
-                return dx;
-              });
+            moveMainElementsX(dx, selfCurrentMonth, 0);
 
             if (index || index === 0) {
               if (index > parseInt(selfCurrentMonth)) {
@@ -60,26 +46,7 @@ function createVisOverview(userWindowWidth) {
             var x = returnXPosition(parseInt(self.attr("currentmonth")));
             var selfCurrentMonth = self.attr("currentmonth");
 
-            d3.selectAll("rect[currentmonth='"+selfCurrentMonth+"']")
-              .transition()
-              .duration(visConfig.monthMovingDuration)
-              .attr("x", function() {
-                return x - visConfig.circleBiggerRadius;
-              });
-
-            d3.selectAll("text[currentmonth='"+selfCurrentMonth+"']")
-              .transition()
-              .duration(visConfig.monthMovingDuration)
-              .attr("x", function() {
-                return x;
-              });
-
-            d3.selectAll("circle[currentmonth='"+selfCurrentMonth+"']")
-              .transition()
-              .duration(visConfig.monthMovingDuration)
-              .attr("cx", function() {
-                return x;
-              });
+            moveMainElementsX(x, selfCurrentMonth, visConfig.monthMovingDuration);
 
           });
 
@@ -92,17 +59,8 @@ function createVisOverview(userWindowWidth) {
               index = (index < 0) ? 0 : (index > 5) ? 5 : index;
 
               var selfCurrentYear = parseInt(self.attr("currentyear"));
-              var y = returnYPosition(selfCurrentYear);
 
-              d3.selectAll("text[currentyear='"+selfCurrentYear+"']")
-                .attr("y", function() {
-                  return dy;
-                });
-
-              d3.selectAll("circle[currentyear='"+selfCurrentYear+"']")
-                .attr("cy", function() {
-                  return dy;
-                });
+              moveMainElementsY(dy, selfCurrentYear, 0);
 
               if (index || index === 0) {
                 if (index > selfCurrentYear) {
@@ -111,7 +69,7 @@ function createVisOverview(userWindowWidth) {
 
                 } else if (index < selfCurrentYear) {
 
-                    moveAllElementsY((index+1), index, selfCurrentYear);
+                  moveAllElementsY((index+1), index, selfCurrentYear);
 
                 }
 
@@ -123,20 +81,7 @@ function createVisOverview(userWindowWidth) {
               var y = returnYPosition(parseInt(self.attr("currentyear")));
               var selfCurrentYear = self.attr("currentyear");
 
-
-              d3.selectAll("text[currentyear='"+selfCurrentYear+"']")
-                .transition()
-                .duration(visConfig.monthMovingDuration)
-                .attr("y", function() {
-                  return y;
-                });
-
-              d3.selectAll("circle[currentyear='"+selfCurrentYear+"']")
-                .transition()
-                .duration(visConfig.monthMovingDuration)
-                .attr("cy", function() {
-                  return y;
-                });
+              moveMainElementsY(y, selfCurrentYear, visConfig.monthMovingDuration);
 
             });
 
