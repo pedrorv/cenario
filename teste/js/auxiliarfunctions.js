@@ -96,7 +96,7 @@ function testXPosition(x) {
 }
 
 function testYPosition(y) {
-  var index = (y - visConfig.hMonthMargin - visConfig.circleBiggerRadius - visConfig.hMonthBox - 4) / ((visConfig.circleBiggerRadius * 2) + visConfig.wCircleMargin);
+  var index = (y - visConfig.hMonthMargin - visConfig.circleBiggerRadius - visConfig.hMonthBox - 4) / ((visConfig.circleBiggerRadius * 2) + visConfig.hCircleMargin);
   if (Math.abs(index - Math.floor(index + 0.5)) <= 0.3) {
     return Math.floor(index + 0.5);
   }
@@ -140,9 +140,56 @@ function scaleVis(ratio) {
     });
 }
 
+function moveAllElementsY(indexShift, initialIndex, currentValue) {
+  var shiftAux = d3.selectAll("[currentyear='"+initialIndex+"']");
+  var selfCurrAux = d3.selectAll("[currentyear='"+currentValue+"']");
 
-function moveAllSpecificYear(year) {
+  d3.selectAll("text[currentyear='"+initialIndex+"']")
+    .transition()
+    .duration(visConfig.monthMovingDuration)
+    .attr("y", function() {
+      return returnYPosition(indexShift);
+    });
 
+  d3.selectAll("circle[currentyear='"+initialIndex+"']")
+    .transition()
+    .duration(visConfig.monthMovingDuration)
+    .attr("cy", function() {
+      return returnYPosition(indexShift);
+    });
+
+  shiftAux.attr("currentyear", indexShift);
+  selfCurrAux.attr("currentyear", initialIndex);
+}
+
+
+function moveAllElementsX(indexShift, initialIndex, currentValue) {
+  var shiftAux = d3.selectAll("[currentmonth='"+initialIndex+"']");
+  var selfCurrAux = d3.selectAll("[currentmonth='"+currentValue+"']");
+
+  d3.selectAll("rect[currentmonth='"+initialIndex+"']")
+    .transition()
+    .duration(visConfig.monthMovingDuration)
+    .attr("x", function() {
+      return returnXPosition(indexShift) - visConfig.circleBiggerRadius;
+    });
+
+  d3.selectAll("text[currentmonth='"+initialIndex+"']")
+    .transition()
+    .duration(visConfig.monthMovingDuration)
+    .attr("x", function() {
+      return returnXPosition(indexShift);
+    });
+
+  d3.selectAll("circle[currentmonth='"+initialIndex+"']")
+    .transition()
+    .duration(visConfig.monthMovingDuration)
+    .attr("cx", function() {
+      return returnXPosition(indexShift);
+    });
+
+  shiftAux.attr("currentmonth", (indexShift));
+  selfCurrAux.attr("currentmonth", initialIndex);
 }
 
 function deleteVis() {

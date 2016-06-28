@@ -19,7 +19,7 @@
 
     <script type="text/javascript">
 
-      // Create an svg tag of the right size
+      // Create an svg and resize according to user screen
       var svg = d3.select("div.visualization").append("svg")
           .attr("width", visConfig.width)
           .attr("height", visConfig.height);
@@ -27,8 +27,10 @@
       var userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       scaleSvg(scaleRatio(userWindowWidth, visConfig.width, 1366));
 
+      // Create first vis acoording to user screen
       createVisOverview(userWindowWidth);
 
+      // Adjust vis on screen resize
       d3.select(window).on("resize", function() {
         var userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
             ratio = scaleRatio(userWindowWidth, visConfig.width, 1366);

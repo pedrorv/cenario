@@ -15,23 +15,130 @@ function createVisOverview(userWindowWidth) {
 
   function createVis() {
 
-    // var drag = d3.behavior.drag()
-    //     .on("drag", function() {
-    //         var dx = d3.event.dx,
-    //             dy = d3.event.dy,
-    //             self = this,
-    //             svg = d3.select("svg");
-    //         var x = returnXPosition(parseInt(self.attr("currentmonth")));
-    //         var coordinates = d3.mouse(svg);
-    //         var index = testXPosition(coordinates[0]);
-    //         if (index) {
-    //           if (index > parseInt(self.attr("currentmonth"))) {
-    //
-    //           }
-    //         }
-    //         d3.selectAll("*[currentmonth='"+self.attr("currentmonth")+"']")
-    //         })
-    //     });
+    var dragX = d3.behavior.drag()
+        .on("drag", function() {
+            var dx = d3.event.x,
+                self = d3.select(this);
+
+            var index = testXPosition(dx);
+            index = (index < 0) ? 0 : (index > 11) ? 11 : index;
+
+            var x = returnXPosition(parseInt(self.attr("currentmonth")));
+            var selfCurrentMonth = parseInt(self.attr("currentmonth"));
+
+            d3.selectAll("rect[currentmonth='"+selfCurrentMonth+"']")
+              .attr("x", function() {
+                return dx - visConfig.circleBiggerRadius;
+              });
+
+            d3.selectAll("text[currentmonth='"+selfCurrentMonth+"']")
+              .attr("x", function() {
+                return dx;
+              });
+
+            d3.selectAll("circle[currentmonth='"+selfCurrentMonth+"']")
+              .attr("cx", function() {
+                return dx;
+              });
+
+            if (index || index === 0) {
+              if (index > parseInt(selfCurrentMonth)) {
+
+                moveAllElementsX((index-1), index, selfCurrentMonth);
+
+              } else if (index < parseInt(selfCurrentMonth)) {
+
+                moveAllElementsX((index+1), index, selfCurrentMonth);
+
+              }
+
+            }
+          })
+          .on("dragend", function() {
+
+            var self = d3.select(this);
+            var x = returnXPosition(parseInt(self.attr("currentmonth")));
+            var selfCurrentMonth = self.attr("currentmonth");
+
+            d3.selectAll("rect[currentmonth='"+selfCurrentMonth+"']")
+              .transition()
+              .duration(visConfig.monthMovingDuration)
+              .attr("x", function() {
+                return x - visConfig.circleBiggerRadius;
+              });
+
+            d3.selectAll("text[currentmonth='"+selfCurrentMonth+"']")
+              .transition()
+              .duration(visConfig.monthMovingDuration)
+              .attr("x", function() {
+                return x;
+              });
+
+            d3.selectAll("circle[currentmonth='"+selfCurrentMonth+"']")
+              .transition()
+              .duration(visConfig.monthMovingDuration)
+              .attr("cx", function() {
+                return x;
+              });
+
+          });
+
+      var dragY = d3.behavior.drag()
+          .on("drag", function() {
+              var dy = d3.event.y,
+                  self = d3.select(this);
+
+              var index = testYPosition(dy);
+              index = (index < 0) ? 0 : (index > 5) ? 5 : index;
+
+              var selfCurrentYear = parseInt(self.attr("currentyear"));
+              var y = returnYPosition(selfCurrentYear);
+
+              d3.selectAll("text[currentyear='"+selfCurrentYear+"']")
+                .attr("y", function() {
+                  return dy;
+                });
+
+              d3.selectAll("circle[currentyear='"+selfCurrentYear+"']")
+                .attr("cy", function() {
+                  return dy;
+                });
+
+              if (index || index === 0) {
+                if (index > selfCurrentYear) {
+
+                  moveAllElementsY((index-1), index, selfCurrentYear);
+
+                } else if (index < selfCurrentYear) {
+
+                    moveAllElementsY((index+1), index, selfCurrentYear);
+
+                }
+
+              }
+            })
+            .on("dragend", function() {
+
+              var self = d3.select(this);
+              var y = returnYPosition(parseInt(self.attr("currentyear")));
+              var selfCurrentYear = self.attr("currentyear");
+
+
+              d3.selectAll("text[currentyear='"+selfCurrentYear+"']")
+                .transition()
+                .duration(visConfig.monthMovingDuration)
+                .attr("y", function() {
+                  return y;
+                });
+
+              d3.selectAll("circle[currentyear='"+selfCurrentYear+"']")
+                .transition()
+                .duration(visConfig.monthMovingDuration)
+                .attr("cy", function() {
+                  return y;
+                });
+
+            });
 
     var vis = d3.select("svg")
       .append("g")
@@ -101,7 +208,8 @@ function createVisOverview(userWindowWidth) {
         .attr("height", visConfig.hMonthBox)
         .attr("fill", visConfig.monthBoxHexValue)
         .attr("originalmonth", month)
-        .attr("currentmonth", month);
+        .attr("currentmonth", month)
+        .call(dragX);
 
       visMonths.append("text")
         .attr("class", "month")
@@ -116,7 +224,8 @@ function createVisOverview(userWindowWidth) {
         .attr("font-size", visConfig.monthBoxTextSize)
         .text(visConfig.months[month])
         .attr("originalmonth", month)
-        .attr("currentmonth", month);
+        .attr("currentmonth", month)
+        .call(dragX);
 
       visMonths.append("rect")
         .attr("class", "month")
@@ -129,46 +238,9 @@ function createVisOverview(userWindowWidth) {
         .attr("fill", "#ffffff")
         .attr("opacity", 0.01)
         .attr("originalmonth", month)
-        .attr("currentmonth", month);
-        // .on("drag", function() {
-        //   var self = this;
-        //   //,
-        //   //     svg = d3.select("svg");
-        //   // var x = returnXPosition(parseInt(self.attr("currentmonth")));
-        //   // var coordinates = d3.mouse(svg);
-        //   // var index = testXPosition(coordinates[0]);
-        //   // if (index) {
-        //   //   if (index > parseInt(self.attr("currentmonth"))) {
-        //   //
-        //   //   }
-        //   // }
-        //   // d3.selectAll("*[currentmonth='"+self.attr("currentmonth")+"']")
-        // })
-        // .on("dragend", function() {
-        //   var self = d3.select(this),
-        //     svg = d3.select("svg");
-        //   var x = returnXPosition(parseInt(self.attr("currentmonth")));
-        //   var coordinates = d3.mouse(svg.node());
-        //   var index = testXPosition(coordinates[0]);
-        //   console.log(index);
-        //   var originalmonth = parseInt(self.attr("originalmonth"));
-        //
-        //   if (index !== false) {
-        //     d3.selectAll("rect.month[originalmonth='" + originalmonth + "']")
-        //       .transition()
-        //       .duration(300)
-        //       .attr("x", function() {
-        //         return returnXPosition(index)- visConfig.circleBiggerRadius;
-        //       });
-        //
-        //     d3.select("text.month[originalmonth='" + originalmonth + "']")
-        //       .transition()
-        //       .duration(300)
-        //       .attr("x", function() {
-        //         return returnXPosition(index);
-        //       });
-        //   }
-        // });
+        .attr("currentmonth", month)
+        .call(dragX);
+
     }
 
     for (var year in visConfig.dataCircles) {
@@ -191,14 +263,16 @@ function createVisOverview(userWindowWidth) {
           })
           .attr("titulos", visConfig.dataCircles[year][month]["Títulos"])
           .attr("publico", visConfig.dataCircles[year][month]["Público"])
-          .attr("originalmonth", month)
-          .attr("currentmonth", month)
-          .attr("originalyear", year)
-          .attr("currentyear", year)
+          .attr("year", year)
+          .attr("month", month)
+          .attr("originalmonth", (month-1))
+          .attr("currentmonth", (month-1))
+          .attr("originalyear", visConfig.years[year])
+          .attr("currentyear", visConfig.years[year])
           .attr("fill", fillScale(visConfig.dataCircles[year][month]["Público"]))
           .on("click", function() {
             var self = d3.select(this);
-            monthHighlight(self.attr("originalmonth"), self.attr("originalyear"));
+            monthHighlight(self.attr("month"), self.attr("year"));
           });
       }
 
@@ -212,8 +286,9 @@ function createVisOverview(userWindowWidth) {
         .attr("text-anchor", "start")
         .attr("font-size", visConfig.yearTextSize)
         .text(year)
-        .attr("originalyear", year)
-        .attr("currentyear", year);
+        .attr("originalyear", visConfig.years[year])
+        .attr("currentyear", visConfig.years[year])
+        .call(dragY);
     }
 
 
