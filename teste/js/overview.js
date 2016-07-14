@@ -24,20 +24,31 @@ function createVisOverview(userWindowWidth) {
             index = (index < 0) ? 0 : (index > 11) ? 11 : index;
 
             var selfCurrentMonth = parseInt(self.attr("currentmonth"));
-
             moveMainElementsX(dx, selfCurrentMonth, 0);
 
-            if (index || index === 0) {
-              if (index > parseInt(selfCurrentMonth)) {
-
-                moveAllElementsX((index-1), index, selfCurrentMonth);
-
-              } else if (index < parseInt(selfCurrentMonth)) {
-
-                moveAllElementsX((index+1), index, selfCurrentMonth);
-
+            if (index !== false) {
+              var diff = Math.abs(selfCurrentMonth - index);
+            }
+            if (diff > 1) {
+                if (index > selfCurrentMonth) {
+                  for (var i = 0; i < diff; i++) {
+                    moveAllElementsX((index-1-i), (index-i), selfCurrentMonth);
+                  }
+                }
+                else if (index < selfCurrentMonth) {
+                  for (var i = 0; i < diff; i++) {
+                    moveAllElementsX((index+1+i), (index+i), selfCurrentMonth);
+                  }
+                }
+            }
+            else {
+              if (index || index === 0) {
+                if (index > selfCurrentMonth) {
+                  moveAllElementsX((index-1), index, selfCurrentMonth);
+                } else if (index < selfCurrentMonth) {
+                  moveAllElementsX((index+1), index, selfCurrentMonth);
+                }
               }
-
             }
           })
           .on("dragend", function() {
@@ -64,15 +75,10 @@ function createVisOverview(userWindowWidth) {
 
               if (index || index === 0) {
                 if (index > selfCurrentYear) {
-
                   moveAllElementsY((index-1), index, selfCurrentYear);
-
                 } else if (index < selfCurrentYear) {
-
                   moveAllElementsY((index+1), index, selfCurrentYear);
-
                 }
-
               }
             })
             .on("dragend", function() {
@@ -82,7 +88,6 @@ function createVisOverview(userWindowWidth) {
               var selfCurrentYear = self.attr("currentyear");
 
               moveMainElementsY(y, selfCurrentYear, visConfig.monthMovingDuration);
-
             });
 
     var vis = d3.select("svg")
@@ -237,7 +242,7 @@ function createVisOverview(userWindowWidth) {
     }
 
 
-    scaleVis(scaleRatio(userWindowWidth, visConfig.width, 1366));
+    scaleVis(scaleRatio(userWindowWidth, visConfig.width, visConfig.baseWidth));
 
   }
 

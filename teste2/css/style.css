@@ -1,0 +1,59 @@
+body {
+  margin: 0 auto;
+  display: block;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #fff;
+}
+
+div.visualization {
+  margin: 0 auto;
+  width: 90%;
+}
+
+svg {
+  display: block;
+  margin: 0 auto;
+}
+
+text.header {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  fill: #272626;
+  font-weight: 600;
+}
+
+text.info {
+  font-family: "Open Sans", sans-serif;
+  font-size: 13px;
+  fill: #272626;
+  font-weight: 300;
+}
+
+line.highlight-division {
+  stroke-width: 0.5;
+  stroke: #999;
+}
+
+text.month {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
+}
+
+circle.movies-ranking {
+  /* fill: #67a338; */
+  fill: #cb7d9f;
+}
+
+circle:hover {
+  cursor: pointer;
+}
+
+rect#lightbox:hover {
+  cursor: pointer;
+}
+
+text#close:hover {
+    cursor: pointer;
+}

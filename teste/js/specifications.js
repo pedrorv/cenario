@@ -1,15 +1,15 @@
 var visConfig = {
   // SVGS Width and Height
-  width: 1225,
-  height: 604,
-
+  width: 1200,
+  height: 640,
+  baseWidth: 1400,
 
   // General View Visualization Specs
 
   // Circles Config
   circleBiggerRadius: 37.5,
   circleSmallerRadius: 7,
-  wCircleMargin: 22,
+  wCircleMargin: 20,
   hCircleMargin: 20,
 
   // guidelines
@@ -22,8 +22,8 @@ var visConfig = {
   guidelineStrokeWidth: 1,
 
   // Year Text Config
-  hYearMargin: 25,
-  wYearMargin: 17,
+  hYearMargin: 61,
+  wYearMargin: 5,
   yearTextSize: 16,
 
   // Month Text Config

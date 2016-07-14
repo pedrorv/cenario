@@ -1,115 +1,92 @@
+* {
+  margin: 0;
+}
+
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
+
 body {
   margin: 0 auto;
-  margin-top: 25px;
   display: block;
-  width: 1280px;
-  font-size: 14px;
   font-family: 'Open Sans', sans-serif;
-  background-color: #fcfcfc;
+  background-color: #fff;
+  color: white;
+}
+
+div.visualization {
+  margin: 0 auto;
+  width: 90%;
 }
 
 svg {
   display: block;
+  margin: 0 auto;
 }
 
-ul {
-  margin: 0;
-  padding: 0;
-}
-
-ul li {
-  list-style-type: none;
+div.menu-container {
   width: 100%;
-  margin: 5px auto;
-  background-color: #fff;
-  padding: 10px;
-  box-sizing: border-box;
-  text-align: center;
+  background-color: #333;
 }
 
-a {
-  text-decoration: none;
-  color: #272626;
-  font-weight: 400;
-  font-size: 16px;top
-  padding: 5px;
+nav.menu {
+  width: 90%;
+  margin: 0 auto;
+  height: 60px;
 }
 
-.menu {
-  width: 210px;
-  margin: 0 34px 0 0;
-  float: left;
-  padding: 0;
-}
-
-#visualization {
-  width: 1036px;
-  height: 738px;
-  float: left;
-}
-
-div.logo {
+div.vis-selector {
+  height: 60px;
   margin: 0;
-  height: 111px;
-  background-color: #272626;
-  color: #fff;
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
 }
 
-.logo h1 {
-  margin: 0;
-  text-align: center;
-  font-size: 40px;
-  padding: 5px;
+div.vis-selector h1 {
   font-family: 'Dosis', sans-serif;
-}
-
-.logo h3 {
+  font-weight: 200;
   margin: 0;
-  padding: 2px;
-  font-size: 13px;
-  text-align: center;
-  font-weight: 300;
+  font-size: 30px;
+  line-height: 60px;
+  display: block;
+  float: left;
+  margin-right: 50px;
 }
 
-
-.vis-selector li {
-  border-top: 2px solid #57b4c9;
-  border-bottom: 2px solid #57b4c9;
+div.vis-selector a {
+  display: block;
+  float: left;
+  font-size: 12px;
+  line-height: 60px;
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: 'Raleway', sans-serif;
+  padding: 0 10px;
 }
 
-.vis-selector li:hover {
-  background-color: #57b4c9;
+div.vis-selector a:hover {
+  box-sizing: border-box;
+  line-height: 52px;
+  border-bottom: 8px solid #dd1924;
 }
 
-.vis-selector li:hover a {
-  font-weight: 600;
+div.vis-selector a.selected-vis {
+  box-sizing: border-box;
+  line-height: 52px;
+  border-bottom: 8px solid #dd1924;
 }
 
-.vis-selector li:first-child {
-  margin-top: 28px;
-}
-
-li.vis-selected {
-  background-color: #57b4c9;
-}
-
-li.vis-selected a {
-  font-weight: 600;
-}
-
-.nav li {
-  border-top: 2px solid #cb7d9f;
-  border-bottom: 2px solid #cb7d9f;
-}
-
-.nav li:hover {
-  background-color: #cb7d9f;
-}
-
-.nav li:first-child {
-  margin-top: 45px;
+div.vis-selector a:last-child {
+  float: right;
 }
 
 text.header {
@@ -129,6 +106,13 @@ text.info {
 line.highlight-division {
   stroke-width: 0.5;
   stroke: #999;
+}
+
+text.month, text.year {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
 }
 
 circle.movies-ranking {

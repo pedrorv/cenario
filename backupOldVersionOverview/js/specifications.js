@@ -1,37 +1,20 @@
 var visConfig = {
   // SVGS Width and Height
-  width: 1200,
-  height: 640,
-  baseWidth: 1400,
+  width: 1036,
+  height: 738,
+
 
   // General View Visualization Specs
 
   // Circles Config
-  circleBiggerRadius: 37.5,
-  circleSmallerRadius: 7,
-  wCircleMargin: 20,
-  hCircleMargin: 20,
-
-  // guidelines
-  hTopMargin: 56,
-  hBottomMargin: 21,
-  wLeftMargin: 64,
-  wRightMargin: 17,
-  verticalGuidelineHexValue: "#666766",
-  horizontalGuidelineHexValue: "#f2f2f2",
-  guidelineStrokeWidth: 1,
+  circleBiggerRadius: 29.5,
+  circleSmallerRadius: 3,
+  wCircleMargin: 10,
+  hCircleMargin: 12,
 
   // Year Text Config
-  hYearMargin: 61,
-  wYearMargin: 5,
-  yearTextSize: 16,
-
-  // Month Text Config
-  hMonthMargin: 25,
-  hMonthBox: 17,
-  monthBoxHexValue: "#666666",
-  monthBoxTextSize: 14,
-  monthMovingDuration: 300,
+  hYearMargin: 25,
+  wYearMargin: 28,
 
   // Vis Margins
   wMargin: 37,
@@ -73,5 +56,6 @@ var visConfig = {
     "2012": 3,
     "2013": 4,
     "2014": 5,
+    "2015": 6
   }
 };
