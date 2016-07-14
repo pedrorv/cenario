@@ -73,7 +73,7 @@ div.vis-selector a {
   padding: 0 10px;
 }
 
-div.vis-selector a:hover {
+div.vis-selector a.nav:hover {
   box-sizing: border-box;
   line-height: 52px;
   border-bottom: 8px solid #dd1924;

@@ -110,7 +110,7 @@ function createVisOverview(userWindowWidth) {
           return returnXPosition(parseInt(month));
         })
         .attr("y1", function() {
-          return visConfig.hTopMargin;
+          return visConfig.hMonthMargin + 2*visConfig.hMonthBox;
         })
         .attr("x2", function() {
           return returnXPosition(parseInt(month));
