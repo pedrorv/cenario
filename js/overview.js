@@ -126,11 +126,12 @@ function createVisOverview(userWindowWidth) {
         return returnXPosition(0) - visConfig.circleBiggerRadius;
       })
       .attr("y", function() {
-        return visConfig.superHMargin + visConfig.superTextSize;
+        return visConfig.superHMargin + 1.5* visConfig.superTextSize;
       })
       .attr("text-anchor", "start")
       .attr("fill", visConfig.monthBoxHexValue)
       .attr("font-size", visConfig.superTextSize)
+      .attr("font-weight", "bold")
       .text("As variações do cinema brasileiro");
 
     superscription.append("text")
@@ -139,7 +140,7 @@ function createVisOverview(userWindowWidth) {
         return returnXPosition(0) - visConfig.circleBiggerRadius;
       })
       .attr("y", function() {
-        return 2 * visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubtextSize;
+        return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize;
       })
       .attr("text-anchor", "start")
       .attr("fill", visConfig.monthBoxHexValue)
@@ -199,7 +200,6 @@ function createVisOverview(userWindowWidth) {
       .text("Público no mês");
 
     superscription.append("circle")
-      .attr("class", "title-description")
       .attr("cx", function() {
         return returnXPosition(10) - visConfig.circleBiggerRadius/2;
       })
@@ -210,7 +210,6 @@ function createVisOverview(userWindowWidth) {
       .attr("fill", visConfig.monthBoxHexValue);
 
     superscription.append("circle")
-      .attr("class", "title-description")
       .attr("cx", function() {
         return returnXPosition(10);
       })
@@ -221,7 +220,6 @@ function createVisOverview(userWindowWidth) {
       .attr("fill", visConfig.monthBoxHexValue);
 
     superscription.append("circle")
-      .attr("class", "title-description")
       .attr("cx", function() {
         return returnXPosition(10) + visConfig.circleBiggerRadius/2;
       })
@@ -232,7 +230,6 @@ function createVisOverview(userWindowWidth) {
       .attr("fill", visConfig.monthBoxHexValue);
 
     superscription.append("rect")
-      .attr("class", "title-description")
       .attr("x", function() {
         return returnXPosition(11) - visConfig.circleBiggerRadius;
       })

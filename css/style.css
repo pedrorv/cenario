@@ -89,6 +89,10 @@ div.vis-selector a:last-child {
   float: right;
 }
 
+text.title, text.title-description {
+  font-family: "Dosis", sans-serif;
+}
+
 text.header {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
