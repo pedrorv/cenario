@@ -366,6 +366,7 @@ function createVisOverview(userWindowWidth) {
       }
 
       visYear.append("text")
+        .attr("class", "year")
         .attr("x", function() {
           return visConfig.wYearMargin;
         })

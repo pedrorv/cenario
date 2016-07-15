@@ -124,14 +124,6 @@ circle.movies-ranking {
   fill: #cb7d9f;
 }
 
-circle:hover {
+circle:hover, rect.month, rect#lightbox:hover, text#close:hover, text.month, text.year {
   cursor: pointer;
-}
-
-rect#lightbox:hover {
-  cursor: pointer;
-}
-
-text#close:hover {
-    cursor: pointer;
 }
