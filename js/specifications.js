@@ -6,6 +6,14 @@ var visConfig = {
 
   // General View Visualization Specs
 
+  // Superscription
+
+  superTextSize: 18,
+  superHMargin: 10,
+  superSubtextSize: 12,
+  superSubSubtextSize: 8,
+
+
   // Circles Config
   circleBiggerRadius: 37.5,
   circleSmallerRadius: 7,
@@ -27,7 +35,7 @@ var visConfig = {
   yearTextSize: 16,
 
   // Month Text Config
-  hMonthMargin: 75,
+  hMonthMargin: 85,
   hMonthBox: 17,
   monthBoxHexValue: "#666666",
   monthBoxTextSize: 14,

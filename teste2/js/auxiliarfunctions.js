@@ -64,6 +64,39 @@ function returnMinDataCircles(dataset, property) {
   return min;
 }
 
+function returnNationsData(datasetMovies, datasetNations) {
+  var newDataset = {};
+  for (var year in datasetMovies) {
+    newDataset[year] = {};
+    for (var title in datasetMovies[year]) {
+      var country = datasetMovies[year][title]["País"];
+      var continent = datasetNations[country]["continente"];
+      if(!newDataset[year][continent]) {
+        newDataset[year][continent] = {};
+        if(!newDataset[year][continent][country]) {
+          newDataset[year][continent][country] = {
+            "Títulos": 1,
+            "Público": datasetMovies[year][title]["Público"],
+            "Renda": datasetMovies[year][title]["Renda"],
+            "Gêneros": {
+              "Ficção": 0,
+              "Documentário": 0,
+              "Animação": 0
+            }
+          };
+        } else {
+          newDataset[year][datasetMovies[year][title]["Mês"]]["Títulos"] += 1;
+          newDataset[year][datasetMovies[year][title]["Mês"]]["Público"] += datasetMovies[year][title]["Público"];
+          newDataset[year][datasetMovies[year][title]["Mês"]]["Renda"] += datasetMovies[year][title]["Renda"];
+          newDataset[year][continent][country]["Gêneros"][datasetMovies[year][title]["Gênero"]]++;
+        }
+        newDataset[year][continent][country]["Gêneros"][datasetMovies[year][title]["Gênero"]]++;
+      }
+    }
+  }
+  return newDataset;
+}
+
 function formatNumber(number) {
   var numberStr = "" + number,
       newNumberStr = [],
