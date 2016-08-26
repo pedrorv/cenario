@@ -34,10 +34,10 @@ function createVisNationalities(userWindowWidth) {
       fills: {
         defaultFill: '#CDCDCD'
       },
-      // geographyConfig: {
-      //   popupOnHover: false,
-      //   highlightOnHover: false
-      // },
+      geographyConfig: {
+        popupOnHover: false,
+        highlightOnHover: false
+      },
     });
 
     var superscription = vis.append("g")
