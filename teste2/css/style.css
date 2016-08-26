@@ -5,6 +5,10 @@ body {
   background-color: #fff;
 }
 
+#container {
+  position: relative;
+}
+
 div.visualization {
   margin: 0 auto;
   width: 90%;
@@ -13,6 +17,12 @@ div.visualization {
 svg {
   display: block;
   margin: 0 auto;
+}
+
+svg.datamap {
+  position: absolute;
+  top: 7.8125%;
+  left: 20%;
 }
 
 text.header {

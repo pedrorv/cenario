@@ -4,10 +4,9 @@ var visConfig = {
   height: 640,
   baseWidth: 1450,
 
-  // General View Visualization Specs
+  // Overview Visualization Specs
 
   // Superscription
-
   superTextSize: 18,
   superHMargin: 10,
   superSubtextSize: 12,
@@ -59,6 +58,30 @@ var visConfig = {
   circleRankingSmallerRadius: 7.5,
   circleRankingHMargin: 15,
 
+
+  // Nationalities Visualization Specs
+
+  // Titles Configs
+  natTitleSize: 18,
+  natSubTitleSize: 12,
+
+  // Margins Configs
+  natWMargin: 79,
+  natHMarginGraph: 131,
+  natHMarginGraphAxis: 35,
+  natGraphLeft: 79,
+  natGraphRight: 50,
+  natGraphSpacing: 2,
+  natGraphContinentSpacing: 20,
+  natGraphAxisSpacing: 82.384615385,
+  natGraphAxisDivHeight: 7,
+  natGraphStrokeWidth: 1,
+
+  // Graph Configs
+  natHGraphBar: 62,
+
+
+
   // Utilities
   months: {
     0: "Janeiro",
@@ -81,5 +104,29 @@ var visConfig = {
     "2012": 3,
     "2013": 4,
     "2014": 5,
-  }
+  },
+  continents: {
+    "América do Sul": 0,
+    "América do Norte": 1,
+    "Europa": 2,
+    "Ásia": 3,
+    "África": 4,
+    "Oceania": 5
+  },
+  continentsColors: {
+    "América do Sul": "#1A1A1A",
+    "América do Norte": "#666666",
+    "Europa": "#B2B2B2",
+    "Ásia": "#CCCCCC",
+    "África": "#E6E6E6",
+    "Oceania": "#B2B2B2"
+  },
+  continentsArr: [
+    "América do Sul",
+    "América do Norte",
+    "Europa",
+    "Ásia",
+    "África",
+    "Oceania"
+  ]
 };

@@ -90,7 +90,7 @@ function createVisOverview(userWindowWidth) {
               moveMainElementsY(y, selfCurrentYear, visConfig.monthMovingDuration);
             });
 
-    var vis = d3.select("svg")
+    var vis = d3.select("svg.vis")
       .append("g")
       .attr("class", "vis");
 
@@ -123,7 +123,7 @@ function createVisOverview(userWindowWidth) {
     superscription.append("text")
       .attr("class", "title")
       .attr("x", function() {
-        return returnXPosition(0) - visConfig.circleBiggerRadius;
+        return visConfig.natWMargin;
       })
       .attr("y", function() {
         return visConfig.superHMargin + 1.5* visConfig.superTextSize;
@@ -137,7 +137,7 @@ function createVisOverview(userWindowWidth) {
     superscription.append("text")
       .attr("class", "title-description")
       .attr("x", function() {
-        return returnXPosition(0) - visConfig.circleBiggerRadius;
+        return visConfig.natWMargin;
       })
       .attr("y", function() {
         return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize;

@@ -90,7 +90,7 @@ function createVisOverview(userWindowWidth) {
               moveMainElementsY(y, selfCurrentYear, visConfig.monthMovingDuration);
             });
 
-    var vis = d3.select("svg")
+    var vis = d3.select("svg.vis")
       .append("g")
       .attr("class", "vis");
 
@@ -101,6 +101,145 @@ function createVisOverview(userWindowWidth) {
 
     var fillScale = d3.scale.linear().domain([minDataCirclesPublic,maxDataCirclesPublic]).range(["#6eced3","#1f0133"]);
 
+    var gradient = svg.append("linearGradient")
+      .attr("id", "gradient")
+      .attr("y1", "0%")
+      .attr("y2", "0%")
+      .attr("x1", "0%")
+      .attr("x2", "100%")
+      .attr("spreadMethod", "pad")
+
+    gradient.append("stop")
+        .attr("offset", "0")
+        .attr("stop-color", "#6eced3")
+
+    gradient.append("stop")
+        .attr("offset", "1")
+        .attr("stop-color", "#1f0133")
+
+    var superscription = vis.append("g")
+      .attr("class", "superscription");
+
+    superscription.append("text")
+      .attr("class", "title")
+      .attr("x", function() {
+        return visConfig.natWMargin;
+      })
+      .attr("y", function() {
+        return visConfig.superHMargin + 1.5* visConfig.superTextSize;
+      })
+      .attr("text-anchor", "start")
+      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("font-size", visConfig.superTextSize)
+      .attr("font-weight", "bold")
+      .text("As variações do cinema brasileiro");
+
+    superscription.append("text")
+      .attr("class", "title-description")
+      .attr("x", function() {
+        return visConfig.natWMargin;
+      })
+      .attr("y", function() {
+        return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize;
+      })
+      .attr("text-anchor", "start")
+      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("font-size", visConfig.superSubtextSize)
+      .text("Público e número de títulos mensais");
+
+    superscription.append("text")
+      .attr("class", "title-description")
+      .attr("x", function() {
+        return returnXPosition(10);
+      })
+      .attr("y", function() {
+        return visConfig.superHMargin + visConfig.superTextSize;
+      })
+      .attr("text-anchor", "middle")
+      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("font-size", visConfig.superSubSubtextSize)
+      .text("Área do círculo:");
+
+    superscription.append("text")
+      .attr("class", "title-description")
+      .attr("x", function() {
+        return returnXPosition(10);
+      })
+      .attr("y", function() {
+        return visConfig.superHMargin/2 + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize;
+      })
+      .attr("text-anchor", "middle")
+      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("font-size", visConfig.superSubSubtextSize)
+      .text("Títulos no mês");
+
+    superscription.append("text")
+      .attr("class", "title-description")
+      .attr("x", function() {
+        return returnXPosition(11);
+      })
+      .attr("y", function() {
+        return visConfig.superHMargin + visConfig.superTextSize;
+      })
+      .attr("text-anchor", "middle")
+      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("font-size", visConfig.superSubSubtextSize)
+      .text("Escala de cor:");
+
+    superscription.append("text")
+      .attr("class", "title-description")
+      .attr("x", function() {
+        return returnXPosition(11);
+      })
+      .attr("y", function() {
+        return visConfig.superHMargin/2 + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize;
+      })
+      .attr("text-anchor", "middle")
+      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("font-size", visConfig.superSubSubtextSize)
+      .text("Público no mês");
+
+    superscription.append("circle")
+      .attr("cx", function() {
+        return returnXPosition(10) - visConfig.circleBiggerRadius/2;
+      })
+      .attr("cy", function() {
+        return visConfig.superHMargin + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize + 15;
+      })
+      .attr("r", 4)
+      .attr("fill", visConfig.monthBoxHexValue);
+
+    superscription.append("circle")
+      .attr("cx", function() {
+        return returnXPosition(10);
+      })
+      .attr("cy", function() {
+        return visConfig.superHMargin + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize + 15;
+      })
+      .attr("r", 6)
+      .attr("fill", visConfig.monthBoxHexValue);
+
+    superscription.append("circle")
+      .attr("cx", function() {
+        return returnXPosition(10) + visConfig.circleBiggerRadius/2;
+      })
+      .attr("cy", function() {
+        return visConfig.superHMargin + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize + 15;
+      })
+      .attr("r", 8)
+      .attr("fill", visConfig.monthBoxHexValue);
+
+    superscription.append("rect")
+      .attr("x", function() {
+        return returnXPosition(11) - visConfig.circleBiggerRadius;
+      })
+      .attr("y", function() {
+        return visConfig.superHMargin + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize + 7;
+      })
+      .attr("width", visConfig.circleBiggerRadius*2)
+      .attr("height", 16)
+      .attr("fill", "url(#gradient)");
+
     var visGuideLines = vis.append("g")
       .attr("class", "guidelines");
 
@@ -110,7 +249,7 @@ function createVisOverview(userWindowWidth) {
           return returnXPosition(parseInt(month));
         })
         .attr("y1", function() {
-          return visConfig.hTopMargin;
+          return visConfig.hMonthMargin + 2*visConfig.hMonthBox;
         })
         .attr("x2", function() {
           return returnXPosition(parseInt(month));
@@ -227,6 +366,7 @@ function createVisOverview(userWindowWidth) {
       }
 
       visYear.append("text")
+        .attr("class", "year")
         .attr("x", function() {
           return visConfig.wYearMargin;
         })

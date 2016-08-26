@@ -24,6 +24,10 @@ body {
   color: white;
 }
 
+#container {
+  position: relative;
+}
+
 div.visualization {
   margin: 0 auto;
   width: 90%;
@@ -32,6 +36,12 @@ div.visualization {
 svg {
   display: block;
   margin: 0 auto;
+}
+
+svg.datamap {
+  position: absolute;
+  top: 7.8125%;
+  left: 20%;
 }
 
 div.menu-container {
@@ -90,7 +100,7 @@ div.vis-selector a:last-child {
 }
 
 text.title, text.title-description {
-  font-family: "Dosis", sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 text.header {

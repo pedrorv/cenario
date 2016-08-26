@@ -1,3 +1,53 @@
+// ----------------------------------------------------------------
+//                        Useful functions
+// ----------------------------------------------------------------
+
+function deleteVis() {
+  d3.select("g.vis").remove();
+  if (d3.select("svg.datamap")) {
+    d3.select("svg.datamap").remove();
+    d3.select("div.datamaps-hoverover").remove();
+  }
+}
+
+function formatNumber(number) {
+  var numberStr = "" + number,
+      newNumberStr = [],
+      j = numberStr.length-1,
+      i = 0;
+  for (; j >= 0; j--) {
+    newNumberStr.unshift(numberStr[j]);
+    i++;
+    if ((i%3 == 0) && j > 0) {
+      newNumberStr.unshift(".");
+    }
+  }
+  return newNumberStr.join("");
+}
+function scaleSvg(ratio) {
+  d3.select("svg.vis")
+    .attr("width", function() { return visConfig.width * ratio; })
+    .attr("height", function() { return visConfig.height * ratio; });
+}
+
+function scaleRatio(windowWidth, visWidth, baseVisResolutionWidth) {
+  var proportion = visWidth/baseVisResolutionWidth;
+  var finalWidth = windowWidth * proportion;
+
+  return finalWidth/visWidth;
+}
+
+function scaleVis(ratio) {
+  d3.select("g.vis")
+    .attr("transform", function() {
+      return "scale(" + ratio + ")";
+    });
+}
+
+// ----------------------------------------------------------------
+//               Overview visualization functions
+// ----------------------------------------------------------------
+
 function returnCirclesData(dataset) {
     var newDataset = {};
     for (var year in dataset) {
@@ -64,21 +114,6 @@ function returnMinDataCircles(dataset, property) {
   return min;
 }
 
-function formatNumber(number) {
-  var numberStr = "" + number,
-      newNumberStr = [],
-      j = numberStr.length-1,
-      i = 0;
-  for (; j >= 0; j--) {
-    newNumberStr.unshift(numberStr[j]);
-    i++;
-    if ((i%3 == 0) && j > 0) {
-      newNumberStr.unshift(".");
-    }
-  }
-  return newNumberStr.join("");
-}
-
 function returnXPosition(index) {
   return 64 + (index * ((visConfig.circleBiggerRadius * 2) + visConfig.wCircleMargin)) + visConfig.circleBiggerRadius;
 }
@@ -120,25 +155,6 @@ function moveAllSpecificMonthDrag(index, month, dx) {
     });
 }
 
-function scaleSvg(ratio) {
-  d3.select("svg")
-    .attr("width", function() { return visConfig.width * ratio; })
-    .attr("height", function() { return visConfig.height * ratio; });
-}
-
-function scaleRatio(windowWidth, visWidth, baseVisResolutionWidth) {
-  var proportion = visWidth/baseVisResolutionWidth;
-  var finalWidth = windowWidth * proportion;
-
-  return finalWidth/visWidth;
-}
-
-function scaleVis(ratio) {
-  d3.select("g.vis")
-    .attr("transform", function() {
-      return "scale(" + ratio + ")";
-    });
-}
 
 function moveMainElementsY(position, currentValue, duration) {
   d3.selectAll("text[currentyear='"+currentValue+"']")
@@ -230,6 +246,65 @@ function moveAllElementsX(indexShift, initialIndex, currentValue) {
   selfCurrAux.attr("currentmonth", initialIndex);
 }
 
-function deleteVis() {
-  d3.select("g.vis").remove();
+
+// ----------------------------------------------------------------
+//             Nationalities visualization functions
+// ----------------------------------------------------------------
+
+function returnNationsData(datasetMovies, datasetNations) {
+  var newDataset = {};
+  for (var year in datasetMovies) {
+    newDataset[year] = {};
+    for (var title in datasetMovies[year]) {
+      var country = datasetMovies[year][title]["País"];
+      if (country.indexOf("/") != -1) {
+        var arr = country.split("/");
+        country = arr[0];
+      }
+      var continent = datasetNations[country]["continente"];
+
+      if(!newDataset[year][continent]) {
+        newDataset[year][continent] = {};
+      }
+
+      if(!newDataset[year][continent][country]) {
+        newDataset[year][continent][country] = {
+          "Títulos": 1,
+          "Público": datasetMovies[year][title]["Público"],
+          "Renda": datasetMovies[year][title]["Renda"],
+          "Gêneros": {
+            "Ficção": 0,
+            "Documentário": 0,
+            "Animação": 0
+          }
+        };
+        newDataset[year][continent][country]["Gêneros"][datasetMovies[year][title]["Gênero"]]++;
+      }
+      else {
+        newDataset[year][continent][country]["Títulos"] += 1;
+        newDataset[year][continent][country]["Público"] += datasetMovies[year][title]["Público"];
+        newDataset[year][continent][country]["Renda"] += datasetMovies[year][title]["Renda"];
+        newDataset[year][continent][country]["Gêneros"][datasetMovies[year][title]["Gênero"]]++;
+      }
+    }
+  }
+  return newDataset;
+}
+
+function returnGraphData(datasetGraph) {
+  var newDataset = {};
+  for (var year in datasetGraph) {
+    newDataset[year] = [[],[],[],[],[],[]];
+    for (var continent in datasetGraph[year]) {
+      for (var country in datasetGraph[year][continent]) {
+        newDataset[year][visConfig.continents[continent]].push(
+          {
+            "País": country,
+            "Dados": datasetGraph[year][continent][country]
+          }
+        );
+      }
+    }
+  }
+  return newDataset;
 }
