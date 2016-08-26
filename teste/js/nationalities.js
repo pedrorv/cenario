@@ -113,7 +113,7 @@ function createVisNationalities(userWindowWidth) {
 
       // Drawing Graph
 
-      var dataHolder = visConfig.datasetGraph["2009"];
+      var dataHolder = visConfig.datasetGraph["2014"];
       var countriesSum = 0;
       var continentsSum = 0;
       var titlesSum = 0;
