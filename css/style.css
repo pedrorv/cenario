@@ -124,7 +124,7 @@ line.highlight-division {
   stroke: #999;
 }
 
-text.month, text.year {
+text.month, text.year, text.year-selector {
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
@@ -136,6 +136,8 @@ circle.movies-ranking {
   fill: #cb7d9f;
 }
 
-circle:hover, rect.month, rect#lightbox:hover, text#close:hover, text.month, text.year, text.year-selector {
+circle:hover, rect.month, rect#lightbox:hover,
+text#close:hover, text.month, text.year, text.year-selector,
+rect.country-bar, path.country-path {
   cursor: pointer;
 }

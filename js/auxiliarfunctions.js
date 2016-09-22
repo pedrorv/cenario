@@ -358,7 +358,14 @@ function returnTreemapYearsData(dataset, property) {
   return newObj;
 }
 
-
+function roundMultPowerTen(num) {
+  var n = 0;
+  while (num > Math.pow(10, n)) {
+    n++;
+  }
+  var power = Math.pow(10, (n-1));
+  return num + (power - (num % power));
+}
 
 
 // function a(dataset, bigger, smaller) {
