@@ -291,20 +291,121 @@ function returnNationsData(datasetMovies, datasetNations) {
   return newDataset;
 }
 
-function returnGraphData(datasetGraph) {
+function returnGraphData(datasetGraph, continentFilter, publicFilter) {
   var newDataset = {};
   for (var year in datasetGraph) {
     newDataset[year] = [[],[],[],[],[],[]];
     for (var continent in datasetGraph[year]) {
+      if (!continentFilter[continent]) continue;
       for (var country in datasetGraph[year][continent]) {
-        newDataset[year][visConfig.continents[continent]].push(
-          {
-            "País": country,
-            "Dados": datasetGraph[year][continent][country]
-          }
-        );
+        var countryPublic = datasetGraph[year][continent][country]["Público"];
+        var countryTitles = datasetGraph[year][continent][country]["Títulos"];
+        var avarage = countryPublic/countryTitles;
+        if (avarage >= publicFilter.min && avarage <= publicFilter.max) {
+          newDataset[year][visConfig.continents[continent]].push(
+            {
+              "País": country,
+              "Dados": datasetGraph[year][continent][country]
+            }
+          );
+        }
+        else continue;
+      }
+      for (var i = 0; i < newDataset[year][visConfig.continents[continent]].length; i++) {
+        newDataset[year][visConfig.continents[continent]][i]["Dados"]["Média"] =
+          newDataset[year][visConfig.continents[continent]][i]["Dados"]["Público"] /
+          newDataset[year][visConfig.continents[continent]][i]["Dados"]["Títulos"];
       }
     }
   }
   return newDataset;
 }
+
+// ----------------------------------------------------------------
+//             Recordists visualization functions
+// ----------------------------------------------------------------
+
+function returnTreemapDecadeData(dataset) {
+  var newObj = {
+    "name": "decades",
+    "children": []
+  };
+
+  for (var i in dataset) {
+    newObj.children.push({
+      "name": i,
+      "size": 0
+    });
+    for (var j in dataset[i]) {
+      newObj.children[newObj.children.length - 1].size += dataset[i][j].length;
+    }
+  }
+  return newObj;
+}
+
+function returnTreemapYearsData(dataset, property) {
+  var newObj = {
+    "name": "years",
+    "children": []
+  };
+
+  for (var i in dataset[property]) {
+    newObj.children.push({
+      "name": i,
+      "size": dataset[property][i].length
+    });
+  }
+  return newObj;
+}
+
+
+
+
+// function a(dataset, bigger, smaller) {
+//   obj = {};
+//
+//   for (var dec in dataset) {
+//     if (!obj[dec]) {
+//       obj[dec] = {
+//         "quantidade": 0,
+//         "lado": 0
+//       };
+//     }
+//     for (var year in dataset[dec]) {
+//       if (!obj[year]) {
+//         obj[year] = {
+//           "quantidade": dataset[dec][year].length,
+//           "lado": 0
+//         }
+//       }
+//       obj[dec].quantidade += dataset[dec][year].length;
+//     }
+//   }
+//
+//   var max = 0;
+//   var min = Infinity;
+//
+//   for (var i in obj) {
+//     if (obj[i].quantidade > max) {
+//       max = obj[i].quantidade;
+//     }
+//     if (obj[i].quantidade < min) {
+//       min = obj[i].quantidade;
+//     }
+//   }
+//
+//   for (var j in obj) {
+//     var qtd = obj[j].quantidade;
+//     console.log(qtd);
+//     var range = max - min;
+//     console.log(range);
+//     var rangeSize = bigger - smaller;
+//     console.log(rangeSize);
+//
+//     obj[j].lado = smaller + (qtd - min)*rangeSize/range;
+//   }
+//
+//   return obj;
+// }
+//
+// console.log(JSON.stringify(a(visConfig.recordistsData, visConfig.recDecBiggerSide, visConfig.recDecSmallerSide)));

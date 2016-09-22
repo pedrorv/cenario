@@ -99,7 +99,14 @@ function createVisOverview(userWindowWidth) {
         maxDataCirclesPublic = returnMaxDataCircles(visConfig.dataCircles, "Público"),
         minDataCirclesPublic = returnMinDataCircles(visConfig.dataCircles, "Público");
 
-    var fillScale = d3.scale.linear().domain([minDataCirclesPublic,maxDataCirclesPublic]).range(["#6eced3","#1f0133"]);
+    var fillScale = d3.scale
+      .linear()
+      .domain([minDataCirclesPublic,
+        ((maxDataCirclesPublic-minDataCirclesPublic)/2 + minDataCirclesPublic),
+        maxDataCirclesPublic])
+      .range([visConfig.scaleInitialColor,
+              visConfig.scaleIntermColor,
+              visConfig.scaleFinalColor]);
 
     var gradient = svg.append("linearGradient")
       .attr("id", "gradient")
@@ -111,11 +118,15 @@ function createVisOverview(userWindowWidth) {
 
     gradient.append("stop")
         .attr("offset", "0")
-        .attr("stop-color", "#6eced3")
+        .attr("stop-color", visConfig.scaleInitialColor);
+
+    gradient.append("stop")
+      .attr("offset", "0.5")
+      .attr("stop-color", visConfig.scaleIntermColor);
 
     gradient.append("stop")
         .attr("offset", "1")
-        .attr("stop-color", "#1f0133")
+        .attr("stop-color", visConfig.scaleFinalColor);
 
     var superscription = vis.append("g")
       .attr("class", "superscription");

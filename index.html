@@ -9,6 +9,7 @@
     <script type="text/javascript" src="js/auxiliarfunctions.js"></script>
     <script type="text/javascript" src="js/nationalities.js"></script>
     <script type="text/javascript" src="js/overview.js"></script>
+    <script type="text/javascript" src="js/recordists.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Dosis:400' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
@@ -23,7 +24,7 @@
           <a href="http://pedrorv.github.io/cenario"><h1>CEN&Aacute;RIO</h1></a>
           <a class="nav vis-selection overview selected-vis" href="#">P&uacute;blico e N&uacute;mero de T&iacute;tulos</a>
           <a class="nav vis-selection nationalities" href="#">Nacionalidades</a>
-          <a class="nav vis-selection " href="#">Nacionais Recordistas de P&uacute;blico</a>
+          <a class="nav vis-selection recordists" href="#">Nacionais Recordistas de P&uacute;blico</a>
           <a class="nav vis-selection " href="#">Produ&ccedil;&atilde;o Nacional</a>
           <a class="nav " href="#">Sobre | Quem</a>
         </div>
@@ -64,17 +65,24 @@
       });
 
       var visOverview = d3.select(".overview").on("click", function() {
-	userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        visualSelection(this);
-        deleteVis();
-        createVisOverview(userWindowWidth);
+	       userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+         visualSelection(this);
+         deleteVis();
+         createVisOverview(userWindowWidth);
       });
 
       var visNationalities = d3.select(".nationalities").on("click", function() {
-	userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        visualSelection(this);
-        deleteVis();
-        createVisNationalities(userWindowWidth);
+	       userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+         visualSelection(this);
+         deleteVis();
+         createVisNationalities(userWindowWidth);
+      });
+
+      var visRecordists = d3.select(".recordists").on("click", function() {
+	       userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+         visualSelection(this);
+         deleteVis();
+         createVisRecordists(userWindowWidth);
       });
 
 

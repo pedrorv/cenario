@@ -6,6 +6,11 @@ var visConfig = {
 
   // Overview Visualization Specs
 
+  // Color Scale
+  scaleInitialColor: "#6AC1C8",
+  scaleIntermColor: "#124A9B",
+  scaleFinalColor: "#010038",
+
   // Superscription
   superTextSize: 18,
   superHMargin: 10,
@@ -61,14 +66,29 @@ var visConfig = {
 
   // Nationalities Visualization Specs
 
+  // Menu Specs
+  natMenuH: 270,
+  natMenuHMargin: 24,
+  natMenuTitlesSize: 14,
+  natMenuOptionsSize: 10,
+  natMenuTitleTopMargin: 25,
+  natMenuTitleBottomMargin: 10,
+  natMenuLineHMargin: 62,
+  natMenuCirclesRadius: 5,
+  natMenuContinentWMargin: 50,
+  natMenuWDistance: 140,
+
   // Titles Configs
   natTitleSize: 18,
   natSubTitleSize: 12,
+  natContinentNameSize: 16,
+  natContinentHMargin: 8,
+  natContinentColor: "#000000",
 
   // Margins Configs
   natWMargin: 79,
-  natHMarginGraph: 131,
-  natHMarginGraphAxis: 35,
+  natHMarginGraph: 220,
+  natHMarginGraphAxis: 51,
   natGraphLeft: 79,
   natGraphRight: 50,
   natGraphSpacing: 2,
@@ -79,7 +99,35 @@ var visConfig = {
 
   // Graph Configs
   natHGraphBar: 62,
+  natYearSelected: "2009",
 
+
+
+  // Recordists Visualization Specs
+
+  // Decades
+
+  recDecBiggerArea: 16900,
+  recDecSmallerArea: 36,
+
+  // Treemap
+
+  recTreemapH: 516,
+  recTreemapW: 740,
+  recTreemapMarginLeft: 0,
+  recTreemapMarginTop: 80,
+
+  // Movies descriptions
+
+  recMovieDescMargin: 50,
+  recMovieDescSubWMargin: 224,
+  recMoviesDescW: 25,
+
+  // Comparison menu
+
+  recMenuBoxW: 40,
+  recMenuBoxH: 25,
+  recMenuFill: "#F4F4F4",
 
 
   // Utilities
@@ -113,6 +161,18 @@ var visConfig = {
     "África": 4,
     "Oceania": 5
   },
+  continentsFilter: {
+    "América do Sul": true,
+    "América do Norte": true,
+    "Europa": true,
+    "Ásia": true,
+    "África": true,
+    "Oceania": true
+  },
+  publicFilter: {
+    "min": 0,
+    "max": Infinity
+  },
   continentsColors: {
     "América do Sul": "#1A1A1A",
     "América do Norte": "#666666",
@@ -121,6 +181,13 @@ var visConfig = {
     "África": "#E6E6E6",
     "Oceania": "#B2B2B2"
   },
+  decadesColors: {
+    "00": "#1A1A1A",
+    "10": "#666666",
+    "70": "#B2B2B2",
+    "80": "#CCCCCC",
+    "90": "#E6E6E6"
+  },
   continentsArr: [
     "América do Sul",
     "América do Norte",
@@ -128,5 +195,44 @@ var visConfig = {
     "Ásia",
     "África",
     "Oceania"
+  ],
+  moviesColors: [
+    "#4D4D4D",
+    "#CCCCCC",
+    "#1A1A1A",
+    "#808080",
+    "#E6E6E6"
+  ],
+  publicFilterOptions: [
+    {
+      "text": "De 0 a 10 mil",
+      "min": 0,
+      "max": 10000
+    },
+    {
+      "text": "De 10 a 50 mil",
+      "min": 10000,
+      "max": 50000
+    },
+    {
+      "text": "De 50 a 100 mil",
+      "min": 50000,
+      "max": 100000
+    },
+    {
+      "text": "De 100 a 500 mil",
+      "min": 100000,
+      "max": 500000
+    },
+    {
+      "text": "De 500 mil a 1.5 milhão",
+      "min": 500000,
+      "max": 1000000
+    },
+    {
+      "text": "Todos",
+      "min": 0,
+      "max": Infinity
+    }
   ]
 };

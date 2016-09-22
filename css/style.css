@@ -38,12 +38,6 @@ svg {
   margin: 0 auto;
 }
 
-svg.datamap {
-  position: absolute;
-  top: 7.8125%;
-  left: 20%;
-}
-
 div.menu-container {
   width: 100%;
   background-color: #333;
@@ -103,6 +97,14 @@ text.title, text.title-description {
   font-family: "Raleway", sans-serif;
 }
 
+text.bold {
+  font-weight: bold;
+}
+
+text.light {
+  font-weight: normal;
+}
+
 text.header {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
@@ -134,6 +136,6 @@ circle.movies-ranking {
   fill: #cb7d9f;
 }
 
-circle:hover, rect.month, rect#lightbox:hover, text#close:hover, text.month, text.year {
+circle:hover, rect.month, rect#lightbox:hover, text#close:hover, text.month, text.year, text.year-selector {
   cursor: pointer;
 }
