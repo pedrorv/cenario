@@ -255,7 +255,7 @@ var visConfig = {
       "max": 500000
     },
     {
-      "text": "De 500 mil a 1.5 milhão",
+      "text": "De 500 mil a 1 milhão",
       "min": 500000,
       "max": 1000000
     },
