@@ -100,6 +100,8 @@ var visConfig = {
   // Graph Configs
   natHGraphBar: 62,
   natYearSelected: "2009",
+  natStrokesWidth: 1,
+  natStrokesColor: "#dd1924",
 
 
 
@@ -128,6 +130,20 @@ var visConfig = {
   recMenuBoxW: 40,
   recMenuBoxH: 25,
   recMenuFill: "#F4F4F4",
+
+
+  // Production Visualization Specs
+
+  // Menu
+
+  proMenuTopMargin: 96,
+  proSelStartTopMargin: 48,
+  proMenuCirclesRadius: 5,
+  proMenuCirclesHDist: 25,
+  proMenuCirclesWDist: 90,
+  proMenuSelectionSize: 10,
+  proMenuTitleSize: 14,
+  proMenuSecondTitleTopMargin: 20,
 
 
   // Utilities
@@ -234,5 +250,63 @@ var visConfig = {
       "min": 0,
       "max": Infinity
     }
+  ],
+  regionsArr: [
+    "Sudeste",
+    "Sul",
+    "Nordeste",
+    "Centro-Oeste",
+    "Norte"
+  ],
+  regionsColors: {
+    "Sudeste": "#1A1A1A",
+    "Sul": "#666666",
+    "Nordeste": "#B2B2B2",
+    "Centro-Oeste": "#CCCCCC",
+    "Norte": "#E6E6E6"
+  },
+  proYearsObj: {
+      "1995": 0,
+      "1996": 1,
+      "1997": 2,
+      "1998": 3,
+      "1999": 4,
+      "2000": 5,
+      "2001": 6,
+      "2002": 7,
+      "2003": 8,
+      "2004": 9,
+      "2005": 10,
+      "2006": 11,
+      "2007": 12,
+      "2008": 13,
+      "2009": 14,
+      "2010": 15,
+      "2011": 16,
+      "2012": 17,
+      "2013": 18,
+      "2014": 19
+  },
+  proYearsArr: [
+      "1995",
+      "1996",
+      "1997",
+      "1998",
+      "1999",
+      "2000",
+      "2001",
+      "2002",
+      "2003",
+      "2004",
+      "2005",
+      "2006",
+      "2007",
+      "2008",
+      "2009",
+      "2010",
+      "2011",
+      "2012",
+      "2013",
+      "2014"
   ]
 };

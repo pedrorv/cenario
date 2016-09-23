@@ -31,11 +31,20 @@ body {
 div.visualization {
   margin: 0 auto;
   width: 90%;
+  position: relative;
 }
 
 svg {
   display: block;
   margin: 0 auto;
+}
+
+div#word-cloud {
+  position: absolute;
+  top: 32%;
+  height: 35%;
+  width: 20%;
+  left: 10%;
 }
 
 div.menu-container {
@@ -93,11 +102,11 @@ div.vis-selector a:last-child {
   float: right;
 }
 
-text.title, text.title-description {
+text.title, text.title-description, p.uf {
   font-family: "Raleway", sans-serif;
 }
 
-text.bold {
+text.bold, p.bold {
   font-weight: bold;
 }
 
@@ -124,7 +133,7 @@ line.highlight-division {
   stroke: #999;
 }
 
-text.month, text.year, text.year-selector {
+text.month, text.year, text.year-selector, p.uf, text.title, text.subtitle, text.title-description, text.graph-description {
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
@@ -138,6 +147,7 @@ circle.movies-ranking {
 
 circle:hover, rect.month, rect#lightbox:hover,
 text#close:hover, text.month, text.year, text.year-selector,
-rect.country-bar, path.country-path {
+rect.country-bar, path.country-path, p.uf, path.dropdown,
+rect.menu-dropdown, text.menu-dropdown {
   cursor: pointer;
 }

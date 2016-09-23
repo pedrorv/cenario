@@ -3,13 +3,12 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script type="text/javascript" src="js/d3.v3.min.js"></script>
-    <script type="text/javascript" src="js/topojson.min.js"></script>
-    <script type="text/javascript" src="js/datamaps.world.min.js"></script>
     <script type="text/javascript" src="js/specifications.js"></script>
     <script type="text/javascript" src="js/auxiliarfunctions.js"></script>
     <script type="text/javascript" src="js/nationalities.js"></script>
     <script type="text/javascript" src="js/overview.js"></script>
     <script type="text/javascript" src="js/recordists.js"></script>
+    <script type="text/javascript" src="js/production.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Dosis:400' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
@@ -25,7 +24,7 @@
           <a class="nav vis-selection overview selected-vis" href="#">P&uacute;blico e N&uacute;mero de T&iacute;tulos</a>
           <a class="nav vis-selection nationalities" href="#">Nacionalidades</a>
           <a class="nav vis-selection recordists" href="#">Nacionais Recordistas de P&uacute;blico</a>
-          <a class="nav vis-selection " href="#">Produ&ccedil;&atilde;o Nacional</a>
+          <a class="nav vis-selection production" href="#">Produ&ccedil;&atilde;o Nacional</a>
           <a class="nav " href="#">Sobre | Quem</a>
         </div>
       </nav>
@@ -66,6 +65,7 @@
 
       var visOverview = d3.select(".overview").on("click", function() {
 	       userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+         d3.selectAll("div#word-cloud").remove();
          visualSelection(this);
          deleteVis();
          createVisOverview(userWindowWidth);
@@ -73,6 +73,7 @@
 
       var visNationalities = d3.select(".nationalities").on("click", function() {
 	       userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+         d3.selectAll("div#word-cloud").remove();
          visualSelection(this);
          deleteVis();
          createVisNationalities(userWindowWidth);
@@ -80,9 +81,18 @@
 
       var visRecordists = d3.select(".recordists").on("click", function() {
 	       userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+         d3.selectAll("div#word-cloud").remove();
          visualSelection(this);
          deleteVis();
          createVisRecordists(userWindowWidth);
+      });
+
+      var visProduction = d3.select(".production").on("click", function() {
+         d3.selectAll("div#word-cloud").remove();
+         userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+         visualSelection(this);
+         deleteVis();
+         createVisProduction(userWindowWidth);
       });
 
 

@@ -44,6 +44,15 @@ function scaleVis(ratio) {
     });
 }
 
+function roundMultPowerTen(num) {
+  var n = 0;
+  while (num > Math.pow(10, n)) {
+    n++;
+  }
+  var power = Math.pow(10, (n-1));
+  return num + (power - (num % power));
+}
+
 // ----------------------------------------------------------------
 //               Overview visualization functions
 // ----------------------------------------------------------------
@@ -358,13 +367,27 @@ function returnTreemapYearsData(dataset, property) {
   return newObj;
 }
 
-function roundMultPowerTen(num) {
-  var n = 0;
-  while (num > Math.pow(10, n)) {
-    n++;
+
+// ----------------------------------------------------------------
+//             Production visualization functions
+// ----------------------------------------------------------------
+
+function returnRegionsData(dataset) {
+  var newObj = {};
+  for (var uf in dataset) {
+    if (!newObj[visConfig.ufsData[uf]["Região"]]) {
+      newObj[visConfig.ufsData[uf]["Região"]] = [];
+    }
+    for (var year in dataset[uf]) {
+      if (!newObj[visConfig.ufsData[uf]["Região"]][visConfig.proYearsObj[year]]) {
+        newObj[visConfig.ufsData[uf]["Região"]][visConfig.proYearsObj[year]] = 0;
+        newObj[visConfig.ufsData[uf]["Região"]][visConfig.proYearsObj[year]] += dataset[uf][year];
+      } else  {
+        newObj[visConfig.ufsData[uf]["Região"]][visConfig.proYearsObj[year]] += dataset[uf][year];
+      }
+    }
   }
-  var power = Math.pow(10, (n-1));
-  return num + (power - (num % power));
+  return newObj;
 }
 
 
@@ -375,15 +398,17 @@ function roundMultPowerTen(num) {
 //     if (!obj[dec]) {
 //       obj[dec] = {
 //         "quantidade": 0,
-//         "lado": 0
+//         "lado": 0,
+//         "xy": ["x", "y"]
 //       };
 //     }
 //     for (var year in dataset[dec]) {
 //       if (!obj[year]) {
 //         obj[year] = {
 //           "quantidade": dataset[dec][year].length,
-//           "lado": 0
-//         }
+//           "lado": 0,
+//           "xy": ["x", "y"]
+//         };
 //       }
 //       obj[dec].quantidade += dataset[dec][year].length;
 //     }
@@ -409,10 +434,10 @@ function roundMultPowerTen(num) {
 //     var rangeSize = bigger - smaller;
 //     console.log(rangeSize);
 //
-//     obj[j].lado = smaller + (qtd - min)*rangeSize/range;
+//     obj[j].lado = Math.sqrt(smaller + (qtd - min)*rangeSize/range);
 //   }
 //
 //   return obj;
 // }
 //
-// console.log(JSON.stringify(a(visConfig.recordistsData, visConfig.recDecBiggerSide, visConfig.recDecSmallerSide)));
+// console.log(JSON.stringify(a(visConfig.recordistsData, visConfig.recDecBiggerArea, visConfig.recDecSmallerArea)));

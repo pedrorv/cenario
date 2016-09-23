@@ -108,7 +108,7 @@ function createVisOverview(userWindowWidth) {
               visConfig.scaleIntermColor,
               visConfig.scaleFinalColor]);
 
-    var gradient = svg.append("linearGradient")
+    var gradient = vis.append("linearGradient")
       .attr("id", "gradient")
       .attr("y1", "0%")
       .attr("y2", "0%")

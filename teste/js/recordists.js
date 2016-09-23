@@ -1,4 +1,3 @@
-
 function createVisRecordists(userWindowWidth) {
 
   if (!visConfig.recordistsData) {
@@ -104,7 +103,7 @@ function createVisRecordists(userWindowWidth) {
       .attr("opacity", 0);
 
     superscription.append("path")
-      .attr("class", "subtitle")
+      .attr("class", "dropdown")
       .attr("fill", visConfig.monthBoxHexValue)
       .attr("d", function() {
         var size = 10;
@@ -121,57 +120,6 @@ function createVisRecordists(userWindowWidth) {
 
 
     visConfig.recDecadesData = returnTreemapDecadeData(visConfig.recordistsData);
-
-    function a(dataset, bigger, smaller) {
-      obj = {};
-
-      for (var dec in dataset) {
-        if (!obj[dec]) {
-          obj[dec] = {
-            "quantidade": 0,
-            "lado": 0,
-            "xy": ["x", "y"]
-          };
-        }
-        for (var year in dataset[dec]) {
-          if (!obj[year]) {
-            obj[year] = {
-              "quantidade": dataset[dec][year].length,
-              "lado": 0,
-              "xy": ["x", "y"]
-            };
-          }
-          obj[dec].quantidade += dataset[dec][year].length;
-        }
-      }
-
-      var max = 0;
-      var min = Infinity;
-
-      for (var i in obj) {
-        if (obj[i].quantidade > max) {
-          max = obj[i].quantidade;
-        }
-        if (obj[i].quantidade < min) {
-          min = obj[i].quantidade;
-        }
-      }
-
-      for (var j in obj) {
-        var qtd = obj[j].quantidade;
-        console.log(qtd);
-        var range = max - min;
-        console.log(range);
-        var rangeSize = bigger - smaller;
-        console.log(rangeSize);
-
-        obj[j].lado = Math.sqrt(smaller + (qtd - min)*rangeSize/range);
-      }
-
-      return obj;
-    }
-
-    console.log(JSON.stringify(a(visConfig.recordistsData, visConfig.recDecBiggerArea, visConfig.recDecSmallerArea)));
 
     var treemapDecades = d3.layout.treemap()
       .size([visConfig.recTreemapW, visConfig.recTreemapH])
@@ -354,7 +302,9 @@ function createVisRecordists(userWindowWidth) {
         .attr("class", "menu-level-one");
 
       menuLevel.append("rect")
-        .attr("class", "rect-lvl-one")
+        .attr("class", function(d,i) {
+          return "rect-lvl-one menu-dropdown rect" + i;
+        })
         .attr("x", function(d, i) {
             return visConfig.recTreemapW + visConfig.recMovieDescMargin + visConfig.recMovieDescSubWMargin + 90 + 5 - (visConfig.recMenuBoxW/2);
         })
@@ -377,7 +327,10 @@ function createVisRecordists(userWindowWidth) {
         .attr("opacity", 1);
 
       menuLevel.append("text")
-        .attr("class", "subtitle")
+        .attr("class", "subtitle menu-dropdown")
+        .attr("i", function(d,i) {
+          return i;
+        })
         .attr("x", function() {
           return visConfig.recTreemapW + visConfig.recMovieDescMargin + visConfig.recMovieDescSubWMargin + 90 + 5;
         })
@@ -392,7 +345,7 @@ function createVisRecordists(userWindowWidth) {
         })
         .on("click", function(d) {
           var self = d3.select(this);
-          drawMenuItems(d.years, menu, self);
+          drawMenuItems(d.years, menu, d3.select("rect.rect" + self.attr("i")));
         })
         .attr("opacity", 0)
         .transition()
@@ -411,7 +364,7 @@ function createVisRecordists(userWindowWidth) {
           .attr("class", "menu-level-two");
 
         menuLevel.append("rect")
-          .attr("class", "rect-lvl-two")
+          .attr("class", "rect-lvl-two menu-dropdown")
           .attr("x", function(d, i) {
               return parseFloat(fatherReference.attr("x")) + visConfig.recMenuBoxW;
           })
@@ -434,7 +387,7 @@ function createVisRecordists(userWindowWidth) {
           .attr("opacity", 1);
 
         menuLevel.append("text")
-          .attr("class", "subtitle")
+          .attr("class", "subtitle menu-dropdown")
           .attr("x", function() {
             return parseFloat(fatherReference.attr("x")) + visConfig.recMenuBoxW + visConfig.recMenuBoxW/2;
           })

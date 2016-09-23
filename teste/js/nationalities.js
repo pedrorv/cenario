@@ -273,6 +273,51 @@ function createVisNationalities(userWindowWidth) {
       graph.append("text")
         .attr("class", "country-description")
         .attr("x", function() {
+          var deslc = (visConfig.width - (visConfig.natGraphLeft + visConfig.natGraphRight))/4;
+          return visConfig.natGraphLeft + deslc;
+        })
+        .attr("y", function() {
+          return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph - visConfig.natHGraphBar - (3 * visConfig.natContinentHMargin);
+        })
+        .attr("text-anchor", "middle")
+        .attr("fill", visConfig.natContinentColor)
+        .attr("font-size", visConfig.natContinentNameSize)
+        .attr("font-weight", "bold")
+        .text("");
+
+      graph.append("text")
+        .attr("class", "titles-description")
+        .attr("x", function() {
+          var deslc = (visConfig.width - (visConfig.natGraphLeft + visConfig.natGraphRight))/4;
+          return visConfig.natGraphLeft + 2*deslc;
+        })
+        .attr("y", function() {
+          return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph - visConfig.natHGraphBar - (3 * visConfig.natContinentHMargin);
+        })
+        .attr("text-anchor", "middle")
+        .attr("fill", visConfig.natContinentColor)
+        .attr("font-size", visConfig.natContinentNameSize)
+        .attr("font-weight", "lighter")
+        .text("");
+
+      graph.append("text")
+        .attr("class", "public-description")
+        .attr("x", function() {
+          var deslc = (visConfig.width - (visConfig.natGraphLeft + visConfig.natGraphRight))/4;
+          return visConfig.natGraphLeft + 3*deslc;
+        })
+        .attr("y", function() {
+          return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph - visConfig.natHGraphBar - (3 * visConfig.natContinentHMargin);
+        })
+        .attr("text-anchor", "middle")
+        .attr("fill", visConfig.natContinentColor)
+        .attr("font-size", visConfig.natContinentNameSize)
+        .attr("font-weight", "lighter")
+        .text("");
+
+      graph.append("text")
+        .attr("class", "warning-description")
+        .attr("x", function() {
           var deslc = (visConfig.width - (visConfig.natGraphLeft + visConfig.natGraphRight))/2;
           return visConfig.natGraphLeft + deslc;
         })
@@ -282,10 +327,11 @@ function createVisNationalities(userWindowWidth) {
         .attr("text-anchor", "middle")
         .attr("fill", visConfig.natContinentColor)
         .attr("font-size", visConfig.natContinentNameSize)
+        .attr("font-weight", "lighter")
         .text("");
 
       graph.append("text")
-        .attr("class", "country-description")
+        .attr("class", "graph-description")
         .attr("x", function() {
           return visConfig.natGraphLeft - 10;
         })
@@ -298,7 +344,7 @@ function createVisNationalities(userWindowWidth) {
         .text("Média");
 
       graph.append("text")
-        .attr("class", "country-description")
+        .attr("class", "graph-description")
         .attr("x", function() {
           return visConfig.natGraphLeft - 10;
         })
@@ -392,6 +438,9 @@ function createVisNationalities(userWindowWidth) {
               .attr("class", function() {
                 return "country-bar bar" + auxContinent + "-" + country;
               })
+              .attr("item", function() {
+                return auxContinent + "-" + country;
+              })
               .datum(dataHolder[continent][country])
               .attr("x", function() {
                 if (auxContinent == 0 && country == 0) {
@@ -424,13 +473,18 @@ function createVisNationalities(userWindowWidth) {
               .on("click", function() {
                 var self = d3.select(this);
                 var data = self.data()[0];
-                d3.select("text.country-description").text(function() {
-                  var str = data["País"] + ": Títulos: " + data["Dados"]["Títulos"];
-                  if (data["Dados"]["Títulos"] > 1) str += " filmes lançados";
-                  else str += " filme lançado";
-                  str += ". Média de Público: " + formatNumber(Math.ceil(data["Dados"]["Público"]/data["Dados"]["Títulos"])) + " espectadores.";
-                  return str;
+                d3.select("text.country-description").text(data["País"]);
+                d3.select("text.titles-description").text(function() {
+                  if (data["Dados"]["Títulos"] > 1) return data["Dados"]["Títulos"] + " filmes lançados";
+                  return data["Dados"]["Títulos"] + " filme lançado";
                 });
+                d3.select("text.public-description").text(function() {
+                  return formatNumber(parseInt(data["Dados"]["Média"])) + " espectadores em média";
+                });
+                d3.selectAll("rect.country-bar").attr("stroke", "transparent").attr("stroke-width", 0);
+                d3.selectAll("path.country-path").attr("stroke", "transparent").attr("stroke-width", 0);
+                self.attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
+                d3.select("path.path" + self.attr("item")).attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
               });
 
             // Drawing Paths
@@ -461,40 +515,28 @@ function createVisNationalities(userWindowWidth) {
               .on("click", function() {
                 var self = d3.select(this);
                 var data = self.data()[0];
-                d3.select("text.country-description").text(function() {
-                  var str = data["País"] + ": Títulos: " + data["Dados"]["Títulos"];
-                  if (data["Dados"]["Títulos"] > 1) str += " filmes lançados";
-                  else str += " filme lançado";
-                  str += ". Público Total: " + formatNumber(data["Dados"]["Público"]) + " espectadores.";
-                  return str;
+                d3.select("text.country-description").text(data["País"]);
+                d3.select("text.titles-description").text(function() {
+                  if (data["Dados"]["Títulos"] > 1) return data["Dados"]["Títulos"] + " filmes lançados";
+                  return data["Dados"]["Títulos"] + " filme lançado";
                 });
+                d3.select("text.public-description").text(function() {
+                  return formatNumber(parseInt(data["Dados"]["Média"])) + " espectadores em média";
+                });
+                d3.selectAll("rect.country-bar").attr("stroke", "transparent").attr("stroke-width", 0);
+                d3.selectAll("path.country-path").attr("stroke", "transparent").attr("stroke-width", 0);
+                self.attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
+                d3.select("path.path" + self.attr("item")).attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
               });
 
           }
-
-          // graph
-          //   .append("text")
-          //   .attr("class", "title-description")
-          //   .attr("x", function() {
-          //     var firstX = parseFloat(d3.select('rect.bar' + auxContinent + '-' + 0).attr("x"));
-          //     var last = d3.select('rect.bar' + auxContinent + '-' + (dataHolder[continent].length-1));
-          //     var desl = ((parseFloat(last.attr("x")) + parseFloat(last.attr("width"))) - firstX)/2;
-          //     return firstX + desl;
-          //   })
-          //   .attr("y", function() {
-          //     return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph - visConfig.natHGraphBar - (2 * visConfig.natContinentHMargin);
-          //   })
-          //   .attr("text-anchor", "middle")
-          //   .attr("fill", visConfig.natContinentColor)
-          //   .attr("font-size", visConfig.natContinentNameSize)
-          //   .text(visConfig.continentsArr[continent]);
 
           auxContinent++;
           lastContinent = continent;
         }
       }
       if (auxContinent === 0) {
-        d3.select("text.country-description").text(function() {
+        d3.select("text.warning-description").text(function() {
           return "Não há filmes desse(s) continente(s) com essa média de público selecionada.";
         });
       }
