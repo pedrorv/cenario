@@ -334,6 +334,10 @@ function createVisProduction(userWindowWidth) {
       } else if (visConfig.maxValueXAxis != maxDataRegions) {
         visConfig.maxValueXAxis = maxDataRegions;
         drawXAxisLabelsUpdate(visConfig.maxValueXAxis);
+      } else {
+        if (!d3.selectAll("text.xaxis-description")[0][0]) {
+          drawXAxisLabels(visConfig.maxValueXAxis);
+        }
       }
 
 
