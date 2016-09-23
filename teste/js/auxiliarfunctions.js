@@ -49,7 +49,7 @@ function roundMultPowerTen(num) {
   while (num > Math.pow(10, n)) {
     n++;
   }
-  var power = Math.pow(10, (n-1));
+  var power = Math.pow(10, (n<=1) ? 1 : (n-1));
   return num + (power - (num % power));
 }
 
@@ -378,12 +378,12 @@ function returnRegionsData(dataset) {
     if (!newObj[visConfig.ufsData[uf]["Região"]]) {
       newObj[visConfig.ufsData[uf]["Região"]] = [];
     }
-    for (var year in dataset[uf]) {
-      if (!newObj[visConfig.ufsData[uf]["Região"]][visConfig.proYearsObj[year]]) {
-        newObj[visConfig.ufsData[uf]["Região"]][visConfig.proYearsObj[year]] = 0;
-        newObj[visConfig.ufsData[uf]["Região"]][visConfig.proYearsObj[year]] += dataset[uf][year];
+    for (var j = 0; j < dataset[uf].length; j++) {
+      if (!newObj[visConfig.ufsData[uf]["Região"]][j] && newObj[visConfig.ufsData[uf]["Região"]][j] !== 0) {
+        newObj[visConfig.ufsData[uf]["Região"]][j] = 0;
+        newObj[visConfig.ufsData[uf]["Região"]][j] += dataset[uf][j];
       } else  {
-        newObj[visConfig.ufsData[uf]["Região"]][visConfig.proYearsObj[year]] += dataset[uf][year];
+        newObj[visConfig.ufsData[uf]["Região"]][j] += dataset[uf][j];
       }
     }
   }

@@ -140,10 +140,24 @@ var visConfig = {
   proSelStartTopMargin: 48,
   proMenuCirclesRadius: 5,
   proMenuCirclesHDist: 25,
-  proMenuCirclesWDist: 90,
+  proMenuCirclesWDist: 85,
   proMenuSelectionSize: 10,
   proMenuTitleSize: 14,
   proMenuSecondTitleTopMargin: 20,
+  proWMargin: 12,
+
+  // Graph
+
+  proYAxisH: 334,
+  proXAxisW: 840,
+  proAxisStartW: 311,
+  proAxisStartH: 458,
+  proYearsLabelTopMargin: 35,
+  proYearsLabelLeftMargin: 262,
+  proProdLabelTopMargin: 97,
+  proProdLabelLeftMargin: 266,
+  proLabelSize: 13,
+  proLabelRightMargin: 10,
 
 
   // Utilities
@@ -264,6 +278,31 @@ var visConfig = {
     "Nordeste": "#B2B2B2",
     "Centro-Oeste": "#CCCCCC",
     "Norte": "#E6E6E6"
+  },
+  regionsFilter: {
+    "Sudeste": true,
+    "Sul": true,
+    "Nordeste": true,
+    "Centro-Oeste": true,
+    "Norte": true
+  },
+  proUfsFilter: {
+    "RJ": false,
+    "SP": false,
+    "RS": false,
+    "MG": false,
+    "PE": false,
+    "DF": false,
+    "BA": false,
+    "CE": false,
+    "PR": false,
+    "SC": false,
+    "ES": false,
+    "MT": false,
+    "AM": false,
+    "MA": false,
+    "GO": false,
+    "SE": false
   },
   proYearsObj: {
       "1995": 0,
