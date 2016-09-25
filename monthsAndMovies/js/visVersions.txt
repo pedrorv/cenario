@@ -1,3 +1,0 @@
-vis1-0.js: Volume de filmes
-vis1-1.js: Abaco direita para esquerda
-vis1-2.js: Abaco esquerda para direita
