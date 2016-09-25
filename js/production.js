@@ -163,6 +163,14 @@ function createVisProduction(userWindowWidth) {
       .append("g")
       .attr("class", "axis");
 
+    d3.select("g.graph")
+      .append("g")
+      .attr("class", "paths");
+
+    d3.select("g.graph")
+      .append("g")
+      .attr("class", "circles");
+
 
     graph.append("text")
       .attr("class", "graph-description")
@@ -225,7 +233,7 @@ function createVisProduction(userWindowWidth) {
 
     for (var i = 0; i <= visConfig.proYearsArr.length; i++) {
       graph.append("text")
-        .attr("class", "axis-description")
+        .attr("class", "xaxis-description")
         .attr("x", function() {
           return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
         })
@@ -246,9 +254,9 @@ function createVisProduction(userWindowWidth) {
 
       var graph = d3.select("g.axis");
 
-      for (var i = 0; i <= (roundMultPowerTen(maxValue)/10); i++) {
+      for (var i = 0; i <= ((maxValue)/10); i++) {
         graph.append("text")
-          .attr("class", "xaxis-description")
+          .attr("class", "yaxis-description")
           .attr("i", i)
           .attr("x", function() {
             return (visConfig.proWMargin + visConfig.proAxisStartW - visConfig.proLabelRightMargin);
@@ -260,7 +268,7 @@ function createVisProduction(userWindowWidth) {
           .attr("fill", visConfig.natContinentColor)
           .attr("font-size", visConfig.proLabelSize)
           .text(function() {
-            return i * roundMultPowerTen(maxValue)/10;
+            return i * (maxValue)/10;
           });
       }
 
@@ -268,7 +276,7 @@ function createVisProduction(userWindowWidth) {
 
     function drawXAxisLabelsUpdate(maxValue) {
 
-      d3.selectAll("text.xaxis-description")
+      d3.selectAll("text.yaxis-description")
         .transition()
         .duration(200)
         .attr("y", function() {
@@ -279,9 +287,9 @@ function createVisProduction(userWindowWidth) {
           var self = d3.select(this);
           self.text(function() {
             var self = d3.select(this);
-            return parseInt(self.attr("i")) * roundMultPowerTen(maxValue)/10;
+            return parseInt(self.attr("i")) * (maxValue)/10;
           });
-          d3.selectAll("text.xaxis-description")
+          d3.selectAll("text.yaxis-description")
           .transition()
           .duration(200)
           .attr("y", function() {
@@ -289,6 +297,109 @@ function createVisProduction(userWindowWidth) {
             return parseFloat(self.attr("y")) + 1280;
           });
         });
+
+    }
+
+    function updateLine(identifier, dataset) {
+
+      d3.select("path#" + identifier).remove();
+
+      var circles = d3.select("g.circles");
+      var paths = d3.select("g.paths");
+
+      circles.selectAll("circle#" + identifier)
+        .data(dataset)
+        .transition()
+        .duration(150)
+        .attr("cx", function(d,i) {
+          return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
+        })
+        .attr("cy", function(d,i) {
+          var amount = d;
+          var y = amount * visConfig.proYAxisH / (visConfig.maxValueYAxis);
+          return visConfig.proAxisStartH - y;
+        });
+
+      var lineFunction = d3.svg
+                            .line()
+                            .x(function(d, i) {
+                              return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
+                            })
+                            .y(function(d, i) {
+                              var amount = d;
+                              var y = amount * visConfig.proYAxisH / (visConfig.maxValueYAxis);
+                              return visConfig.proAxisStartH - y;
+                            })
+                            .interpolate("linear");
+
+
+      var lineGraph = paths.append("path")
+                        .attr("id", identifier)
+                        .attr("d", lineFunction(dataset))
+                        .attr("stroke", "blue")
+                        .attr("stroke-width", 2)
+                        .attr("fill", "none")
+                        .attr("opacity", 0)
+                        .transition()
+                        .duration(200)
+                        .delay(150)
+                        .attr("opacity", 1);
+
+    }
+
+
+
+    function drawLine(identifier, dataset) {
+
+      var paths = d3.select("g.paths");
+      var circles = d3.select("g.circles");
+
+      var lineFunction = d3.svg
+                            .line()
+                            .x(function(d, i) {
+                              return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
+                            })
+                            .y(function(d, i) {
+                              var amount = d;
+                              var y = amount * visConfig.proYAxisH / (visConfig.maxValueYAxis);
+                              return visConfig.proAxisStartH - y;
+                            })
+                            .interpolate("linear");
+
+      var lineGraph = paths.append("path")
+                        .attr("id", identifier)
+                        .attr("d", lineFunction(dataset))
+                        .attr("stroke", "blue")
+                        .attr("stroke-width", 2)
+                        .attr("fill", "none")
+                        .attr("opacity", 0)
+                        .transition()
+                        .duration(200)
+                        .attr("opacity", 1);
+
+      circles.selectAll("circle#" + identifier)
+        .data(dataset)
+        .enter()
+        .append("circle")
+        .attr("id", identifier)
+        .attr("class", "graph-points")
+        .attr("cx", function(d,i) {
+          return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
+        })
+        .attr("cy", function(d,i) {
+          var amount = d;
+          var y = amount * visConfig.proYAxisH / (visConfig.maxValueYAxis);
+          return visConfig.proAxisStartH - y;
+        })
+        .attr("r", 5)
+        .attr("opacity", 0)
+        .transition()
+        .duration(150)
+        .delay(function(d,i) {
+          return 200 + i*50;
+        })
+        .attr("opacity", 1);
+
 
     }
 
@@ -328,175 +439,59 @@ function createVisProduction(userWindowWidth) {
         }
       }
 
-      if (!visConfig.maxValueXAxis) {
-        visConfig.maxValueXAxis = maxDataRegions;
-        drawXAxisLabels(visConfig.maxValueXAxis);
-      } else if (visConfig.maxValueXAxis != maxDataRegions) {
-        visConfig.maxValueXAxis = maxDataRegions;
-        drawXAxisLabelsUpdate(visConfig.maxValueXAxis);
+      if (!visConfig.maxValueYAxis) {
+        visConfig.maxValueYAxis = roundMultPowerTen(maxDataRegions);
+        drawXAxisLabels(visConfig.maxValueYAxis);
+      } else if (visConfig.maxValueYAxis != roundMultPowerTen(maxDataRegions)) {
+        visConfig.previousMaxYValue = visConfig.maxValueYAxis;
+        visConfig.maxValueYAxis = roundMultPowerTen(maxDataRegions);
+        drawXAxisLabelsUpdate(visConfig.maxValueYAxis);
       } else {
-        if (!d3.selectAll("text.xaxis-description")[0][0]) {
-          drawXAxisLabels(visConfig.maxValueXAxis);
+        visConfig.previousMaxYValue = visConfig.maxValueYAxis;
+        if (d3.selectAll("text.yaxis-description").empty()) {
+          drawXAxisLabels(visConfig.maxValueYAxis);
         }
       }
 
+      for (var region in visConfig.regionsData) {
+        var id = region.toLowerCase();
+        if (visConfig.regionsFilter[region]) {
+          if (d3.selectAll("circle#" + id).empty()) {
+            drawLine(id, visConfig.regionsData[region]);
+          } else {
+            if (visConfig.maxValueYAxis !== visConfig.previousMaxYValue) {
+              updateLine(id, visConfig.regionsData[region]);
+            }
+          }
+        }
+        else {
+          if (!d3.selectAll("circle#" + id).empty()) {
+            d3.selectAll("circle#" + id).remove();
+            d3.selectAll("path#" + id).remove();
+          }
+        }
+      }
 
+      for (var uf in visConfig.productionData) {
+        var id = uf.toLowerCase();
+        if (visConfig.proUfsFilter[uf]) {
+          if (d3.selectAll("circle#" + id).empty()) {
+            drawLine(id, visConfig.productionData[uf]);
+          } else {
+            if (visConfig.maxValueYAxis !== visConfig.previousMaxYValue) {
+              updateLine(id, visConfig.productionData[uf]);
+            }
+          }
+        }
+        else {
+          if (!d3.selectAll("circle#" + id).empty()) {
+            d3.selectAll("circle#" + id).remove();
+            d3.selectAll("path#" + id).remove();
+          }
+        }
+      }
 
     }
-
-
-      //
-      // for (var i = 0; i <= 10; i++) {
-      //   graph.append("line")
-      //     .attr("x1", function() {
-      //       return visConfig.natGraphLeft + i * ((visConfig.width - visConfig.natGraphLeft - visConfig.natGraphRight)/10);
-      //     })
-      //     .attr("y1", function() {
-      //       return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natGraphAxisDivHeight;
-      //     })
-      //     .attr("x2", function() {
-      //       return visConfig.natGraphLeft + i * ((visConfig.width - visConfig.natGraphLeft - visConfig.natGraphRight)/10);
-      //     })
-      //     .attr("y2", function() {
-      //       return visConfig.height - visConfig.natHMarginGraphAxis + visConfig.natGraphAxisDivHeight;
-      //     })
-      //     .attr("stroke", visConfig.monthBoxHexValue)
-      //     .attr("stroke-width", visConfig.natGraphStrokeWidth);
-      //
-      // graph.append("text")
-      //   .attr("class", "axis-description")
-      //   .attr("x", function() {
-      //     return visConfig.natGraphLeft + i * ((visConfig.width - visConfig.natGraphLeft - visConfig.natGraphRight)/10);
-      //   })
-      //   .attr("y", function() {
-      //     return visConfig.height - visConfig.natHMarginGraphAxis + visConfig.natGraphAxisDivHeight + 1.5*visConfig.natContinentNameSize;
-      //   })
-      //   .attr("text-anchor", "middle")
-      //   .attr("fill", visConfig.natContinentColor)
-      //   .attr("font-size", visConfig.natSubTitleSize)
-      //   .text(function() {
-      //     return visConfig.publicFilter.min + i*(maxDataNations - visConfig.publicFilter.min)/10;
-      //   });
-      // }
-      //
-      // // Drawing Graph
-      //
-      // var auxContinent = 0;
-      // for (var continent = 0; continent < dataHolder.length; continent++) {
-      //
-      //   if (dataHolder[continent].length > 0) {
-      //
-      //     for (var country = 0; country < dataHolder[continent].length; country++) {
-      //
-      //       // Drawing Bars
-      //
-      //       graph.append("rect")
-      //         .attr("class", function() {
-      //           return "country-bar bar" + auxContinent + "-" + country;
-      //         })
-      //         .attr("item", function() {
-      //           return auxContinent + "-" + country;
-      //         })
-      //         .datum(dataHolder[continent][country])
-      //         .attr("x", function() {
-      //           if (auxContinent == 0 && country == 0) {
-      //               return visConfig.natWMargin;
-      //           } else {
-      //             if (country > 0) {
-      //               var reference = "rect.bar" + auxContinent + "-" + (country - 1);
-      //               var x = parseFloat(d3.select(reference).attr("x"));
-      //               var width = parseFloat(d3.select(reference).attr("width"));
-      //               return x + width + visConfig.natGraphSpacing;
-      //             } else {
-      //               var reference = "rect.bar" + (auxContinent-1) + "-" + (dataHolder[lastContinent].length - 1);
-      //               var x = parseFloat(d3.select(reference).attr("x"));
-      //               var width = parseFloat(d3.select(reference).attr("width"));
-      //               return x + width + visConfig.natGraphSpacing + visConfig.natGraphContinentSpacing;
-      //             }
-      //           }
-      //         })
-      //         .attr("y", function() {
-      //           return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph - visConfig.natHGraphBar;
-      //         })
-      //         .attr("width", function() {
-      //           var titles = dataHolder[continent][country]["Dados"]["Títulos"];
-      //           return (titles * totalWidthAvailable)/titlesSum;
-      //         })
-      //         .attr("height", visConfig.natHGraphBar)
-      //         .attr("fill", visConfig.continentsColors[visConfig.continentsArr[continent]])
-      //         .attr("stroke-width", 0)
-      //         .attr("stroke", "transparent")
-      //         .on("click", function() {
-      //           var self = d3.select(this);
-      //           var data = self.data()[0];
-      //           d3.select("text.country-description").text(data["País"]);
-      //           d3.select("text.titles-description").text(function() {
-      //             if (data["Dados"]["Títulos"] > 1) return data["Dados"]["Títulos"] + " filmes lançados";
-      //             return data["Dados"]["Títulos"] + " filme lançado";
-      //           });
-      //           d3.select("text.public-description").text(function() {
-      //             return formatNumber(parseInt(data["Dados"]["Média"])) + " espectadores em média";
-      //           });
-      //           d3.selectAll("rect.country-bar").attr("stroke", "transparent").attr("stroke-width", 0);
-      //           d3.selectAll("path.country-path").attr("stroke", "transparent").attr("stroke-width", 0);
-      //           self.attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
-      //           d3.select("path.path" + self.attr("item")).attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
-      //         });
-      //
-      //       // Drawing Paths
-      //
-      //       graph.append("path")
-      //         .attr("class", function() {
-      //           return "country-path path" + auxContinent + "-" + country;
-      //         })
-      //         .datum(dataHolder[continent][country])
-      //         .attr("d", function() {
-      //             var avrg = dataHolder[continent][country]["Dados"]["Média"];
-      //             var endingX = (avrg - visConfig.publicFilter.min) * totalAxisWidth / (maxDataNations - visConfig.publicFilter.min);
-      //             endingX += visConfig.natGraphLeft;
-      //             var reference = "rect.bar" + auxContinent + "-" + (country);
-      //             var width = parseFloat(d3.select(reference).attr("width"));
-      //             var startingX = parseFloat(d3.select(reference).attr("x"));
-      //             var startingY = parseFloat(d3.select(reference).attr("y")) + visConfig.natHGraphBar;
-      //             var endingY = visConfig.height - visConfig.natHMarginGraphAxis;
-      //
-      //             return "M" + startingX + " " +
-      //                     startingY +
-      //                    " L" + (startingX + width) + " " + startingY +
-      //                    " L" + endingX + " " + endingY + " Z";
-      //         })
-      //         .attr("fill", visConfig.continentsColors[visConfig.continentsArr[continent]])
-      //         .attr("stroke-width", 0)
-      //         .attr("stroke", "transparent")
-      //         .on("click", function() {
-      //           var self = d3.select(this);
-      //           var data = self.data()[0];
-      //           d3.select("text.country-description").text(data["País"]);
-      //           d3.select("text.titles-description").text(function() {
-      //             if (data["Dados"]["Títulos"] > 1) return data["Dados"]["Títulos"] + " filmes lançados";
-      //             return data["Dados"]["Títulos"] + " filme lançado";
-      //           });
-      //           d3.select("text.public-description").text(function() {
-      //             return formatNumber(parseInt(data["Dados"]["Média"])) + " espectadores em média";
-      //           });
-      //           d3.selectAll("rect.country-bar").attr("stroke", "transparent").attr("stroke-width", 0);
-      //           d3.selectAll("path.country-path").attr("stroke", "transparent").attr("stroke-width", 0);
-      //           self.attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
-      //           d3.select("path.path" + self.attr("item")).attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
-      //         });
-      //
-      //     }
-      //
-      //     auxContinent++;
-      //     lastContinent = continent;
-      //   }
-      // }
-      // if (auxContinent === 0) {
-      //   d3.select("text.warning-description").text(function() {
-      //     return "Não há filmes desse(s) continente(s) com essa média de público selecionada.";
-      //   });
-      // }
-
 
     scaleVis(ratio);
   }
