@@ -17,6 +17,7 @@ function createVisProduction(userWindowWidth) {
 
   function createVis() {
 
+    // Initial state of vis
     for (var uf in visConfig.proUfsFilter) {
       visConfig.proUfsFilter[uf] = false;
     }
@@ -491,17 +492,28 @@ function createVisProduction(userWindowWidth) {
       }
 
       if (!visConfig.maxValueYAxis) {
+
         visConfig.maxValueYAxis = roundMultPowerTen(maxDataRegions);
         drawYAxisLabels(visConfig.maxValueYAxis);
+
       } else if (visConfig.maxValueYAxis != roundMultPowerTen(maxDataRegions)) {
+
         visConfig.previousMaxYValue = visConfig.maxValueYAxis;
         visConfig.maxValueYAxis = roundMultPowerTen(maxDataRegions);
-        drawYAxisLabelsUpdate(visConfig.maxValueYAxis);
+
+        if (d3.selectAll("text.yaxis-description").empty()) {
+          drawYAxisLabels(visConfig.maxValueYAxis);
+        } else {
+          drawYAxisLabelsUpdate(visConfig.maxValueYAxis);
+        }
+
       } else {
+
         visConfig.previousMaxYValue = visConfig.maxValueYAxis;
         if (d3.selectAll("text.yaxis-description").empty()) {
           drawYAxisLabels(visConfig.maxValueYAxis);
         }
+        
       }
 
       for (var region in visConfig.regionsData) {
