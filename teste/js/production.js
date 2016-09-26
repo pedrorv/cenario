@@ -211,8 +211,8 @@ function createVisProduction(userWindowWidth) {
       .attr("y2", function() {
         return visConfig.proAxisStartH;
       })
-      .attr("stroke", visConfig.monthBoxHexValue)
-      .attr("stroke-width", visConfig.natGraphStrokeWidth);
+      .attr("stroke", visConfig.proPathsColor)
+      .attr("stroke-width", visConfig.proLinesWidth);
 
 
     // Draw y line
@@ -228,8 +228,8 @@ function createVisProduction(userWindowWidth) {
       .attr("y2", function() {
         return visConfig.proAxisStartH - visConfig.proYAxisH;
       })
-      .attr("stroke", visConfig.monthBoxHexValue)
-      .attr("stroke-width", visConfig.natGraphStrokeWidth);
+      .attr("stroke", visConfig.proPathsColor)
+      .attr("stroke-width", visConfig.proLinesWidth);
 
     for (var i = 0; i <= visConfig.proYearsArr.length; i++) {
       graph.append("text")
@@ -246,11 +246,42 @@ function createVisProduction(userWindowWidth) {
         .text(function() {
           return visConfig.proYearsArr[i];
         });
+
+      if (i > 0) {
+        graph.append("line")
+          .attr("class", "x-guidelines")
+          .attr("x1", function() {
+            return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
+          })
+          .attr("y1", function() {
+            return visConfig.proAxisStartH;
+          })
+          .attr("x2", function() {
+            return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
+          })
+          .attr("y2", function() {
+            return visConfig.proAxisStartH - visConfig.proYAxisH;
+          })
+          .attr("stroke", visConfig.proGuidelinesColor)
+          .attr("stroke-width", visConfig.proLinesWidth);
+      }
+    }
+
+    for (var i = 1; i <= 10; i++) {
+      graph.append("line")
+        .attr("class", "y-guidelines")
+        .attr("i", i)
+        .attr("x1", (visConfig.proWMargin + visConfig.proAxisStartW))
+        .attr("x2", (visConfig.proWMargin + visConfig.proAxisStartW + visConfig.proXAxisW))
+        .attr("y1", (visConfig.proAxisStartH - i * (visConfig.proYAxisH/10)))
+        .attr("y2", (visConfig.proAxisStartH - i * (visConfig.proYAxisH/10)))
+        .attr("stroke", visConfig.proGuidelinesColor)
+        .attr("stroke-width", visConfig.proLinesWidth)
     }
 
     drawGraph();
 
-    function drawXAxisLabels(maxValue) {
+    function drawYAxisLabels(maxValue) {
 
       var graph = d3.select("g.axis");
 
@@ -274,7 +305,7 @@ function createVisProduction(userWindowWidth) {
 
     }
 
-    function drawXAxisLabelsUpdate(maxValue) {
+    function drawYAxisLabelsUpdate(maxValue) {
 
       d3.selectAll("text.yaxis-description")
         .transition()
@@ -302,12 +333,14 @@ function createVisProduction(userWindowWidth) {
 
     function updateLine(identifier, dataset) {
 
-      d3.select("path#" + identifier).remove();
+      var id = identifier.toLowerCase();
+
+      d3.select("path#" + id).remove();
 
       var circles = d3.select("g.circles");
       var paths = d3.select("g.paths");
 
-      circles.selectAll("circle#" + identifier)
+      circles.selectAll("circle#" + id)
         .data(dataset)
         .transition()
         .duration(150)
@@ -334,10 +367,10 @@ function createVisProduction(userWindowWidth) {
 
 
       var lineGraph = paths.append("path")
-                        .attr("id", identifier)
+                        .attr("id", id)
                         .attr("d", lineFunction(dataset))
-                        .attr("stroke", "blue")
-                        .attr("stroke-width", 2)
+                        .attr("stroke", visConfig.proPathsColor)
+                        .attr("stroke-width", visConfig.proLinesWidth)
                         .attr("fill", "none")
                         .attr("opacity", 0)
                         .transition()
@@ -354,6 +387,8 @@ function createVisProduction(userWindowWidth) {
       var paths = d3.select("g.paths");
       var circles = d3.select("g.circles");
 
+      var id = identifier.toLowerCase();
+
       var lineFunction = d3.svg
                             .line()
                             .x(function(d, i) {
@@ -367,21 +402,27 @@ function createVisProduction(userWindowWidth) {
                             .interpolate("linear");
 
       var lineGraph = paths.append("path")
-                        .attr("id", identifier)
+                        .attr("id", id)
                         .attr("d", lineFunction(dataset))
-                        .attr("stroke", "blue")
-                        .attr("stroke-width", 2)
+                        .attr("stroke", visConfig.proPathsColor)
+                        .attr("stroke-width", visConfig.proLinesWidth)
                         .attr("fill", "none")
                         .attr("opacity", 0)
                         .transition()
                         .duration(200)
                         .attr("opacity", 1);
 
-      circles.selectAll("circle#" + identifier)
+      if (!visConfig.regionsColors[identifier]) {
+        var fill = visConfig.regionsColors[visConfig.ufsData[identifier]["Região"]];
+      } else {
+        var fill = visConfig.regionsColors[identifier];
+      }
+
+      circles.selectAll("circle#" + id)
         .data(dataset)
         .enter()
         .append("circle")
-        .attr("id", identifier)
+        .attr("id", id)
         .attr("class", "graph-points")
         .attr("cx", function(d,i) {
           return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
@@ -391,7 +432,8 @@ function createVisProduction(userWindowWidth) {
           var y = amount * visConfig.proYAxisH / (visConfig.maxValueYAxis);
           return visConfig.proAxisStartH - y;
         })
-        .attr("r", 5)
+        .attr("r", visConfig.proCircleRadius)
+        .attr("fill", fill)
         .attr("opacity", 0)
         .transition()
         .duration(150)
@@ -441,15 +483,15 @@ function createVisProduction(userWindowWidth) {
 
       if (!visConfig.maxValueYAxis) {
         visConfig.maxValueYAxis = roundMultPowerTen(maxDataRegions);
-        drawXAxisLabels(visConfig.maxValueYAxis);
+        drawYAxisLabels(visConfig.maxValueYAxis);
       } else if (visConfig.maxValueYAxis != roundMultPowerTen(maxDataRegions)) {
         visConfig.previousMaxYValue = visConfig.maxValueYAxis;
         visConfig.maxValueYAxis = roundMultPowerTen(maxDataRegions);
-        drawXAxisLabelsUpdate(visConfig.maxValueYAxis);
+        drawYAxisLabelsUpdate(visConfig.maxValueYAxis);
       } else {
         visConfig.previousMaxYValue = visConfig.maxValueYAxis;
         if (d3.selectAll("text.yaxis-description").empty()) {
-          drawXAxisLabels(visConfig.maxValueYAxis);
+          drawYAxisLabels(visConfig.maxValueYAxis);
         }
       }
 
@@ -457,10 +499,10 @@ function createVisProduction(userWindowWidth) {
         var id = region.toLowerCase();
         if (visConfig.regionsFilter[region]) {
           if (d3.selectAll("circle#" + id).empty()) {
-            drawLine(id, visConfig.regionsData[region]);
+            drawLine(region, visConfig.regionsData[region]);
           } else {
             if (visConfig.maxValueYAxis !== visConfig.previousMaxYValue) {
-              updateLine(id, visConfig.regionsData[region]);
+              updateLine(region, visConfig.regionsData[region]);
             }
           }
         }
@@ -476,10 +518,10 @@ function createVisProduction(userWindowWidth) {
         var id = uf.toLowerCase();
         if (visConfig.proUfsFilter[uf]) {
           if (d3.selectAll("circle#" + id).empty()) {
-            drawLine(id, visConfig.productionData[uf]);
+            drawLine(uf, visConfig.productionData[uf]);
           } else {
             if (visConfig.maxValueYAxis !== visConfig.previousMaxYValue) {
-              updateLine(id, visConfig.productionData[uf]);
+              updateLine(uf, visConfig.productionData[uf]);
             }
           }
         }

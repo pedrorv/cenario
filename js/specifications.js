@@ -158,6 +158,11 @@ var visConfig = {
   proProdLabelLeftMargin: 266,
   proLabelSize: 13,
   proLabelRightMargin: 10,
+  proGuidelinesColor: "#CCCCCC",
+  proPathsColor: "#000000",
+  proLinesWidth: 1,
+  proCircleRadius: 5,
+
 
 
   // Utilities
