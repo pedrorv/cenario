@@ -77,6 +77,8 @@ function createVisProduction(userWindowWidth) {
           var self = d3.select(this);
           var uf = self.attr("id");
           visConfig.proUfsFilter[uf] = !visConfig.proUfsFilter[uf];
+          var region = visConfig.ufsData[uf]["Região"].toLowerCase();
+          self.classed(region, !self.classed(region));
           drawGraph();
         });
     }

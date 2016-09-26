@@ -145,6 +145,22 @@ circle.movies-ranking {
   fill: #cb7d9f;
 }
 
+p.sudeste {
+  border-bottom: 2px solid #1A1A1A;
+}
+p.sul {
+  border-bottom: 2px solid #666666;
+}
+p.nordeste {
+  border-bottom: 2px solid #b2b2b2;
+}
+p.centro-oeste {
+  border-bottom: 2px solid #cccccc;
+}
+p.norte {
+  border-bottom: 2px solid #e6e6e6;
+}
+
 circle:hover, rect.month, rect#lightbox:hover,
 text#close:hover, text.month, text.year, text.year-selector,
 rect.country-bar, path.country-path, p.uf, path.dropdown,
