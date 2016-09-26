@@ -87,7 +87,7 @@ function createVisProduction(userWindowWidth) {
           visConfig.proUfsFilter[uf] = !visConfig.proUfsFilter[uf];
           var region = visConfig.ufsData[uf]["Região"].toLowerCase();
           self.classed(region, !self.classed(region));
-          drawGraph();
+          updateGraph();
         });
     }
 
@@ -146,7 +146,7 @@ function createVisProduction(userWindowWidth) {
             return (self.attr("fill") == "white") ? visConfig.regionsColors[visConfig.regionsArr[region]] : "white";
           });
           visConfig.regionsFilter[visConfig.regionsArr[region]] = !visConfig.regionsFilter[visConfig.regionsArr[region]];
-          drawGraph();
+          updateGraph();
         });
 
       menuFilters.append("text")
@@ -333,9 +333,8 @@ function createVisProduction(userWindowWidth) {
           d3.selectAll("text.yaxis-description")
           .transition()
           .duration(200)
-          .attr("y", function() {
-            var self = d3.select(this);
-            return parseFloat(self.attr("y")) + 1280;
+          .attr("y", function(d,i) {
+            return visConfig.proAxisStartH - i * (visConfig.proYAxisH/10);
           });
         });
 
@@ -384,7 +383,7 @@ function createVisProduction(userWindowWidth) {
                         .attr("fill", "none")
                         .attr("opacity", 0)
                         .transition()
-                        .duration(200)
+                        .duration(100)
                         .delay(150)
                         .attr("opacity", 1);
 
@@ -419,7 +418,8 @@ function createVisProduction(userWindowWidth) {
                         .attr("fill", "none")
                         .attr("opacity", 0)
                         .transition()
-                        .duration(200)
+                        .duration(100)
+                        .delay(200)
                         .attr("opacity", 1);
 
       if (!visConfig.regionsColors[identifier]) {
@@ -448,11 +448,15 @@ function createVisProduction(userWindowWidth) {
         .transition()
         .duration(150)
         .delay(function(d,i) {
-          return 200 + i*50;
+          return i*10;
         })
         .attr("opacity", 1);
 
 
+    }
+
+    function updateGraph() {
+      setTimeout(drawGraph, 250);
     }
 
     function drawGraph() {
@@ -513,7 +517,7 @@ function createVisProduction(userWindowWidth) {
         if (d3.selectAll("text.yaxis-description").empty()) {
           drawYAxisLabels(visConfig.maxValueYAxis);
         }
-        
+
       }
 
       for (var region in visConfig.regionsData) {
