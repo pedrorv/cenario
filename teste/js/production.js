@@ -17,6 +17,13 @@ function createVisProduction(userWindowWidth) {
 
   function createVis() {
 
+    for (var uf in visConfig.proUfsFilter) {
+      visConfig.proUfsFilter[uf] = false;
+    }
+    for (var region in visConfig.regionsFilter) {
+      visConfig.regionsFilter[region] = true;
+    }
+
     var vis = d3.select("svg.vis")
       .append("g")
       .attr("class", "vis");
