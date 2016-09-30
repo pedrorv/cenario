@@ -19,6 +19,15 @@ function createVisNationalities(userWindowWidth) {
 
   function createVis() {
 
+    // Initial state of vis
+    for (var continent in visConfig.continentsFilter) {
+      visConfig.continentsFilter[continent] = true;
+    }
+
+    visConfig.natYearSelected = "2009";
+
+
+
     var vis = d3.select("svg.vis")
       .append("g")
       .attr("class", "vis");
@@ -28,61 +37,51 @@ function createVisNationalities(userWindowWidth) {
     var superscription = vis.append("g")
       .attr("class", "superscription");
 
+    // Vis Title
+
     superscription.append("text")
       .attr("class", "title")
-      .attr("x", function() {
-        return visConfig.natWMargin;
-      })
-      .attr("y", function() {
-        return visConfig.superHMargin + 1.5* visConfig.superTextSize;
-      })
+      .attr("x", visConfig.baseWMargin)
+      .attr("y", visConfig.baseHMarginVisTitle)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natTitleSize)
+      .attr("fill", visConfig.baseVisTitlesColors)
+      .attr("font-size", visConfig.baseVisTitleSize)
       .attr("font-weight", "bold")
       .text("Nacionalidades presentes no cinema brasileiro");
 
+    // Vis Subtitle
+
     superscription.append("text")
       .attr("class", "subtitle")
-      .attr("x", function() {
-        return visConfig.natWMargin;
-      })
-      .attr("y", function() {
-        return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize;
-      })
+      .attr("x", visConfig.baseWMargin)
+      .attr("y", visConfig.baseHMarginVisSubTitle)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natSubTitleSize)
+      .attr("fill", visConfig.baseVisTitlesColors)
+      .attr("font-size", visConfig.baseVisSubtitle)
       .text("De 2009 a 2014");
 
     var menuFilters = vis.append("g")
       .attr("class", "menu-filters");
 
-    menuFilters.append("text")
-      .attr("class", "subtitle")
-      .attr("x", function() {
-        return visConfig.natWMargin;
-      })
-      .attr("y", function() {
-        return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize +
-               visConfig.natMenuTitlesSize + visConfig.natMenuTitleTopMargin;
-      })
-      .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natMenuTitlesSize)
-      .text("Selecionar continentes");
+    // Fist menu filter title
 
     menuFilters.append("text")
       .attr("class", "subtitle")
-      .attr("x", function() {
-        return visConfig.natWMargin;
-      })
-      .attr("y", function() {
-        return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize +
-               visConfig.natMenuTitlesSize + visConfig.natMenuTitleTopMargin + visConfig.natMenuTitleBottomMargin + 6*visConfig.natMenuCirclesRadius;
-      })
+      .attr("x", visConfig.baseWMargin)
+      .attr("y", visConfig.natMenuFirstTitleH)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("fill", visConfig.baseVisMenusColors)
+      .attr("font-size", visConfig.natMenuTitlesSize)
+      .text("Selecionar continentes");
+
+    // Second menu filter title
+
+    menuFilters.append("text")
+      .attr("class", "subtitle")
+      .attr("x", visConfig.baseWMargin)
+      .attr("y", visConfig.natMenuSecondTitleH)
+      .attr("text-anchor", "start")
+      .attr("fill", visConfig.baseVisMenusColors)
       .attr("font-size", visConfig.natMenuTitlesSize)
       .text("Filtrar por média de público");
 
@@ -91,17 +90,18 @@ function createVisNationalities(userWindowWidth) {
 
     for (var i = 0; i < 6; i++) {
 
-      menuFilters.append("circle")
+      // Squares for first selection
+
+      menuFilters.append("rect")
         .attr("class", "continent-selector")
         .attr("r", visConfig.natMenuCirclesRadius)
         .attr("i", i)
-        .attr("cx", function() {
-          return visConfig.natGraphLeft + visConfig.natMenuCirclesRadius + (i*visConfig.natMenuWDistance);
+        .attr("x", function() {
+          return visConfig.baseWMargin + (i*visConfig.natMenuWDistance);
         })
-        .attr("cy", function() {
-          return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize +
-                 visConfig.natMenuTitlesSize + visConfig.natMenuTitleTopMargin + visConfig.natMenuTitleBottomMargin + visConfig.natMenuCirclesRadius;
-        })
+        .attr("y", (visConfig.natOptionsSquareH - visConfig.natOptionsSquareSide))
+        .attr("width", visConfig.natOptionsSquareSide)
+        .attr("height", visConfig.natOptionsSquareSide)
         .attr("fill", function() {
           return visConfig.continentsColors[visConfig.continentsArr[i]];
         })
@@ -117,34 +117,30 @@ function createVisNationalities(userWindowWidth) {
           drawGraph();
         });
 
+      // Texts for first selection
+
       menuFilters.append("text")
         .attr("class", "subtitle")
         .attr("x", function() {
-          return visConfig.natGraphLeft + 4*visConfig.natMenuCirclesRadius + (i*visConfig.natMenuWDistance);
+          return visConfig.natFirstOptionsTextW + (i*visConfig.natMenuWDistance);
         })
-        .attr("y", function() {
-          return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize +
-                 visConfig.natMenuTitlesSize + visConfig.natMenuTitleTopMargin + visConfig.natMenuTitleBottomMargin + 1.7*visConfig.natMenuCirclesRadius;
-        })
+        .attr("y", visConfig.natFirstOptionsTextH)
         .attr("text-anchor", "start")
-        .attr("fill", visConfig.monthBoxHexValue)
-        .attr("font-size", visConfig.natMenuOptionsSize)
-        .text(function() {
-          if (i === 6) return "Todos";
-          return visConfig.continentsArr[i];
-        });
+        .attr("fill", visConfig.baseVisMenusColors)
+        .attr("font-size", visConfig.natFirstOptionsTextSize)
+        .text(visConfig.continentsArr[i]);
+
+
+      // Circles for second selection
 
       menuFilters.append("circle")
         .attr("class", "value-selector")
         .attr("i", i)
-        .attr("r", visConfig.natMenuCirclesRadius)
+        .attr("r", visConfig.natOptionsCircleRadius)
         .attr("cx", function() {
-          return visConfig.natGraphLeft + visConfig.natMenuCirclesRadius + (i*visConfig.natMenuWDistance);
+          return visConfig.natOptionsCircleCenterW + (i*visConfig.natMenuWDistance);
         })
-        .attr("cy", function() {
-          return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize +
-                 visConfig.natMenuTitlesSize + visConfig.natMenuTitleTopMargin + 2*visConfig.natMenuTitleBottomMargin + 7*visConfig.natMenuCirclesRadius;
-        })
+        .attr("cy", visConfig.natOptionsCircleCenterH)
         .attr("fill", function() {
           if (i !== 5) return "white";
           return "black";
@@ -163,18 +159,17 @@ function createVisNationalities(userWindowWidth) {
           drawGraph();
         });
 
+      // Texts for second selection
+
       menuFilters.append("text")
         .attr("class", "subtitle")
         .attr("x", function() {
-          return visConfig.natGraphLeft + 4*visConfig.natMenuCirclesRadius + (i*visConfig.natMenuWDistance);
+          return visConfig.natSecondOptionsTextW + (i*visConfig.natMenuWDistance);
         })
-        .attr("y", function() {
-          return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize +
-                 visConfig.natMenuTitlesSize + visConfig.natMenuTitleTopMargin + 2*visConfig.natMenuTitleBottomMargin + 7.7*visConfig.natMenuCirclesRadius;
-        })
+        .attr("y", visConfig.natSecondOptionsTextH)
         .attr("text-anchor", "start")
-        .attr("fill", visConfig.monthBoxHexValue)
-        .attr("font-size", visConfig.natMenuOptionsSize)
+        .attr("fill", visConfig.baseVisMenusColors)
+        .attr("font-size", visConfig.natFirstOptionsTextSize)
         .text(function() {
           return visConfig.publicFilterOptions[i].text;
         });
@@ -190,22 +185,21 @@ function createVisNationalities(userWindowWidth) {
         })
         .attr("year", year)
         .attr("x", function() {
-          return visConfig.natGraphLeft + (visConfig.years[year]*visConfig.natMenuWDistance);
+          return visConfig.natMenuYearsW + (visConfig.years[year]*visConfig.natMenuWDistance);
         })
-        .attr("y", function() {
-          return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize +
-                 visConfig.natMenuTitlesSize + visConfig.natMenuTitleTopMargin + 2*visConfig.natMenuTitleBottomMargin + 14.7*visConfig.natMenuCirclesRadius;
-        })
+        .attr("y", visConfig.natMenuYearsH)
         .attr("text-anchor", "start")
-        .attr("fill", visConfig.monthBoxHexValue)
-        .attr("font-size", visConfig.natContinentNameSize)
+        .attr("fill", function() {
+          if (year == 2009) return visConfig.natMenuYearsColorSelected;
+          return visConfig.natMenuYearsColorNotSelected;
+        })
+        .attr("font-size", visConfig.natMenuYearsSize)
         .text(year)
         .on("click", function() {
-          d3.selectAll("text.year-selector").classed("bold", false);
-          d3.selectAll("text.year-selector").classed("light", true);
+          d3.selectAll("text.year-selector").classed("bold", false).classed("light", true).attr("fill", visConfig.natMenuYearsColorNotSelected);
+
           var self = d3.select(this);
-          self.classed("light", false);
-          self.classed("bold", true);
+          self.classed("light", false).classed("bold", true).attr("fill", visConfig.natMenuYearsColorSelected);
 
           visConfig.natYearSelected = self.attr("year");
           drawGraph();
@@ -233,25 +227,23 @@ function createVisNationalities(userWindowWidth) {
       var maxDataNations = 0;
       var minDataNations = Infinity;
 
-      for (var j = 0; j < dataHolder.length; j++) {
-        dataHolder[j].sort(function(a, b){return b["Dados"]["Títulos"]-a["Dados"]["Títulos"]});
-        if (dataHolder[j].length > 0) {
+      dataHolder.forEach(function(continent) {
+        continent.sort(function(a, b){return b["Dados"]["Títulos"]-a["Dados"]["Títulos"]});
+        if (continent.length > 0) {
           continentsSum++;
-          countriesSum += dataHolder[j].length;
-          if (dataHolder[j].length > 1) {
-            spacingSum += dataHolder[j].length - 1;
+          countriesSum += continent.length;
+          if (continent.length > 1) spacingSum += continent.length - 1;
+        }
+        continent.forEach(function(country) {
+          titlesSum += country["Dados"]["Títulos"];
+          if (country["Dados"]["Média"] > maxDataNations) {
+            maxDataNations = country["Dados"]["Média"];
           }
-        }
-        for (var k = 0; k < dataHolder[j].length; k++) {
-            titlesSum += dataHolder[j][k]["Dados"]["Títulos"];
-            if (dataHolder[j][k]["Dados"]["Média"] > maxDataNations) {
-              maxDataNations = dataHolder[j][k]["Dados"]["Média"];
-            }
-            if (dataHolder[j][k]["Dados"]["Média"] < minDataNations) {
-              minDataNations = dataHolder[j][k]["Dados"]["Média"];
-            }
-        }
-      }
+          if (country["Dados"]["Média"] < minDataNations) {
+            minDataNations = country["Dados"]["Média"];
+          }
+        })
+      });
 
       if (visConfig.publicFilter.max === Infinity) {
         maxDataNations = roundMultPowerTen(maxDataNations);
@@ -259,11 +251,10 @@ function createVisNationalities(userWindowWidth) {
         maxDataNations = visConfig.publicFilter.max;
       }
 
-      var totalWidthAvailable = visConfig.width - (visConfig.natGraphLeft + visConfig.natGraphRight
-        + (visConfig.natGraphSpacing * spacingSum)
+      var totalWidthAvailable = visConfig.natGraphXAxisW - ((visConfig.natGraphCountrySpacing * spacingSum)
         + ((continentsSum-1) * visConfig.natGraphContinentSpacing));
 
-      var totalAxisWidth = visConfig.width - visConfig.natGraphLeft - visConfig.natGraphRight;
+      var totalAxisWidth = visConfig.natGraphXAxisW;
 
       // Start Drawing
 
@@ -273,85 +264,69 @@ function createVisNationalities(userWindowWidth) {
       graph.append("text")
         .attr("class", "country-description")
         .attr("x", function() {
-          var deslc = (visConfig.width - (visConfig.natGraphLeft + visConfig.natGraphRight))/4;
-          return visConfig.natGraphLeft + deslc;
+          var deslc = (visConfig.natGraphXAxisW)/4;
+          return visConfig.baseWMargin + deslc;
         })
-        .attr("y", function() {
-          return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph - visConfig.natHGraphBar - (3 * visConfig.natContinentHMargin);
-        })
+        .attr("y", (visConfig.height - visConfig.natGraphTextDescriptionBottomMargin))
         .attr("text-anchor", "middle")
-        .attr("fill", visConfig.natContinentColor)
-        .attr("font-size", visConfig.natContinentNameSize)
+        .attr("fill", visConfig.natGraphTextDescriptionColor)
+        .attr("font-size", visConfig.natGraphTextDescriptionSize)
         .attr("font-weight", "bold")
         .text("");
 
       graph.append("text")
         .attr("class", "titles-description")
         .attr("x", function() {
-          var deslc = (visConfig.width - (visConfig.natGraphLeft + visConfig.natGraphRight))/4;
-          return visConfig.natGraphLeft + 2*deslc;
+          var deslc = (visConfig.natGraphXAxisW)/4;
+          return visConfig.baseWMargin + 2*deslc;
         })
-        .attr("y", function() {
-          return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph - visConfig.natHGraphBar - (3 * visConfig.natContinentHMargin);
-        })
+        .attr("y", (visConfig.height - visConfig.natGraphTextDescriptionBottomMargin))
         .attr("text-anchor", "middle")
-        .attr("fill", visConfig.natContinentColor)
-        .attr("font-size", visConfig.natContinentNameSize)
+        .attr("fill", visConfig.natGraphTextDescriptionColor)
+        .attr("font-size", visConfig.natGraphTextDescriptionSize)
         .attr("font-weight", "lighter")
         .text("");
 
       graph.append("text")
         .attr("class", "public-description")
         .attr("x", function() {
-          var deslc = (visConfig.width - (visConfig.natGraphLeft + visConfig.natGraphRight))/4;
-          return visConfig.natGraphLeft + 3*deslc;
+          var deslc = (visConfig.natGraphXAxisW)/4;
+          return visConfig.baseWMargin + 3*deslc;
         })
-        .attr("y", function() {
-          return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph - visConfig.natHGraphBar - (3 * visConfig.natContinentHMargin);
-        })
+        .attr("y", (visConfig.height - visConfig.natGraphTextDescriptionBottomMargin))
         .attr("text-anchor", "middle")
-        .attr("fill", visConfig.natContinentColor)
-        .attr("font-size", visConfig.natContinentNameSize)
+        .attr("fill", visConfig.natGraphTextDescriptionColor)
+        .attr("font-size", visConfig.natGraphTextDescriptionSize)
         .attr("font-weight", "lighter")
         .text("");
 
       graph.append("text")
         .attr("class", "warning-description")
         .attr("x", function() {
-          var deslc = (visConfig.width - (visConfig.natGraphLeft + visConfig.natGraphRight))/2;
-          return visConfig.natGraphLeft + deslc;
+          var deslc = (visConfig.natGraphXAxisW)/2;
+          return visConfig.baseWMargin + deslc;
         })
-        .attr("y", function() {
-          return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph - visConfig.natHGraphBar - (3 * visConfig.natContinentHMargin);
-        })
+        .attr("y", (visConfig.height - visConfig.natGraphTextDescriptionBottomMargin))
         .attr("text-anchor", "middle")
-        .attr("fill", visConfig.natContinentColor)
-        .attr("font-size", visConfig.natContinentNameSize)
+        .attr("fill", visConfig.natGraphTextDescriptionColor)
+        .attr("font-size", visConfig.natGraphTextDescriptionSize)
         .attr("font-weight", "lighter")
         .text("");
 
       graph.append("text")
         .attr("class", "graph-description")
-        .attr("x", function() {
-          return visConfig.natGraphLeft - 10;
-        })
-        .attr("y", function() {
-          return visConfig.height - visConfig.natHMarginGraphAxis;
-        })
-        .attr("text-anchor", "end")
+        .attr("x", visConfig.natGraphAxisLabelsW)
+        .attr("y", (visConfig.height - visConfig.natGraphXAxisLabelH))
+        .attr("text-anchor", "start")
         .attr("fill", visConfig.natContinentColor)
         .attr("font-size", visConfig.natSubTitleSize)
         .text("Média");
 
       graph.append("text")
         .attr("class", "graph-description")
-        .attr("x", function() {
-          return visConfig.natGraphLeft - 10;
-        })
-        .attr("y", function() {
-          return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph;
-        })
-        .attr("text-anchor", "end")
+        .attr("x", visConfig.natGraphAxisLabelsW)
+        .attr("y", (visConfig.height - visConfig.natGraphYAxisLabelH))
+        .attr("text-anchor", "start")
         .attr("fill", visConfig.natContinentColor)
         .attr("font-size", visConfig.natSubTitleSize)
         .text("Títulos");
@@ -361,65 +336,62 @@ function createVisNationalities(userWindowWidth) {
       // Continent line
 
       graph.append("line")
-        .attr("x1", visConfig.natGraphLeft)
-        .attr("y1", function() {
-          return visConfig.natMenuH - visConfig.natMenuHMargin;
-        })
+        .attr("x1", visConfig.natDivisionLineW)
+        .attr("y1", visConfig.natDivisionLineH)
         .attr("x2", function() {
-          return visConfig.width - visConfig.natGraphRight;
+          return visConfig.natDivisionLineW + visConfig.natDivisionLineSize;
         })
-        .attr("y2", function() {
-          return visConfig.natMenuH - visConfig.natMenuHMargin;
-        })
-        .attr("stroke", visConfig.monthBoxHexValue)
-        .attr("stroke-width", visConfig.natGraphStrokeWidth);
+        .attr("y2", visConfig.natDivisionLineH)
+        .attr("stroke", visConfig.natDivisionLineColor)
+        .attr("stroke-width", visConfig.natDivisionLineThickness);
+
 
       // Drawing Axis
 
       graph.append("line")
-        .attr("x1", visConfig.natGraphLeft)
+        .attr("x1", visConfig.baseWMargin)
         .attr("y1", function() {
-          return visConfig.height - visConfig.natHMarginGraphAxis;
+          return visConfig.height - visConfig.natGraphXAxisBottomMargin;
         })
         .attr("x2", function() {
-          return visConfig.width - visConfig.natGraphRight;
+          return visConfig.baseWMargin + visConfig.natGraphXAxisW;
         })
         .attr("y2", function() {
-          return visConfig.height - visConfig.natHMarginGraphAxis;
+          return visConfig.height - visConfig.natGraphXAxisBottomMargin;
         })
-        .attr("stroke", visConfig.monthBoxHexValue)
-        .attr("stroke-width", visConfig.natGraphStrokeWidth);
+        .attr("stroke", visConfig.natDivisionLineColor)
+        .attr("stroke-width", visConfig.natDivisionLineThickness);
 
       for (var i = 0; i <= 10; i++) {
         graph.append("line")
           .attr("x1", function() {
-            return visConfig.natGraphLeft + i * ((visConfig.width - visConfig.natGraphLeft - visConfig.natGraphRight)/10);
+            return visConfig.baseWMargin + i * (visConfig.natGraphXAxisW/10);
           })
           .attr("y1", function() {
-            return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natGraphAxisDivHeight;
+            return visConfig.height - visConfig.natGraphXAxisBottomMargin - visConfig.natGraphXAxisDivisionH;
           })
           .attr("x2", function() {
-            return visConfig.natGraphLeft + i * ((visConfig.width - visConfig.natGraphLeft - visConfig.natGraphRight)/10);
+            return visConfig.baseWMargin + i * (visConfig.natGraphXAxisW/10);
           })
           .attr("y2", function() {
-            return visConfig.height - visConfig.natHMarginGraphAxis + visConfig.natGraphAxisDivHeight;
+            return visConfig.height - visConfig.natGraphXAxisBottomMargin + visConfig.natGraphXAxisDivisionH;
           })
-          .attr("stroke", visConfig.monthBoxHexValue)
-          .attr("stroke-width", visConfig.natGraphStrokeWidth);
+          .attr("stroke", visConfig.natDivisionLineColor)
+          .attr("stroke-width", visConfig.natDivisionLineThickness);
 
       graph.append("text")
         .attr("class", "axis-description")
         .attr("x", function() {
-          return visConfig.natGraphLeft + i * ((visConfig.width - visConfig.natGraphLeft - visConfig.natGraphRight)/10);
+          return visConfig.baseWMargin + i * ((visConfig.natGraphXAxisW)/10);
         })
         .attr("y", function() {
-          return visConfig.height - visConfig.natHMarginGraphAxis + visConfig.natGraphAxisDivHeight + 1.5*visConfig.natContinentNameSize;
+          return visConfig.height - visConfig.natGraphXAxisLabelsH;
         })
         .attr("text-anchor", "middle")
-        .attr("fill", visConfig.natContinentColor)
-        .attr("font-size", visConfig.natSubTitleSize)
+        .attr("fill", visConfig.natGraphXAxisLabelColor)
+        .attr("font-size", visConfig.natGraphXAxisLabelsSize)
         .text(function() {
-          return visConfig.publicFilter.min + i*(maxDataNations - visConfig.publicFilter.min)/10;
+          return formatNumber((visConfig.publicFilter.min + i*(maxDataNations - visConfig.publicFilter.min)/10));
         });
       }
 
@@ -444,29 +416,29 @@ function createVisNationalities(userWindowWidth) {
               .datum(dataHolder[continent][country])
               .attr("x", function() {
                 if (auxContinent == 0 && country == 0) {
-                    return visConfig.natWMargin;
+                    return visConfig.baseWMargin;
                 } else {
                   if (country > 0) {
                     var reference = "rect.bar" + auxContinent + "-" + (country - 1);
                     var x = parseFloat(d3.select(reference).attr("x"));
                     var width = parseFloat(d3.select(reference).attr("width"));
-                    return x + width + visConfig.natGraphSpacing;
+                    return x + width + visConfig.natGraphCountrySpacing;
                   } else {
                     var reference = "rect.bar" + (auxContinent-1) + "-" + (dataHolder[lastContinent].length - 1);
                     var x = parseFloat(d3.select(reference).attr("x"));
                     var width = parseFloat(d3.select(reference).attr("width"));
-                    return x + width + visConfig.natGraphSpacing + visConfig.natGraphContinentSpacing;
+                    return x + width + visConfig.natGraphCountrySpacing + visConfig.natGraphContinentSpacing;
                   }
                 }
               })
               .attr("y", function() {
-                return visConfig.height - visConfig.natHMarginGraphAxis - visConfig.natHMarginGraph - visConfig.natHGraphBar;
+                return visConfig.height - visConfig.natGraphRectBottomMargin;
               })
               .attr("width", function() {
                 var titles = dataHolder[continent][country]["Dados"]["Títulos"];
                 return (titles * totalWidthAvailable)/titlesSum;
               })
-              .attr("height", visConfig.natHGraphBar)
+              .attr("height", visConfig.natGraphRectH)
               .attr("fill", visConfig.continentsColors[visConfig.continentsArr[continent]])
               .attr("stroke-width", 0)
               .attr("stroke", "transparent")
@@ -485,7 +457,12 @@ function createVisNationalities(userWindowWidth) {
                 d3.selectAll("path.country-path").attr("stroke", "transparent").attr("stroke-width", 0);
                 self.attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
                 d3.select("path.path" + self.attr("item")).attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
-              });
+              })
+              .attr("opacity", 0)
+              .transition()
+              .duration(50)
+              .delay(50 * country)
+              .attr("opacity", 1);
 
             // Drawing Paths
 
@@ -493,16 +470,19 @@ function createVisNationalities(userWindowWidth) {
               .attr("class", function() {
                 return "country-path path" + auxContinent + "-" + country;
               })
+              .attr("item", function() {
+                return auxContinent + "-" + country;
+              })
               .datum(dataHolder[continent][country])
               .attr("d", function() {
                   var avrg = dataHolder[continent][country]["Dados"]["Média"];
                   var endingX = (avrg - visConfig.publicFilter.min) * totalAxisWidth / (maxDataNations - visConfig.publicFilter.min);
-                  endingX += visConfig.natGraphLeft;
+                  endingX += visConfig.baseWMargin;
                   var reference = "rect.bar" + auxContinent + "-" + (country);
                   var width = parseFloat(d3.select(reference).attr("width"));
                   var startingX = parseFloat(d3.select(reference).attr("x"));
-                  var startingY = parseFloat(d3.select(reference).attr("y")) + visConfig.natHGraphBar;
-                  var endingY = visConfig.height - visConfig.natHMarginGraphAxis;
+                  var startingY = parseFloat(d3.select(reference).attr("y")) + visConfig.natGraphRectH;
+                  var endingY = visConfig.height - visConfig.natGraphXAxisBottomMargin;
 
                   return "M" + startingX + " " +
                           startingY +
@@ -526,8 +506,13 @@ function createVisNationalities(userWindowWidth) {
                 d3.selectAll("rect.country-bar").attr("stroke", "transparent").attr("stroke-width", 0);
                 d3.selectAll("path.country-path").attr("stroke", "transparent").attr("stroke-width", 0);
                 self.attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
-                d3.select("path.path" + self.attr("item")).attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
-              });
+                d3.select("rect.bar" + self.attr("item")).attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
+              })
+              .attr("opacity", 0)
+              .transition()
+              .duration(50)
+              .delay(50 + (50 * country))
+              .attr("opacity", 1);
 
           }
 

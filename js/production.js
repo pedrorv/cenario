@@ -295,7 +295,7 @@ function createVisProduction(userWindowWidth) {
 
       var graph = d3.select("g.axis");
 
-      for (var i = 0; i <= ((maxValue)/10); i++) {
+      for (var i = 0; i <= 10; i++) {
         graph.append("text")
           .attr("class", "yaxis-description")
           .attr("i", i)
@@ -319,7 +319,7 @@ function createVisProduction(userWindowWidth) {
 
       d3.selectAll("text.yaxis-description")
         .transition()
-        .duration(200)
+        .duration(150)
         .attr("y", function() {
           var self = d3.select(this);
           return parseFloat(self.attr("y")) - 1280;
@@ -332,7 +332,7 @@ function createVisProduction(userWindowWidth) {
           });
           d3.selectAll("text.yaxis-description")
           .transition()
-          .duration(200)
+          .duration(150)
           .attr("y", function(d,i) {
             return visConfig.proAxisStartH - i * (visConfig.proYAxisH/10);
           });
@@ -358,7 +358,7 @@ function createVisProduction(userWindowWidth) {
         })
         .attr("cy", function(d,i) {
           var amount = d;
-          var y = amount * visConfig.proYAxisH / (visConfig.maxValueYAxis);
+          var y = amount * visConfig.proYAxisH / (visConfig.proMaxYValue);
           return visConfig.proAxisStartH - y;
         });
 
@@ -369,7 +369,7 @@ function createVisProduction(userWindowWidth) {
                             })
                             .y(function(d, i) {
                               var amount = d;
-                              var y = amount * visConfig.proYAxisH / (visConfig.maxValueYAxis);
+                              var y = amount * visConfig.proYAxisH / (visConfig.proMaxYValue);
                               return visConfig.proAxisStartH - y;
                             })
                             .interpolate("linear");
@@ -405,7 +405,7 @@ function createVisProduction(userWindowWidth) {
                             })
                             .y(function(d, i) {
                               var amount = d;
-                              var y = amount * visConfig.proYAxisH / (visConfig.maxValueYAxis);
+                              var y = amount * visConfig.proYAxisH / (visConfig.proMaxYValue);
                               return visConfig.proAxisStartH - y;
                             })
                             .interpolate("linear");
@@ -439,7 +439,7 @@ function createVisProduction(userWindowWidth) {
         })
         .attr("cy", function(d,i) {
           var amount = d;
-          var y = amount * visConfig.proYAxisH / (visConfig.maxValueYAxis);
+          var y = amount * visConfig.proYAxisH / (visConfig.proMaxYValue);
           return visConfig.proAxisStartH - y;
         })
         .attr("r", visConfig.proCircleRadius)
@@ -495,27 +495,27 @@ function createVisProduction(userWindowWidth) {
         }
       }
 
-      if (!visConfig.maxValueYAxis) {
+      if (!visConfig.proMaxYValue) {
 
-        visConfig.maxValueYAxis = roundMultPowerTen(maxDataRegions);
-        drawYAxisLabels(visConfig.maxValueYAxis);
+        visConfig.proMaxYValue = roundMultPowerTen(maxDataRegions);
+        drawYAxisLabels(visConfig.proMaxYValue);
 
-      } else if (visConfig.maxValueYAxis != roundMultPowerTen(maxDataRegions)) {
+      } else if (visConfig.proMaxYValue != roundMultPowerTen(maxDataRegions)) {
 
-        visConfig.previousMaxYValue = visConfig.maxValueYAxis;
-        visConfig.maxValueYAxis = roundMultPowerTen(maxDataRegions);
+        visConfig.proPreviousMaxYValue = visConfig.proMaxYValue;
+        visConfig.proMaxYValue = roundMultPowerTen(maxDataRegions);
 
         if (d3.selectAll("text.yaxis-description").empty()) {
-          drawYAxisLabels(visConfig.maxValueYAxis);
+          drawYAxisLabels(visConfig.proMaxYValue);
         } else {
-          drawYAxisLabelsUpdate(visConfig.maxValueYAxis);
+          drawYAxisLabelsUpdate(visConfig.proMaxYValue);
         }
 
       } else {
 
-        visConfig.previousMaxYValue = visConfig.maxValueYAxis;
+        visConfig.proPreviousMaxYValue = visConfig.proMaxYValue;
         if (d3.selectAll("text.yaxis-description").empty()) {
-          drawYAxisLabels(visConfig.maxValueYAxis);
+          drawYAxisLabels(visConfig.proMaxYValue);
         }
 
       }
@@ -526,7 +526,7 @@ function createVisProduction(userWindowWidth) {
           if (d3.selectAll("circle#" + id).empty()) {
             drawLine(region, visConfig.regionsData[region]);
           } else {
-            if (visConfig.maxValueYAxis !== visConfig.previousMaxYValue) {
+            if (visConfig.proMaxYValue !== visConfig.proPreviousMaxYValue) {
               updateLine(region, visConfig.regionsData[region]);
             }
           }
@@ -545,7 +545,7 @@ function createVisProduction(userWindowWidth) {
           if (d3.selectAll("circle#" + id).empty()) {
             drawLine(uf, visConfig.productionData[uf]);
           } else {
-            if (visConfig.maxValueYAxis !== visConfig.previousMaxYValue) {
+            if (visConfig.proMaxYValue !== visConfig.proPreviousMaxYValue) {
               updateLine(uf, visConfig.productionData[uf]);
             }
           }

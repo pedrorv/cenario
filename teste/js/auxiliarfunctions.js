@@ -309,8 +309,8 @@ function returnGraphData(datasetGraph, continentFilter, publicFilter) {
       for (var country in datasetGraph[year][continent]) {
         var countryPublic = datasetGraph[year][continent][country]["Público"];
         var countryTitles = datasetGraph[year][continent][country]["Títulos"];
-        var avarage = countryPublic/countryTitles;
-        if (avarage >= publicFilter.min && avarage <= publicFilter.max) {
+        var average = countryPublic/countryTitles;
+        if (average >= publicFilter.min && average <= publicFilter.max) {
           newDataset[year][visConfig.continents[continent]].push(
             {
               "País": country,
@@ -380,8 +380,7 @@ function returnRegionsData(dataset) {
     }
     for (var j = 0; j < dataset[uf].length; j++) {
       if (!newObj[visConfig.ufsData[uf]["Região"]][j] && newObj[visConfig.ufsData[uf]["Região"]][j] !== 0) {
-        newObj[visConfig.ufsData[uf]["Região"]][j] = 0;
-        newObj[visConfig.ufsData[uf]["Região"]][j] += dataset[uf][j];
+        newObj[visConfig.ufsData[uf]["Região"]][j] = dataset[uf][j];
       } else  {
         newObj[visConfig.ufsData[uf]["Região"]][j] += dataset[uf][j];
       }

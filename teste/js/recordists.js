@@ -12,6 +12,10 @@ function createVisRecordists(userWindowWidth) {
 
   function createVis() {
 
+
+    visConfig.recModeSelected = "titles";
+    visConfig.recMaxYAxisValue = undefined;
+
     var vis = d3.select("svg.vis")
       .append("g")
       .attr("class", "vis");
@@ -23,398 +27,336 @@ function createVisRecordists(userWindowWidth) {
 
     superscription.append("text")
       .attr("class", "title")
-      .attr("x", function() {
-        return visConfig.natWMargin;
-      })
-      .attr("y", function() {
-        return visConfig.superHMargin + 1.5* visConfig.superTextSize;
-      })
+      .attr("x", visConfig.baseWMargin)
+      .attr("y", visConfig.baseHMarginVisTitle)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natTitleSize)
+      .attr("fill", visConfig.baseVisTitlesColors)
+      .attr("font-size", visConfig.baseVisTitleSize)
       .attr("font-weight", "bold")
       .text("Filmes nacionais com mais de 500mil espectadores");
 
     superscription.append("text")
       .attr("class", "subtitle")
-      .attr("x", function() {
-        return visConfig.natWMargin;
-      })
-      .attr("y", function() {
-        return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize;
-      })
+      .attr("x", visConfig.baseWMargin)
+      .attr("y", visConfig.baseHMarginVisSubTitle)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natSubTitleSize)
+      .attr("fill", visConfig.baseVisTitlesColors)
+      .attr("font-size", visConfig.baseVisSubtitle)
       .text("De 1970 a 2014");
 
-    superscription.append("text")
-      .attr("class", "subtitle")
-      .attr("x", function() {
-        return visConfig.recTreemapW + visConfig.recMovieDescMargin;
-      })
-      .attr("y", function() {
-        return visConfig.superHMargin + 1.5* visConfig.superTextSize;
-      })
-      .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natSubTitleSize)
-      .text("Ano selecionado");
-
-    superscription.append("text")
-      .attr("class", "subtitle year-selected")
-      .attr("x", function() {
-        return visConfig.recTreemapW + visConfig.recMovieDescMargin;
-      })
-      .attr("y", function() {
-        return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize;
-      })
-      .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natSubTitleSize)
-      .text("")
-      .attr("opacity", 0);
-
-    superscription.append("text")
-      .attr("class", "subtitle")
-      .attr("x", function() {
-        return visConfig.recTreemapW + visConfig.recMovieDescMargin + visConfig.recMovieDescSubWMargin;
-      })
-      .attr("y", function() {
-        return visConfig.superHMargin + 1.5* visConfig.superTextSize;
-      })
-      .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natSubTitleSize)
-      .text("Comparar com");
-
-    superscription.append("text")
-      .attr("class", "subtitle year-compared")
-      .attr("x", function() {
-        return visConfig.recTreemapW + visConfig.recMovieDescMargin + visConfig.recMovieDescSubWMargin;
-      })
-      .attr("y", function() {
-        return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize;
-      })
-      .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natSubTitleSize)
-      .text("")
-      .attr("opacity", 0);
-
-    superscription.append("path")
-      .attr("class", "dropdown")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("d", function() {
-        var size = 10;
-        var startingX = visConfig.recTreemapW + visConfig.recMovieDescMargin + visConfig.recMovieDescSubWMargin + 90;
-        var startingY = visConfig.superHMargin + 1.5* visConfig.superTextSize - visConfig.natSubTitleSize + 3;
-        return "M " + startingX + " " + startingY +
-               "L " + (startingX + size) + " " + startingY +
-               "L " + (startingX + (size/2)) + " " + (startingY + (size*Math.sqrt(3)/2)) +
-               " Z";
-      })
+    superscription.append("circle")
+      .attr("cx", 20)
+      .attr("cy", 20)
+      .attr("r", 10)
       .on("click", function() {
-        drawMenu();
+        visConfig.recModeSelected = (visConfig.recModeSelected === "titles") ? "public" : "titles";
+        drawGraph();
       });
 
 
-    visConfig.recDecadesData = returnTreemapDecadeData(visConfig.recordistsData);
+    // Start Drawing Axis Base
 
-    var treemapDecades = d3.layout.treemap()
-      .size([visConfig.recTreemapW, visConfig.recTreemapH])
-      .sticky(true)
-      .sort(function(a, b) {
-        var aInt = parseInt(a.name),
-            bInt = parseInt(b.name);
+    var graph = vis.append("g")
+      .attr("class", "graph")
+      .append("g")
+      .attr("class", "axis");
 
-        var a1 = (aInt < 20) ? (2000 + aInt) : (1900 + aInt);
-        var b1 = (bInt < 20) ? (2000 + bInt) : (1900 + bInt);
-        return b1 - a1;
-      })
-      .value(function(d) { return d.size; });
-
-    var gtreemap = vis.append("g")
-        .attr("class", "treemap");
-
-    var node = gtreemap.datum(visConfig.recDecadesData)
-        .selectAll(".node")
-        .data(treemapDecades.nodes)
-        .enter()
-        .append("g")
-        .attr("class", function(d) {
-          return ("decade-treemap" + d.name);
-        });
-
-        node.append("rect")
-        .attr("class", "node")
-        .attr("x", function(d) { return (visConfig.recTreemapMarginLeft + parseFloat(d.x)); })
-        .attr("y", function(d) { return (visConfig.recTreemapMarginTop  + parseFloat(d.y)); })
-        .attr("width", function(d) {  return Math.max(0, d.dx - 1); })
-        .attr("height", function(d) { return Math.max(0, d.dy - 1); })
-        .attr("fill", function(d) {
-          return visConfig.decadesColors[d.name];
-        })
-        .on("click", function(d) {
-          var reference = d3.select(this);
-          var referenceName = d.name;
-          var yearsData = returnTreemapYearsData(visConfig.recordistsData, referenceName);
-
-          var treemapYears = d3.layout.treemap()
-            .size([parseFloat(reference.attr("width")), parseFloat(reference.attr("height"))])
-            .sticky(true)
-            .sort(function(a, b) {
-              var aInt = parseInt(a.name),
-                  bInt = parseInt(b.name);
-              return bInt - aInt;
-            })
-            .value(function(d) { return d.size; });
+    d3.select("g.graph")
+      .append("g")
+      .attr("class", "data");
 
 
-          var nodeYear = d3.select(("g.decade-treemap" + referenceName))
-              .datum(yearsData)
-              .selectAll(".node")
-              .data(treemapYears.nodes)
-              .enter()
-              .append("g")
-              .attr("class", function(d) {
-                return ("year-treemap" + referenceName);
-              });
+    // Drawing x Axis
 
-          nodeYear.append("rect")
-            .attr("class", "node")
-            .attr("fill", visConfig.decadesColors[referenceName])
-            .attr("stroke", "white")
-            .attr("x", function(d) { return parseFloat(reference.attr("x")) + parseFloat(d.x); })
-            .attr("y", function(d) { return parseFloat(reference.attr("y")) + parseFloat(d.y); })
-            .attr("width", function(d) {  return Math.max(0, d.dx - 1); })
-            .attr("height", function(d) { return Math.max(0, d.dy - 1); })
-            .attr("opacity", 0)
-            .on("click", function(d) {
-              drawYearDetails(d.name, "selected");
-            })
-            .transition()
-            .duration(100)
-            .delay(function (d, i) {
-              return 100 * i;
-            })
-            .attr("opacity", 1);
+    graph.append("line")
+      .attr("x1", visConfig.recOriginW)
+      .attr("y1", (visConfig.height - visConfig.recOriginBottomMargin))
+      .attr("x2", (visConfig.recOriginW + visConfig.recGraphW))
+      .attr("y2", (visConfig.height - visConfig.recOriginBottomMargin))
+      .attr("stroke", visConfig.recGraphColor)
+      .attr("stroke-width", visConfig.recGraphThickness);
 
-        })
-        .text(function(d) { return d.children ? null : d.name; });
 
-        node.append("text")
-          .attr("fill", "#00ffff")
-          .attr("x", function(d) {
-            return (visConfig.recTreemapMarginLeft + parseFloat(d.x)) + 15;
-          })
-          .attr("y", function(d) {
-            return (visConfig.recTreemapMarginTop + parseFloat(d.y)) + 15;
-          })
-          .attr("font-size", 15)
-          .text(function(d) {
-            return d.name;
-          });
+    // Draw y line
 
-    function drawYearDetails(year, type) {
+    graph.append("line")
+      .attr("x1", visConfig.recOriginW)
+      .attr("y1", (visConfig.height - visConfig.recOriginBottomMargin))
+      .attr("x2", visConfig.recOriginW)
+      .attr("y2", (visConfig.height - visConfig.recOriginBottomMargin - visConfig.recGraphH))
+      .attr("stroke", visConfig.recGraphColor)
+      .attr("stroke-width", visConfig.recGraphThickness);
 
-      d3.select(("g.films-details-"+type)).remove();
+    var decCount = 0;
+    var maxMovieCount = 0;
 
-      d3.select(("text.year-" + type))
-        .text(("" + year))
-        .transition()
-        .duration(100)
-        .attr("opacity", 1);
-
-      var decade = (""+year)[2] + "0";
-
-      var sumPublic = 0,
-          moviesCount = visConfig.recordistsData[decade][year].length,
-          gFilmDetail = d3.select("g.vis")
-            .append("g")
-            .attr("class", ("films-details-"+type));
-
-      for (var movie = 0; movie < moviesCount; movie++) {
-        sumPublic += visConfig.recordistsData[decade][year][movie]["Público"];
-      }
-
-      visConfig.recordistsData[decade][year].sort(function(a,b) {
-        return b["Público"] - a["Público"];
-      });
-
-      for (var i = 0; i < moviesCount; i++) {
-        gFilmDetail
-          .append("rect")
-          .datum(visConfig.recordistsData[decade][year][i])
-          .attr("class", "film-detail-" + type + i)
-          .attr("x", function() {
-            if (type === "selected") {
-              return visConfig.recTreemapW + visConfig.recMovieDescMargin;
-            }
-            if (type === "compared") {
-              return visConfig.recTreemapW + visConfig.recMovieDescMargin + visConfig.recMovieDescSubWMargin;
-            }
-          })
-          .attr("y", function() {
-            if (i === 0) return visConfig.recTreemapMarginTop;
-            var previous = d3.select("rect.film-detail-" + type + (i-1));
-            return parseFloat(previous.attr("y")) + parseFloat(previous.attr("height"));
-          })
-          .attr("width", visConfig.recMoviesDescW)
-          .attr("height", function() {
-            return visConfig.recordistsData[decade][year][i]["Público"] * visConfig.recTreemapH/sumPublic;
-          })
-          .attr("fill", visConfig.moviesColors[i%5])
-          .attr("opacity", 0)
-          .transition()
-          .duration(50)
-          .delay((50 * i))
-          .attr("opacity", 1);
-      }
-
+    for (var decade in visConfig.recordistsData) {
+      decCount++;
     }
 
-    function drawMenu() {
+    var widthAvailable = visConfig.recGraphW - ((decCount - 1) * visConfig.recGraphDecadeSpacing);
+    var widthForDec = widthAvailable / decCount;
 
-      var menuData = [];
-      for (var decade in visConfig.recordistsData) {
-        var decInt = parseInt(decade);
-        menuData.push({
-          "decade": ((decInt < 20) ? (2000 + decInt) : (1900 + decInt)),
-          "years": []
-        });
-        for (var year in visConfig.recordistsData[decade]) {
-          menuData[menuData.length - 1]["years"].push(parseInt(year));
-        }
-        menuData[menuData.length - 1]["years"].sort(function(a, b) { return a - b; });
-      }
-      menuData.sort(function(a,b) {
-        return a.decade - b.decade;
-      });
-
-      var menu = superscription.append("g")
-        .attr("class", "compare-menu");
-
-      var menuLevel = menu.selectAll(".menu-level-one")
-        .data(menuData)
-        .enter()
-        .append("g")
-        .attr("class", "menu-level-one");
-
-      menuLevel.append("rect")
-        .attr("class", function(d,i) {
-          return "rect-lvl-one menu-dropdown rect" + i;
-        })
-        .attr("x", function(d, i) {
-            return visConfig.recTreemapW + visConfig.recMovieDescMargin + visConfig.recMovieDescSubWMargin + 90 + 5 - (visConfig.recMenuBoxW/2);
-        })
-        .attr("y", function(d, i) {
-            return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize + (visConfig.recMenuBoxH * i);
-        })
-        .attr("width", visConfig.recMenuBoxW)
-        .attr("height", visConfig.recMenuBoxH)
-        .attr("fill", visConfig.recMenuFill)
-        .on("click", function(d) {
-          var self = d3.select(this);
-          drawMenuItems(d.years, menu, self);
-        })
-        .attr("opacity", 0)
-        .transition()
-        .duration(50)
-        .delay(function(d,i) {
-          return (i * 50);
-        })
-        .attr("opacity", 1);
-
-      menuLevel.append("text")
-        .attr("class", "subtitle menu-dropdown")
-        .attr("i", function(d,i) {
-          return i;
-        })
+    for (var decade in visConfig.recordistsData) {
+      graph.append("text")
         .attr("x", function() {
-          return visConfig.recTreemapW + visConfig.recMovieDescMargin + visConfig.recMovieDescSubWMargin + 90 + 5;
+          return visConfig.recOriginW + widthForDec/2 + visConfig.decadesIndex[decade] * (widthForDec + visConfig.recGraphDecadeSpacing);
         })
-        .attr("y", function(d, i) {
-          return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize + (visConfig.recMenuBoxH * i) + visConfig.recMenuBoxH/2 + visConfig.natSubTitleSize/2;
-        })
+        .attr("y", (visConfig.height - visConfig.recGraphXAxisLabelsBottomMargin))
+        .attr("fill", visConfig.recGraphColor)
+        .attr("font-size", visConfig.recGraphLabelsSize)
         .attr("text-anchor", "middle")
-        .attr("fill", visConfig.monthBoxHexValue)
-        .attr("font-size", visConfig.natSubTitleSize)
-        .text(function(d) {
-          return d.decade;
-        })
-        .on("click", function(d) {
-          var self = d3.select(this);
-          drawMenuItems(d.years, menu, d3.select("rect.rect" + self.attr("i")));
-        })
-        .attr("opacity", 0)
-        .transition()
-        .duration(50)
-        .delay(function(d,i) {
-          return (i * 50);
-        })
-        .attr("opacity", 1);
+        .text(function() {
+          if (parseInt(decade) < 20) return "20" + decade;
+          return "19" + decade;
+        });
+    }
 
-      function drawMenuItems(data, reference, fatherReference) {
+    function drawYAxisLabels(limit, radius) {
 
-        var menuLevel = reference.selectAll(".menu-level-two")
-          .data(data)
-          .enter()
-          .append("g")
-          .attr("class", "menu-level-two");
-
-        menuLevel.append("rect")
-          .attr("class", "rect-lvl-two menu-dropdown")
-          .attr("x", function(d, i) {
-              return parseFloat(fatherReference.attr("x")) + visConfig.recMenuBoxW;
+      for (var i = 0; i <= 10; i++) {
+        graph.append("text")
+          .attr("class", "yaxis-description")
+          .attr("i", i)
+          .attr("x", visConfig.recOriginW - visConfig.recGraphYAxisWMargin)
+          .attr("y", function() {
+            return (visConfig.height - visConfig.recOriginBottomMargin) - i * (limit)/10 * (radius * 2);
           })
-          .attr("y", function(d, i) {
-              return parseFloat(fatherReference.attr("y")) + (visConfig.recMenuBoxH * i);
-          })
-          .attr("width", visConfig.recMenuBoxW)
-          .attr("height", visConfig.recMenuBoxH)
-          .attr("fill", visConfig.recMenuFill)
-          .attr("opacity", 0)
-          .on("click", function(d) {
-            drawYearDetails(d, "compared");
-            d3.select("g.compare-menu").remove();
-          })
-          .transition()
-          .duration(50)
-          .delay(function(d,i) {
-            return (i * 50);
-          })
-          .attr("opacity", 1);
-
-        menuLevel.append("text")
-          .attr("class", "subtitle menu-dropdown")
-          .attr("x", function() {
-            return parseFloat(fatherReference.attr("x")) + visConfig.recMenuBoxW + visConfig.recMenuBoxW/2;
-          })
-          .attr("y", function(d, i) {
-            return parseFloat(fatherReference.attr("y")) + (visConfig.recMenuBoxH * i) + visConfig.recMenuBoxH/2 + visConfig.natSubTitleSize/2;
-          })
-          .attr("text-anchor", "middle")
-          .attr("fill", visConfig.monthBoxHexValue)
-          .attr("font-size", visConfig.natSubTitleSize)
-          .text(function(d) {
-            return d;
-          })
-          .attr("opacity", 0)
-          .on("click", function(d) {
-            drawYearDetails(d, "compared");
-            d3.select("g.compare-menu").remove();
-          })
-          .transition()
-          .duration(50)
-          .delay(function(d,i) {
-            return (i * 50);
-          })
-          .attr("opacity", 1);
-
+          .attr("text-anchor", "end")
+          .attr("fill", visConfig.recGraphColor)
+          .attr("font-size", visConfig.recGraphLabelsSize)
+          .text(function() {
+            return i * (limit)/10;
+          });
       }
 
     }
+
+    function drawYAxisLabelsUpdate(maxValue, radius) {
+
+      if (visConfig.recModeSelected === "titles") {
+        d3.selectAll("text.yaxis-description")
+          .transition()
+          .duration(150)
+          .attr("y", function() {
+            var self = d3.select(this);
+            return parseFloat(self.attr("y")) - 1280;
+          })
+          .each("end", function() {
+            var self = d3.select(this);
+            self.text(function() {
+              var self = d3.select(this);
+              return formatNumber(parseInt(self.attr("i")) * (maxValue)/10);
+            });
+            d3.selectAll("text.yaxis-description")
+            .transition()
+            .duration(150)
+            .attr("y", function(d,i) {
+              return (visConfig.height - visConfig.recOriginBottomMargin) - i * (maxValue)/10 * (radius * 2);
+            });
+          });
+      }
+
+      else {
+        d3.selectAll("text.yaxis-description")
+          .transition()
+          .duration(150)
+          .attr("y", function() {
+            var self = d3.select(this);
+            return parseFloat(self.attr("y")) - 1280;
+          })
+          .each("end", function() {
+            var self = d3.select(this);
+            self.text(function() {
+              var self = d3.select(this);
+              return formatNumber(parseInt(self.attr("i")) * (maxValue)/10);
+            });
+            d3.selectAll("text.yaxis-description")
+            .transition()
+            .duration(150)
+            .attr("y", function(d,i) {
+              return visConfig.height - visConfig.recOriginBottomMargin - i * (visConfig.recGraphH/10);
+            });
+          });
+      }
+
+    }
+
+    function checkYAxisUpdate(limit, radius) {
+      if (!visConfig.recMaxYAxisValue) {
+
+        visConfig.recMaxYAxisValue = limit;
+        drawYAxisLabels(limit, radius);
+
+      } else if (visConfig.recMaxYAxisValue != limit) {
+
+        visConfig.recPreviousMaxYAxisValue = visConfig.recMaxYAxisValue;
+        visConfig.recMaxYAxisValue = limit;
+
+        drawYAxisLabelsUpdate(visConfig.recMaxYAxisValue, radius);
+
+      } else {
+
+        visConfig.recPreviousMaxYAxisValue = visConfig.recMaxYAxisValue;
+
+      }
+    }
+
+    function drawGraph() {
+
+      d3.select("g.graph-draw").remove();
+
+      var draw = d3.select("g.data")
+        .append("g")
+        .attr("class", "graph-draw");
+
+
+      if (visConfig.recModeSelected === "titles") {
+
+        var decCount = 0;
+        var maxMovieCount = 0;
+
+        for (var decade in visConfig.recordistsData) {
+          decCount++;
+          for (var year in visConfig.recordistsData[decade]) {
+            if (visConfig.recordistsData[decade][year].length > maxMovieCount) {
+              maxMovieCount = visConfig.recordistsData[decade][year].length;
+            }
+          }
+        }
+
+        var graphLimit = roundMultPowerTen(maxMovieCount);
+        var widthAvailable = visConfig.recGraphW - ((decCount - 1) * visConfig.recGraphDecadeSpacing);
+        var widthForDec = widthAvailable / decCount;
+        var moviesRadius = visConfig.recGraphH / graphLimit / 2;
+        var moviesDistance = (widthForDec - 10*2*moviesRadius)/9;
+
+        checkYAxisUpdate(graphLimit, moviesRadius);
+
+        for (var decade in visConfig.recordistsData) {
+          for (var year in visConfig.recordistsData[decade]) {
+            visConfig.recordistsData[decade][year].sort(function(a,b) {
+              return a["Público"] - b["Público"];
+            });
+            visConfig.recordistsData[decade][year].forEach(function(movie, movieIndex) {
+
+              draw.append("circle")
+                .attr("class", "movie-info")
+                .attr("cx", function() {
+                  var decIndex = visConfig.decadesIndex[decade];
+                  var yearIndex = parseInt(year[3]);
+                  return visConfig.recOriginW + moviesRadius +
+                         decIndex * (visConfig.recGraphDecadeSpacing + widthForDec) +
+                         yearIndex * (moviesDistance + moviesRadius*2);
+                })
+                .attr("cy", function() {
+                  return (visConfig.height - visConfig.recOriginBottomMargin - moviesRadius) -
+                         (moviesRadius*2 * movieIndex);
+                })
+                .attr("r", moviesRadius)
+                .attr("fill", function() {
+                  var p = movie["Público"];
+                  if (p > 10000000) {
+                    return "#1A1A1A";
+                  }
+                  if (p > 5000000) {
+                    return "#666666";
+                  }
+                  if (p > 2500000) {
+                    return "#B2B2B2";
+                  }
+                  if (p > 1000000) {
+                    return "#CCCCCC";
+                  }
+                  return "#E6E6E6";
+                })
+                .attr("stroke", "black")
+                .attr("stroke-width", 1)
+                .attr("opacity", 0)
+                .transition()
+                .duration(50)
+                .delay(function() {
+                  var yearIndex = parseInt(year[3]);
+                  return 50 + movieIndex * 10;
+                })
+                .attr("opacity", 1);
+
+            });
+          }
+        }
+
+      } else {
+
+        var decCount = 0;
+        var maxMovieCount = 0;
+
+        for (var decade in visConfig.recordistsData) {
+          decCount++;
+          for (var year in visConfig.recordistsData[decade]) {
+            if (visConfig.recordistsData[decade][year].length > maxMovieCount) {
+              maxMovieCount = visConfig.recordistsData[decade][year].length;
+            }
+          }
+        }
+
+        var graphLimit = roundMultPowerTen(maxMovieCount);
+        var widthAvailable = visConfig.recGraphW - ((decCount - 1) * visConfig.recGraphDecadeSpacing);
+        var widthForDec = widthAvailable / decCount;
+        var moviesRadius = visConfig.recGraphH / graphLimit / 2;
+        var moviesDistance = (widthForDec - 10*2*moviesRadius)/9;
+
+
+
+        var maxPublic = 0;
+        for (var decade in visConfig.recordistsData) {
+          for (var year in visConfig.recordistsData[decade]) {
+            var yearSum = 0;
+            visConfig.recordistsData[decade][year].forEach(function(movie) {
+              yearSum += movie["Público"];
+            });
+            if (maxPublic < yearSum) maxPublic = yearSum;
+
+            var graphLimit = roundMultPowerTen(maxPublic);
+
+            checkYAxisUpdate(graphLimit, moviesRadius);
+
+            draw.append("rect")
+              .attr("class", "year-info")
+              .attr("x", function() {
+                var decIndex = visConfig.decadesIndex[decade];
+                var yearIndex = parseInt(year[3]);
+                return visConfig.recOriginW +
+                       decIndex * (visConfig.recGraphDecadeSpacing + widthForDec) +
+                       yearIndex * (moviesDistance + moviesRadius*2);
+              })
+              .attr("y", function() {
+                return (visConfig.height - visConfig.recOriginBottomMargin) - yearSum * visConfig.recGraphH / graphLimit;
+              })
+              .attr("width", (moviesRadius * 2))
+              .attr("height", function() {
+                return yearSum * visConfig.recGraphH / graphLimit;
+              })
+              .attr("fill", function() {
+                  return "#1A1A1A";
+              })
+              .attr("stroke", "black")
+              .attr("stroke-width", 1)
+              .attr("opacity", 0)
+              .transition()
+              .duration(50)
+              .delay(function() {
+                var yearIndex = parseInt(year[3]);
+                return 50 + yearIndex * 10;
+              })
+              .attr("opacity", 1);
+
+          }
+        }
+      }
+
+    }
+
+    drawGraph();
 
     scaleVis(ratio);
   }

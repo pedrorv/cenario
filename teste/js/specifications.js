@@ -4,6 +4,78 @@ var visConfig = {
   height: 640,
   baseWidth: 1450,
 
+  // Base settings
+
+  baseWMargin: 79,
+  baseHMarginVisTitle: 37,
+  baseHMarginVisSubTitle: 59,
+  baseVisTitleSize: 20,
+  baseVisSubtitle: 15,
+  baseVisTitlesColors: "#333333",
+  baseVisMenusColors: "#000000",
+
+  // Nationalities specs
+
+  natMenuFirstTitleH: 89,
+  natMenuSecondTitleH: 138,
+  natOptionsSquareSide: 10,
+  natOptionsSquareH: 109,
+  natFirstOptionsTextW: 96,
+  natFirstOptionsTextH: 107,
+  natFirstOptionsTextSize: 10,
+  natOptionsCircleCenterH: 153,
+  natOptionsCircleRadius: 5,
+  natOptionsCircleCenterW: 84,
+  natSecondOptionsTextW: 96,
+  natSecondOptionsTextH: 157,
+  natMenuWDistance: 140,
+  natMenuYearsW: 146,
+  natMenuYearsH: 225,
+  natMenuYearsSize: 20,
+  natMenuYearsColorNotSelected: "#333333",
+  natMenuYearsColorSelected: "#23262B",
+  natDivisionLineW: 121,
+  natDivisionLineH: 235,
+  natDivisionLineSize: 1000,
+  natDivisionLineColor: "#333333",
+  natDivisionLineThickness: 1,
+  natGraphXAxisW: 1090,
+  natGraphXAxisBottomMargin: 50,
+  natGraphXAxisDivisionH: 10,
+  natGraphXAxisLabelsH: 23,
+  natGraphXAxisLabelsSize: 9,
+  natGraphXAxisLabelColor: "#000000",
+  natGraphRectBottomMargin: 333,
+  natGraphRectH: 63,
+  natGraphCountrySpacing: 2,
+  natGraphContinentSpacing: 15,
+  natGraphTextDescriptionBottomMargin: 367,
+  natGraphTextDescriptionSize: 15,
+  natGraphTextDescriptionColor: "#1A1A1A",
+  natGraphAxisLabelsW: 21,
+  natGraphXAxisLabelH: 50,
+  natGraphYAxisLabelH: 270,
+  natStrokesWidth: 1,
+  natStrokesColor: "#dd1924",
+
+
+  // Recordists Specs
+
+  recOriginBottomMargin: 63,
+  recOriginW: 160,
+  recGraphW: 875,
+  recGraphH: 481,
+  recGraphThickness: 2,
+  recGraphColor: "#000000",
+  recGraphDecadeSpacing: 25,
+  recGraphXAxisLabelsBottomMargin: 32,
+  recGraphLabelsSize: 10,
+  recGraphYAxisWMargin: 10,
+  recGraphMoviesRadius: 5,
+
+
+
+
   // Overview Visualization Specs
 
   // Color Scale
@@ -62,46 +134,6 @@ var visConfig = {
   circleRankingBiggerRadius: 25,
   circleRankingSmallerRadius: 7.5,
   circleRankingHMargin: 15,
-
-
-  // Nationalities Visualization Specs
-
-  // Menu Specs
-  natMenuH: 270,
-  natMenuHMargin: 24,
-  natMenuTitlesSize: 14,
-  natMenuOptionsSize: 10,
-  natMenuTitleTopMargin: 25,
-  natMenuTitleBottomMargin: 10,
-  natMenuLineHMargin: 62,
-  natMenuCirclesRadius: 5,
-  natMenuContinentWMargin: 50,
-  natMenuWDistance: 140,
-
-  // Titles Configs
-  natTitleSize: 18,
-  natSubTitleSize: 12,
-  natContinentNameSize: 16,
-  natContinentHMargin: 8,
-  natContinentColor: "#000000",
-
-  // Margins Configs
-  natWMargin: 79,
-  natHMarginGraph: 220,
-  natHMarginGraphAxis: 51,
-  natGraphLeft: 79,
-  natGraphRight: 50,
-  natGraphSpacing: 3,
-  natGraphContinentSpacing: 15,
-  natGraphAxisSpacing: 82.384615385,
-  natGraphAxisDivHeight: 7,
-  natGraphStrokeWidth: 1,
-
-  // Graph Configs
-  natHGraphBar: 62,
-  natYearSelected: "2009",
-  natStrokesWidth: 1,
-  natStrokesColor: "#dd1924",
 
 
 
@@ -222,6 +254,13 @@ var visConfig = {
     "70": "#B2B2B2",
     "80": "#CCCCCC",
     "90": "#E6E6E6"
+  },
+  decadesIndex: {
+    "00": 3,
+    "10": 4,
+    "70": 0,
+    "80": 1,
+    "90": 2
   },
   continentsArr: [
     "América do Sul",
