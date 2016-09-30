@@ -137,33 +137,6 @@ var visConfig = {
 
 
 
-  // Recordists Visualization Specs
-
-  // Decades
-
-  recDecBiggerArea: 16900,
-  recDecSmallerArea: 36,
-
-  // Treemap
-
-  recTreemapH: 516,
-  recTreemapW: 740,
-  recTreemapMarginLeft: 0,
-  recTreemapMarginTop: 80,
-
-  // Movies descriptions
-
-  recMovieDescMargin: 50,
-  recMovieDescSubWMargin: 224,
-  recMoviesDescW: 25,
-
-  // Comparison menu
-
-  recMenuBoxW: 40,
-  recMenuBoxH: 25,
-  recMenuFill: "#F4F4F4",
-
-
   // Production Visualization Specs
 
   // Menu

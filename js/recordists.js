@@ -50,7 +50,7 @@ function createVisRecordists(userWindowWidth) {
       .attr("r", 10)
       .on("click", function() {
         visConfig.recModeSelected = (visConfig.recModeSelected === "titles") ? "public" : "titles";
-        drawGraph();
+        drawGraph(graphLimit, moviesRadius, moviesDistance, widthForDec);
       });
 
 
@@ -92,10 +92,18 @@ function createVisRecordists(userWindowWidth) {
 
     for (var decade in visConfig.recordistsData) {
       decCount++;
+      for (var year in visConfig.recordistsData[decade]) {
+        if (visConfig.recordistsData[decade][year].length > maxMovieCount) {
+          maxMovieCount = visConfig.recordistsData[decade][year].length;
+        }
+      }
     }
 
+    var graphLimit = roundMultPowerTen(maxMovieCount);
     var widthAvailable = visConfig.recGraphW - ((decCount - 1) * visConfig.recGraphDecadeSpacing);
     var widthForDec = widthAvailable / decCount;
+    var moviesRadius = visConfig.recGraphH / graphLimit / 2;
+    var moviesDistance = (widthForDec - 10*2*moviesRadius)/9;
 
     for (var decade in visConfig.recordistsData) {
       graph.append("text")
@@ -202,7 +210,7 @@ function createVisRecordists(userWindowWidth) {
       }
     }
 
-    function drawGraph() {
+    function drawGraph(limit, radius, movDist, decWidth) {
 
       d3.select("g.graph-draw").remove();
 
@@ -213,24 +221,7 @@ function createVisRecordists(userWindowWidth) {
 
       if (visConfig.recModeSelected === "titles") {
 
-        var decCount = 0;
-        var maxMovieCount = 0;
-
-        for (var decade in visConfig.recordistsData) {
-          decCount++;
-          for (var year in visConfig.recordistsData[decade]) {
-            if (visConfig.recordistsData[decade][year].length > maxMovieCount) {
-              maxMovieCount = visConfig.recordistsData[decade][year].length;
-            }
-          }
-        }
-
-        var graphLimit = roundMultPowerTen(maxMovieCount);
-        var widthAvailable = visConfig.recGraphW - ((decCount - 1) * visConfig.recGraphDecadeSpacing);
-        var widthForDec = widthAvailable / decCount;
-        var moviesRadius = visConfig.recGraphH / graphLimit / 2;
-        var moviesDistance = (widthForDec - 10*2*moviesRadius)/9;
-
+        var graphLimit = limit;
         checkYAxisUpdate(graphLimit, moviesRadius);
 
         for (var decade in visConfig.recordistsData) {
@@ -245,15 +236,15 @@ function createVisRecordists(userWindowWidth) {
                 .attr("cx", function() {
                   var decIndex = visConfig.decadesIndex[decade];
                   var yearIndex = parseInt(year[3]);
-                  return visConfig.recOriginW + moviesRadius +
-                         decIndex * (visConfig.recGraphDecadeSpacing + widthForDec) +
-                         yearIndex * (moviesDistance + moviesRadius*2);
+                  return visConfig.recOriginW + radius +
+                         decIndex * (visConfig.recGraphDecadeSpacing + decWidth) +
+                         yearIndex * (movDist + radius*2);
                 })
                 .attr("cy", function() {
-                  return (visConfig.height - visConfig.recOriginBottomMargin - moviesRadius) -
-                         (moviesRadius*2 * movieIndex);
+                  return (visConfig.height - visConfig.recOriginBottomMargin - radius) -
+                         (radius*2 * movieIndex);
                 })
-                .attr("r", moviesRadius)
+                .attr("r", radius)
                 .attr("fill", function() {
                   var p = movie["Público"];
                   if (p > 10000000) {
@@ -287,26 +278,6 @@ function createVisRecordists(userWindowWidth) {
 
       } else {
 
-        var decCount = 0;
-        var maxMovieCount = 0;
-
-        for (var decade in visConfig.recordistsData) {
-          decCount++;
-          for (var year in visConfig.recordistsData[decade]) {
-            if (visConfig.recordistsData[decade][year].length > maxMovieCount) {
-              maxMovieCount = visConfig.recordistsData[decade][year].length;
-            }
-          }
-        }
-
-        var graphLimit = roundMultPowerTen(maxMovieCount);
-        var widthAvailable = visConfig.recGraphW - ((decCount - 1) * visConfig.recGraphDecadeSpacing);
-        var widthForDec = widthAvailable / decCount;
-        var moviesRadius = visConfig.recGraphH / graphLimit / 2;
-        var moviesDistance = (widthForDec - 10*2*moviesRadius)/9;
-
-
-
         var maxPublic = 0;
         for (var decade in visConfig.recordistsData) {
           for (var year in visConfig.recordistsData[decade]) {
@@ -318,7 +289,7 @@ function createVisRecordists(userWindowWidth) {
 
             var graphLimit = roundMultPowerTen(maxPublic);
 
-            checkYAxisUpdate(graphLimit, moviesRadius);
+            checkYAxisUpdate(graphLimit, radius);
 
             draw.append("rect")
               .attr("class", "year-info")
@@ -326,13 +297,13 @@ function createVisRecordists(userWindowWidth) {
                 var decIndex = visConfig.decadesIndex[decade];
                 var yearIndex = parseInt(year[3]);
                 return visConfig.recOriginW +
-                       decIndex * (visConfig.recGraphDecadeSpacing + widthForDec) +
-                       yearIndex * (moviesDistance + moviesRadius*2);
+                       decIndex * (visConfig.recGraphDecadeSpacing + decWidth) +
+                       yearIndex * (movDist + radius*2);
               })
               .attr("y", function() {
                 return (visConfig.height - visConfig.recOriginBottomMargin) - yearSum * visConfig.recGraphH / graphLimit;
               })
-              .attr("width", (moviesRadius * 2))
+              .attr("width", (radius * 2))
               .attr("height", function() {
                 return yearSum * visConfig.recGraphH / graphLimit;
               })
@@ -356,7 +327,7 @@ function createVisRecordists(userWindowWidth) {
 
     }
 
-    drawGraph();
+    drawGraph(graphLimit, moviesRadius, moviesDistance, widthForDec);
 
     scaleVis(ratio);
   }
