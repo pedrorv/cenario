@@ -39,14 +39,6 @@ svg {
   margin: 0 auto;
 }
 
-div#word-cloud {
-  position: absolute;
-  top: 32%;
-  height: 35%;
-  width: 20%;
-  left: 4.5%;
-}
-
 div.menu-container {
   width: 100%;
   background-color: #333;
@@ -87,15 +79,11 @@ div.vis-selector a {
 }
 
 div.vis-selector a.nav:hover {
-  box-sizing: border-box;
-  line-height: 52px;
-  border-bottom: 8px solid #dd1924;
+  box-shadow: 0px -5px 0px #dd1924 inset;
 }
 
 div.vis-selector a.selected-vis {
-  box-sizing: border-box;
-  line-height: 52px;
-  border-bottom: 8px solid #dd1924;
+  box-shadow: 0px -5px 0px #dd1924 inset;
 }
 
 div.vis-selector a:last-child {

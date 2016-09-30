@@ -73,6 +73,33 @@ var visConfig = {
   recGraphYAxisWMargin: 10,
   recGraphMoviesRadius: 5,
 
+  // Production Specs
+
+  proMenuFirstTitleH: 97,
+  proMenuFirstTitleW: 25,
+  proCircleOptionsRadius: 5,
+  proCircleOptionsW: 30,
+  proCircleOptionsWDistance: 80,
+  proCircleOptionsH: 115,
+  proCircleOptionsHDistance: 23,
+  proFirstOptionsW: 40,
+  proFirstOptionsH: 118,
+  proFirstOptionsSize: 10,
+  proMenuSecondTitleH: 184,
+  proMenuSecondTitleW: 25,
+  proMenuTitleSize: 18,
+  proMenuTitleColor: "#1A1A1A",
+  proMenuTextOptionsW: 25,
+  proMenuTextOptionsH: 194,
+  proMenuTextOptionsWTotal: 230,
+  proMenuTextOptionsHTotal: 190,
+  proMenuTextOptionsSmallerFont: 8,
+  proMenuTextOptionsBiggerFont: 25,
+  proMenuDivisionLineW: 250,
+  proMenuDivisionLineH: 86,
+  proMenuDivisionLineSize: 500,
+  proMenuDivisionLineColor: "#808080",
+
 
 
 

@@ -133,29 +133,21 @@ function createVisOverview(userWindowWidth) {
 
     superscription.append("text")
       .attr("class", "title")
-      .attr("x", function() {
-        return visConfig.natWMargin;
-      })
-      .attr("y", function() {
-        return visConfig.superHMargin + 1.5* visConfig.superTextSize;
-      })
+      .attr("x", visConfig.baseWMargin)
+      .attr("y", visConfig.baseHMarginVisTitle)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.superTextSize)
+      .attr("fill", visConfig.baseVisTitlesColors)
+      .attr("font-size", visConfig.baseVisTitleSize)
       .attr("font-weight", "bold")
       .text("As variações do cinema brasileiro");
 
     superscription.append("text")
       .attr("class", "title-description")
-      .attr("x", function() {
-        return visConfig.natWMargin;
-      })
-      .attr("y", function() {
-        return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize;
-      })
+      .attr("x", visConfig.baseWMargin)
+      .attr("y", visConfig.baseHMarginVisSubTitle)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.superSubtextSize)
+      .attr("fill", visConfig.baseVisTitlesColors)
+      .attr("font-size", visConfig.baseVisSubtitle)
       .text("Público e número de títulos mensais");
 
     superscription.append("text")

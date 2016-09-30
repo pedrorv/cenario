@@ -35,7 +35,8 @@
     <script type="text/javascript">
 
       // Create a svg and resize according to user screen
-      var svg = d3.select("div.visualization").append("svg")
+      var svg = d3.select("div.visualization")
+          .append("svg")
           .attr("class", "vis")
           .attr("width", visConfig.width)
           .attr("height", visConfig.height);

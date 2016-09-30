@@ -36,33 +36,36 @@ function createVisProduction(userWindowWidth) {
 
     superscription.append("text")
       .attr("class", "title")
-      .attr("x", function() {
-        return visConfig.natWMargin;
-      })
-      .attr("y", function() {
-        return visConfig.superHMargin + 1.5* visConfig.superTextSize;
-      })
+      .attr("x", visConfig.baseWMargin)
+      .attr("y", visConfig.baseHMarginVisTitle)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natTitleSize)
+      .attr("fill", visConfig.baseVisTitlesColors)
+      .attr("font-size", visConfig.baseVisTitleSize)
       .attr("font-weight", "bold")
       .text("Produção nacional");
 
     superscription.append("text")
       .attr("class", "subtitle")
-      .attr("x", function() {
-        return visConfig.natWMargin;
-      })
-      .attr("y", function() {
-        return 2 * visConfig.superHMargin + 1.5* visConfig.superTextSize + visConfig.superSubtextSize;
-      })
+      .attr("x", visConfig.baseWMargin)
+      .attr("y", visConfig.baseHMarginVisSubTitle)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.natSubTitleSize)
+      .attr("fill", visConfig.baseVisTitlesColors)
+      .attr("font-size", visConfig.baseVisSubtitle)
       .text("Participação na produção cinematográfica brasileira por UF");
 
+    d3.select("div.visualization").style({
+      width: (visConfig.width * ratio) + "px"
+    });
+
     var ufs = d3.select("div.visualization").append("div")
-      .attr("id", "word-cloud");
+      .attr("id", "word-cloud")
+      .style({
+        position: "absolute",
+        top: ((visConfig.proMenuTextOptionsH/visConfig.height) * 100) + "%",
+        left: ((visConfig.proMenuTextOptionsW/visConfig.width) * 100) + "%",
+        width: ((visConfig.proMenuTextOptionsWTotal/visConfig.width) * 100) + "%",
+        height: ((visConfig.proMenuTextOptionsHTotal/visConfig.height) * 100) + "%"
+      });
 
     for (var uf in visConfig.ufsData) {
       ufs.append("p")
@@ -72,13 +75,14 @@ function createVisProduction(userWindowWidth) {
           "font-size": function() {
             var max = visConfig.ufsData['RJ']['Total'];
             var min = visConfig.ufsData['AM']['Total'];
-            var fontMax = 37;
-            var fontMin = 8;
-            return fontMin + (visConfig.ufsData[uf]["Total"] - min) * (fontMax - fontMin) / (max - min) + "px";
+            return visConfig.proMenuTextOptionsSmallerFont +
+                   (visConfig.ufsData[uf]["Total"] - min) *
+                   (visConfig.proMenuTextOptionsBiggerFont - visConfig.proMenuTextOptionsSmallerFont) /
+                   (max - min) + "px";
           },
           color: "#000",
           display: "inline-block",
-          padding: "5px"
+          margin: "0 5px 5px 0" 
         })
         .text(visConfig.ufsData[uf]["Estado"].toUpperCase())
         .on("click", function() {
@@ -96,29 +100,20 @@ function createVisProduction(userWindowWidth) {
 
     menuFilters.append("text")
       .attr("class", "subtitle")
-      .attr("x", function() {
-        return visConfig.proWMargin;
-      })
-      .attr("y", function() {
-        return visConfig.proMenuTopMargin;
-      })
+      .attr("x", visConfig.proMenuFirstTitleW)
+      .attr("y", visConfig.proMenuFirstTitleH)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("fill", visConfig.proMenuTitleColor)
       .attr("font-size", visConfig.proMenuTitleSize)
       .attr("font-weight", "bold")
       .text("Produção por região");
 
     menuFilters.append("text")
       .attr("class", "subtitle")
-      .attr("x", function() {
-        return visConfig.proWMargin;
-      })
-      .attr("y", function() {
-        return visConfig.proMenuTopMargin + visConfig.proSelStartTopMargin
-               + visConfig.proMenuCirclesHDist + visConfig.proMenuSecondTitleTopMargin;
-      })
+      .attr("x", visConfig.proMenuSecondTitleW)
+      .attr("y", visConfig.proMenuSecondTitleH)
       .attr("text-anchor", "start")
-      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("fill", visConfig.proMenuTitleColor)
       .attr("font-size", visConfig.proMenuTitleSize)
       .attr("font-weight", "bold")
       .text("Estados brasileiros produtores");
@@ -126,13 +121,13 @@ function createVisProduction(userWindowWidth) {
     for (var i = 0; i < visConfig.regionsArr.length; i++) {
       menuFilters.append("circle")
         .attr("class", "region-selector")
-        .attr("r", visConfig.natMenuCirclesRadius)
+        .attr("r", visConfig.proCircleOptionsRadius)
         .attr("i", i)
         .attr("cx", function() {
-          return visConfig.proWMargin + visConfig.proMenuCirclesRadius + ((i%3)*visConfig.proMenuCirclesWDist);
+          return visConfig.proCircleOptionsW + ((i%3)*visConfig.proCircleOptionsWDistance);
         })
         .attr("cy", function() {
-          return visConfig.proMenuTopMargin + ((Math.floor(i/3) + 1) * visConfig.proMenuCirclesHDist) + visConfig.proMenuCirclesRadius;
+          return visConfig.proCircleOptionsH + ((Math.floor(i/3)) * visConfig.proCircleOptionsHDistance);
         })
         .attr("fill", function() {
           return visConfig.regionsColors[visConfig.regionsArr[i]];
@@ -152,14 +147,14 @@ function createVisProduction(userWindowWidth) {
       menuFilters.append("text")
         .attr("class", "subtitle")
         .attr("x", function() {
-          return visConfig.proWMargin + 2.7*visConfig.proMenuCirclesRadius + ((i%3)*visConfig.proMenuCirclesWDist);
+          return visConfig.proFirstOptionsW + ((i%3)*visConfig.proCircleOptionsWDistance);
         })
         .attr("y", function() {
-          return visConfig.proMenuTopMargin + ((Math.floor(i/3) + 1) * visConfig.proMenuCirclesHDist) + 1.7*visConfig.proMenuCirclesRadius;
+          return visConfig.proFirstOptionsH + ((Math.floor(i/3)) * visConfig.proCircleOptionsHDistance);
         })
         .attr("text-anchor", "start")
-        .attr("fill", visConfig.monthBoxHexValue)
-        .attr("font-size", visConfig.proMenuSelectionSize)
+        .attr("fill", visConfig.proMenuTitleColor)
+        .attr("font-size", visConfig.proFirstOptionsSize)
         .text(function() {
           return visConfig.regionsArr[i];
         });
