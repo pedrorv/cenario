@@ -64,36 +64,28 @@
         visualSelection(this);
       });
 
-      var visOverview = d3.select(".overview").on("click", function() {
-	       userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-         d3.selectAll("div#word-cloud").remove();
-         visualSelection(this);
-         deleteVis();
-         createVisOverview(userWindowWidth);
+      function changeVis (reference, newVis) {
+        userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        d3.selectAll("div#word-cloud").remove();
+        visualSelection(reference);
+        deleteVis();
+        newVis(userWindowWidth);
+      }
+
+      var visOverview = d3.select("a.overview").on("click", function() {
+        changeVis(this, createVisOverview);
       });
 
-      var visNationalities = d3.select(".nationalities").on("click", function() {
-	       userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-         d3.selectAll("div#word-cloud").remove();
-         visualSelection(this);
-         deleteVis();
-         createVisNationalities(userWindowWidth);
+      var visNationalities = d3.select("a.nationalities").on("click", function() {
+        changeVis(this, createVisNationalities);
       });
 
-      var visRecordists = d3.select(".recordists").on("click", function() {
-	       userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-         d3.selectAll("div#word-cloud").remove();
-         visualSelection(this);
-         deleteVis();
-         createVisRecordists(userWindowWidth);
+      var visRecordists = d3.select("a.recordists").on("click", function() {
+        changeVis(this, createVisRecordists);
       });
 
-      var visProduction = d3.select(".production").on("click", function() {
-         d3.selectAll("div#word-cloud").remove();
-         userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-         visualSelection(this);
-         deleteVis();
-         createVisProduction(userWindowWidth);
+      var visProduction = d3.select("a.production").on("click", function() {
+        changeVis(this, createVisProduction);
       });
 
 
