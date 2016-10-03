@@ -275,6 +275,7 @@ function createVisRecordists(userWindowWidth) {
             visConfig.recordistsData[decade][year].forEach(function(movie, movieIndex) {
 
               draw.append("circle")
+                .datum(movie)
                 .attr("class", "movie-info")
                 .attr("cx", function() {
                   var decIndex = visConfig.decadesIndex[decade];
@@ -317,6 +318,93 @@ function createVisRecordists(userWindowWidth) {
                     .transition("all-shrink")
                     .duration(100)
                     .attr("r", radius);
+                })
+                .on("click", function() {
+                  d3.select("g.movie-detail").remove();
+
+                  var self = d3.select(this);
+                  var center = [parseFloat(self.attr("cx")), parseFloat(self.attr("cy"))];
+
+                  var details = draw.append("g")
+                    .attr("class", "movie-detail");
+
+                  var background = details.append("rect")
+                    .attr("class", "details-background")
+                    .attr("x", center[0])
+                    .attr("y", center[1])
+                    .attr("height", 0)
+                    .attr("width", 0)
+                    .attr("opacity", 0);
+
+                  var maxWidth = 0;
+                  var width,
+                      height = 0;
+
+                  var detailsText1 = details.append("text")
+                    .attr("class", "movie-detail")
+                    .attr("fill", "black")
+                    .attr("font-size", 10)
+                    .attr("opacity", 0)
+                    .text("Título: " + movie["Título"]);
+
+                  width = detailsText1.node().getBBox().width;
+                  height += detailsText1.node().getBBox().height;
+                  maxWidth = (width > maxWidth) ? width : maxWidth;
+
+                  var detailsText2 = details.append("text")
+                    .attr("class", "movie-detail")
+                    .attr("fill", "black")
+                    .attr("font-size", 10)
+                    .attr("opacity", 0)
+                    .text("UF: " + movie["UF"]);
+
+                  width = detailsText2.node().getBBox().width;
+                  height += detailsText2.node().getBBox().height;
+                  maxWidth = (width > maxWidth) ? width : maxWidth;
+
+                  var detailsText3 = details.append("text")
+                    .attr("class", "movie-detail")
+                    .attr("fill", "black")
+                    .attr("font-size", 10)
+                    .attr("opacity", 0)
+                    .text("Público: " + formatNumber(movie["Público"]));
+
+                  width = detailsText3.node().getBBox().width;
+                  height += detailsText3.node().getBBox().height;
+                  maxWidth = (width > maxWidth) ? width : maxWidth;
+
+                  background.attr("x", function() {
+                        if (center[0] > (visConfig.recOriginW + visConfig.recGraphW/2)) return center[0] - maxWidth - visConfig.recDetailsTotalPadding;
+                        return center[0];
+                      })
+                      .attr("y", center[1] - (height + 4*visConfig.recDetailsTextMargin))
+                      .attr("width", maxWidth + visConfig.recDetailsTotalPadding)
+                      .attr("height", (height + 4*visConfig.recDetailsTextMargin))
+                      .attr("fill", visConfig.recDetailsRectColor)
+                      .transition()
+                      .duration(100)
+                      .attr("opacity", 0.8);
+
+
+                   detailsText3.attr("y", center[1] - visConfig.recDetailsTextMargin);
+                   detailsText2.attr("y", function() {
+                     return center[1] - 2*visConfig.recDetailsTextMargin -
+                            detailsText3.node().getBBox().height;
+                   });
+                   detailsText1.attr("y", function() {
+                     return center[1] - 3*visConfig.recDetailsTextMargin -
+                            detailsText3.node().getBBox().height -
+                            detailsText2.node().getBBox().height;
+                   })
+
+                   d3.selectAll("text.movie-detail").attr("x", function() {
+                     if (center[0] > (visConfig.recOriginW + visConfig.recGraphW/2)) return center[0] - maxWidth - visConfig.recDetailsTotalPadding/2;
+                     return center[0] + visConfig.recDetailsTotalPadding/2;
+                   })
+                   .transition()
+                   .duration(100)
+                   .delay(50)
+                   .attr("opacity", 1);
                 })
                 .attr("opacity", 0)
                 .transition()
