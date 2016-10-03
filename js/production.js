@@ -82,7 +82,7 @@ function createVisProduction(userWindowWidth) {
           },
           color: "#000",
           display: "inline-block",
-          margin: "0 5px 5px 0" 
+          margin: "0 5px 5px 0"
         })
         .text(visConfig.ufsData[uf]["Estado"].toUpperCase())
         .on("click", function() {

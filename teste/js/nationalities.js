@@ -458,6 +458,22 @@ function createVisNationalities(userWindowWidth) {
                 self.attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
                 d3.select("path.path" + self.attr("item")).attr("stroke", visConfig.natStrokesColor).attr("stroke-width", visConfig.natStrokesWidth);
               })
+              .on("mouseover", function() {
+                var self = d3.select(this);
+                self
+                  .transition((self.datum()["País"] + "up"))
+                  .duration(100)
+                  .attr("y", (visConfig.height - visConfig.natGraphRectBottomMargin) - 10)
+                  .attr("height", visConfig.natGraphRectH + 10);
+              })
+              .on("mouseleave", function() {
+                var self = d3.selectAll("rect.country-bar");
+                self
+                  .transition("all-down")
+                  .duration(100)
+                  .attr("y", (visConfig.height - visConfig.natGraphRectBottomMargin))
+                  .attr("height", visConfig.natGraphRectH);
+              })
               .attr("opacity", 0)
               .transition()
               .duration(50)

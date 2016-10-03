@@ -121,11 +121,14 @@ line.highlight-division {
   stroke: #999;
 }
 
-text.month, text.year, text.year-selector, p.uf, text.title, text.subtitle, text.title-description, text.graph-description {
+/*text.month, text.year, text.year-selector, p.uf, text.title, text.subtitle, text.title-description, text.graph-description */
+
+text {
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
   user-select: none;          /* Likely future */
+  cursor: default;
 }
 
 circle.movies-ranking {
@@ -149,9 +152,13 @@ p.norte {
   border-bottom: 2px solid #e6e6e6;
 }
 
-circle:hover, rect.month, rect#lightbox:hover,
-text#close:hover, text.month, text.year, text.year-selector,
-rect.country-bar, path.country-path, p.uf, path.dropdown,
-rect.menu-dropdown, text.menu-dropdown {
+
+circle:hover, rect.month,
+rect#lightbox:hover, text#close:hover,
+text.month, text.year,
+text.year-selector, rect.country-bar,
+path.country-path, p.uf, path.dropdown,
+rect.menu-dropdown, text.menu-dropdown,
+rect.continent-selector {
   cursor: pointer;
 }

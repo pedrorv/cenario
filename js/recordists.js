@@ -45,13 +45,59 @@ function createVisRecordists(userWindowWidth) {
       .text("De 1970 a 2014");
 
     superscription.append("circle")
-      .attr("cx", 20)
-      .attr("cy", 20)
-      .attr("r", 10)
+      .attr("class", "menu-option")
+      .attr("cx", visConfig.recFirstOptionCircleW)
+      .attr("cy", visConfig.recFirstOptionCircleH)
+      .attr("r", visConfig.recOptionCircleRadius)
+      .attr("fill", visConfig.recOptionCircleFill)
+      .attr("stroke", visConfig.recOptionCircleFill)
+      .attr("stroke-width", 1)
       .on("click", function() {
-        visConfig.recModeSelected = (visConfig.recModeSelected === "titles") ? "public" : "titles";
+        d3.selectAll("circle.menu-option").attr("fill", "white");
+        d3.select(this).attr("fill", visConfig.recOptionCircleFill);
+        visConfig.recModeSelected = "titles";
         drawGraph(graphLimit, moviesRadius, moviesDistance, widthForDec);
       });
+
+    superscription.append("text")
+      .attr("class", "menu-option")
+      .attr("x", visConfig.recFirstTextOptionW)
+      .attr("y", visConfig.recFirstTextOptionH)
+      .attr("fill", visConfig.recOptionCircleFill)
+      .attr("font-size", visConfig.recOptionsTextSize)
+      .text("Número de títulos");
+
+    superscription.append("circle")
+      .attr("class", "menu-option")
+      .attr("cx", visConfig.recFirstOptionCircleW)
+      .attr("cy", visConfig.recSecondOptionCircleH)
+      .attr("r", visConfig.recOptionCircleRadius)
+      .attr("fill", "white")
+      .attr("stroke", visConfig.recOptionCircleFill)
+      .attr("stroke-width", 1)
+      .on("click", function() {
+        d3.selectAll("circle.menu-option").attr("fill", "white");
+        d3.select(this).attr("fill", visConfig.recOptionCircleFill);
+        visConfig.recModeSelected = "public";
+        drawGraph(graphLimit, moviesRadius, moviesDistance, widthForDec);
+      });
+
+    superscription.append("text")
+      .attr("class", "menu-option")
+      .attr("x", visConfig.recFirstTextOptionW)
+      .attr("y", visConfig.recSecondTextOptionH)
+      .attr("fill", visConfig.recOptionCircleFill)
+      .attr("font-size", visConfig.recOptionsTextSize)
+      .text("Público");
+
+    superscription.append("text")
+      .attr("class", "menu-option")
+      .attr("x", (visConfig.recOriginW))
+      .attr("y", (visConfig.height - visConfig.recGraphXAxisLabelsBottomMargin))
+      .attr("fill", visConfig.recOptionCircleFill)
+      .attr("font-size", visConfig.recGraphLabelsSize)
+      .attr("text-anchor", "start")
+      .text("Décadas");
 
 
     // Start Drawing Axis Base
@@ -114,10 +160,7 @@ function createVisRecordists(userWindowWidth) {
         .attr("fill", visConfig.recGraphColor)
         .attr("font-size", visConfig.recGraphLabelsSize)
         .attr("text-anchor", "middle")
-        .text(function() {
-          if (parseInt(decade) < 20) return "20" + decade;
-          return "19" + decade;
-        });
+        .text(decade);
     }
 
     function drawYAxisLabels(limit, radius) {
@@ -261,8 +304,20 @@ function createVisRecordists(userWindowWidth) {
                   }
                   return "#E6E6E6";
                 })
-                .attr("stroke", "black")
-                .attr("stroke-width", 1)
+                .on("mouseover", function() {
+                  var self = d3.select(this);
+                  self
+                    .transition("grow")
+                    .duration(100)
+                    .attr("r", radius + 2);
+                })
+                .on("mouseleave", function() {
+                  var self = d3.selectAll("circle.movie-info");
+                  self
+                    .transition("all-shrink")
+                    .duration(100)
+                    .attr("r", radius);
+                })
                 .attr("opacity", 0)
                 .transition()
                 .duration(50)

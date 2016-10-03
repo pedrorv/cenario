@@ -55,23 +55,35 @@ var visConfig = {
   natGraphAxisLabelsW: 21,
   natGraphXAxisLabelH: 50,
   natGraphYAxisLabelH: 270,
-  natStrokesWidth: 1,
+  natStrokesWidth: 2,
   natStrokesColor: "#dd1924",
 
 
   // Recordists Specs
 
-  recOriginBottomMargin: 63,
-  recOriginW: 160,
+  recOriginBottomMargin: 43,
+  recOriginW: 210,
   recGraphW: 875,
   recGraphH: 481,
-  recGraphThickness: 2,
+  recGraphThickness: 1,
   recGraphColor: "#000000",
   recGraphDecadeSpacing: 25,
-  recGraphXAxisLabelsBottomMargin: 32,
+  recGraphXAxisLabelsBottomMargin: 15,
   recGraphLabelsSize: 10,
+  recGraphXLabelsSize: 12,
   recGraphYAxisWMargin: 10,
   recGraphMoviesRadius: 5,
+  recFirstOptionCircleW: 35,
+  recFirstOptionCircleH: 138,
+  recOptionCircleRadius: 5,
+  recSecondOptionCircleH: 173,
+  recOptionCircleFill: "#000000",
+  recOptionsTextSize: 10,
+  recFirstTextOptionH: 141,
+  recFirstTextOptionW: 48,
+  recSecondTextOptionH: 176,
+
+
 
   // Production Specs
 
@@ -99,6 +111,7 @@ var visConfig = {
   proMenuDivisionLineH: 86,
   proMenuDivisionLineSize: 500,
   proMenuDivisionLineColor: "#808080",
+  proCircleRadius: 5,
 
 
 
@@ -193,7 +206,6 @@ var visConfig = {
   proGuidelinesColor: "#CCCCCC",
   proPathsColor: "#000000",
   proLinesWidth: 1,
-  proCircleRadius: 5,
 
 
 
