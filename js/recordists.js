@@ -356,7 +356,7 @@ function createVisRecordists(userWindowWidth) {
                   var detailsText1 = details.append("text")
                     .attr("class", "movie-detail")
                     .attr("fill", "black")
-                    .attr("font-size", 10)
+                    .attr("font-size", visConfig.recDetailsTextSize)
                     .attr("opacity", 0)
                     .text("Título: " + movie["Título"]);
 
@@ -367,7 +367,7 @@ function createVisRecordists(userWindowWidth) {
                   var detailsText2 = details.append("text")
                     .attr("class", "movie-detail")
                     .attr("fill", "black")
-                    .attr("font-size", 10)
+                    .attr("font-size", visConfig.recDetailsTextSize)
                     .attr("opacity", 0)
                     .text("UF: " + movie["UF"]);
 
@@ -378,7 +378,7 @@ function createVisRecordists(userWindowWidth) {
                   var detailsText3 = details.append("text")
                     .attr("class", "movie-detail")
                     .attr("fill", "black")
-                    .attr("font-size", 10)
+                    .attr("font-size", visConfig.recDetailsTextSize)
                     .attr("opacity", 0)
                     .text("Público: " + formatNumber(movie["Público"]));
 
@@ -390,9 +390,9 @@ function createVisRecordists(userWindowWidth) {
                         if (center[0] > (visConfig.recOriginW + visConfig.recGraphW/2)) return center[0] - maxWidth - visConfig.recDetailsTotalPadding;
                         return center[0];
                       })
-                      .attr("y", center[1] - (height + 4*visConfig.recDetailsTextMargin))
+                      .attr("y", center[1] - (height + 2.5*visConfig.recDetailsTextMargin))
                       .attr("width", maxWidth + visConfig.recDetailsTotalPadding)
-                      .attr("height", (height + 4*visConfig.recDetailsTextMargin))
+                      .attr("height", (height + 2.5*visConfig.recDetailsTextMargin))
                       .attr("fill", visConfig.recDetailsRectColor)
                       .transition()
                       .duration(100)
@@ -401,13 +401,19 @@ function createVisRecordists(userWindowWidth) {
 
                    detailsText3.attr("y", center[1] - visConfig.recDetailsTextMargin);
                    detailsText2.attr("y", function() {
-                     return center[1] - 2*visConfig.recDetailsTextMargin -
-                            detailsText3.node().getBBox().height;
+                     var dynamicMargin = ((height + 2.5*visConfig.recDetailsTextMargin) -
+                                              1.6 * visConfig.recDetailsTextMargin -
+                                              detailsText3.node().getBBox().height -
+                                              detailsText1.node().getBBox().height -
+                                              detailsText2.node().getBBox().height) / 2;
+
+                     return center[1] - visConfig.recDetailsTextMargin -
+                            detailsText3.node().getBBox().height -
+                            dynamicMargin;
                    });
                    detailsText1.attr("y", function() {
-                     return center[1] - 3*visConfig.recDetailsTextMargin -
-                            detailsText3.node().getBBox().height -
-                            detailsText2.node().getBBox().height;
+                     return center[1] - (height + 2.5*visConfig.recDetailsTextMargin) +
+                            0.6*visConfig.recDetailsTextMargin + detailsText1.node().getBBox().height;
                    })
 
                    d3.selectAll("text.movie-detail").attr("class", "movie-detail bold").attr("x", function() {
