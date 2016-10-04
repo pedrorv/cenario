@@ -256,12 +256,12 @@ var visConfig = {
     "max": Infinity
   },
   continentsColors: {
-    "América do Sul": "#1C54A5",
-    "América do Norte": "#8DD9FF",
-    "Europa": "#EF3420",
-    "Ásia": "#07AAA5",
-    "África": "#5A0463",
-    "Oceania": "#131D1E"
+    "América do Sul": "#E56915",
+    "América do Norte": "#14A578",
+    "Europa": "#047089",
+    "Ásia": "#09933FF",
+    "África": "#3399FF",
+    "Oceania": "#0E3233"
   },
   decadesColors: {
     "00": "#1A1A1A",

@@ -410,7 +410,7 @@ function createVisRecordists(userWindowWidth) {
                             detailsText2.node().getBBox().height;
                    })
 
-                   d3.selectAll("text.movie-detail").attr("x", function() {
+                   d3.selectAll("text.movie-detail").attr("class", "movie-detail bold").attr("x", function() {
                      if (center[0] > (visConfig.recOriginW + visConfig.recGraphW/2)) return center[0] - maxWidth - visConfig.recDetailsTotalPadding/2;
                      return center[0] + visConfig.recDetailsTotalPadding/2;
                    })
