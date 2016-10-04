@@ -259,7 +259,7 @@ var visConfig = {
     "América do Sul": "#E56915",
     "América do Norte": "#14A578",
     "Europa": "#047089",
-    "Ásia": "#09933FF",
+    "Ásia": "#9933FF",
     "África": "#3399FF",
     "Oceania": "#0E3233"
   },
