@@ -111,6 +111,17 @@ function createVisRecordists(userWindowWidth) {
       .append("g")
       .attr("class", "data");
 
+    graph.append("rect")
+      .attr("x", visConfig.recOriginW)
+      .attr("y", (visConfig.height - visConfig.recOriginBottomMargin - visConfig.recGraphH))
+      .attr("width", visConfig.recGraphW)
+      .attr("height", visConfig.recGraphH)
+      .attr("fill", "white")
+      .on("click", function() {
+        console.log("cliquei");
+          d3.select("g.movie-detail").remove();
+      });
+
 
     // Drawing x Axis
 
@@ -332,6 +343,8 @@ function createVisRecordists(userWindowWidth) {
                     .attr("class", "details-background")
                     .attr("x", center[0])
                     .attr("y", center[1])
+                    .attr("rx", 10)
+                    .attr("ry", 10)
                     .attr("height", 0)
                     .attr("width", 0)
                     .attr("opacity", 0);
