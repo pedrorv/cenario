@@ -365,7 +365,12 @@ function createVisOverview(userWindowWidth) {
           .on("click", function() {
             var self = d3.select(this);
             monthHighlight(self.attr("month"), self.attr("year"));
-          });
+          })
+          .attr("opacity", 0)
+          .transition()
+          .duration(50)
+          .delay((50 * 12 * visConfig.years[year]) + (50 * (parseInt(month) - 1)))
+          .attr("opacity", 1);
       }
 
       visYear.append("text")
