@@ -367,9 +367,9 @@ function createVisOverview(userWindowWidth) {
             monthHighlight(self.attr("month"), self.attr("year"));
           })
           .attr("opacity", 0)
-          .transition()
-          .duration(50)
-          .delay((50 * 12 * visConfig.years[year]) + (50 * (parseInt(month) - 1)))
+          .transition("opacity")
+          .duration(25)
+          .delay((25 * 12 * visConfig.years[year]) + (25 * (parseInt(month) - 1)))
           .attr("opacity", 1);
       }
 

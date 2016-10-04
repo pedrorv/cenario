@@ -167,14 +167,14 @@ function moveAllSpecificMonthDrag(index, month, dx) {
 
 function moveMainElementsY(position, currentValue, duration) {
   d3.selectAll("text[currentyear='"+currentValue+"']")
-    .transition()
+    .transition("moveYmain")
     .duration(duration)
     .attr("y", function() {
       return position + (visConfig.yearTextSize/3);
     });
 
   d3.selectAll("circle[currentyear='"+currentValue+"']")
-    .transition()
+    .transition("moveYmain")
     .duration(duration)
     .attr("cy", function() {
       return position;
@@ -186,14 +186,14 @@ function moveAllElementsY(indexShift, initialIndex, currentValue) {
   var selfCurrAux = d3.selectAll("[currentyear='"+currentValue+"']");
 
   d3.selectAll("text[currentyear='"+initialIndex+"']")
-    .transition()
+    .transition("moveYall")
     .duration(visConfig.monthMovingDuration)
     .attr("y", function() {
       return returnYPosition(indexShift) + (visConfig.yearTextSize/3);
     });
 
   d3.selectAll("circle[currentyear='"+initialIndex+"']")
-    .transition()
+    .transition("moveYall")
     .duration(visConfig.monthMovingDuration)
     .attr("cy", function() {
       return returnYPosition(indexShift);
@@ -205,21 +205,21 @@ function moveAllElementsY(indexShift, initialIndex, currentValue) {
 
 function moveMainElementsX(position, currentValue, duration) {
   d3.selectAll("rect[currentmonth='"+currentValue+"']")
-    .transition()
+    .transition("moveXmain")
     .duration(duration)
     .attr("x", function() {
       return position - visConfig.circleBiggerRadius;
     });
 
   d3.selectAll("text[currentmonth='"+currentValue+"']")
-    .transition()
+    .transition("moveXmain")
     .duration(duration)
     .attr("x", function() {
       return position;
     });
 
   d3.selectAll("circle[currentmonth='"+currentValue+"']")
-    .transition()
+    .transition("moveXmain")
     .duration(duration)
     .attr("cx", function() {
       return position;
@@ -231,21 +231,21 @@ function moveAllElementsX(indexShift, initialIndex, currentValue) {
   var selfCurrAux = d3.selectAll("[currentmonth='"+currentValue+"']");
 
   d3.selectAll("rect[currentmonth='"+initialIndex+"']")
-    .transition()
+    .transition("moveXall")
     .duration(visConfig.monthMovingDuration)
     .attr("x", function() {
       return returnXPosition(indexShift) - visConfig.circleBiggerRadius;
     });
 
   d3.selectAll("text[currentmonth='"+initialIndex+"']")
-    .transition()
+    .transition("moveXall")
     .duration(visConfig.monthMovingDuration)
     .attr("x", function() {
       return returnXPosition(indexShift);
     });
 
   d3.selectAll("circle[currentmonth='"+initialIndex+"']")
-    .transition()
+    .transition("moveXall")
     .duration(visConfig.monthMovingDuration)
     .attr("cx", function() {
       return returnXPosition(indexShift);
