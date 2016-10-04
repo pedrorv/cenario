@@ -84,7 +84,7 @@ var visConfig = {
   recSecondTextOptionH: 176,
   recDetailsRectColor: "#cdcdcd",
   recDetailsTotalPadding: 30,
-  recDetailsTextMargin: 10,
+  recDetailsTextMargin: 5,
   recDetailsTextSize: 11,
 
 

@@ -390,9 +390,9 @@ function createVisRecordists(userWindowWidth) {
                         if (center[0] > (visConfig.recOriginW + visConfig.recGraphW/2)) return center[0] - maxWidth - visConfig.recDetailsTotalPadding;
                         return center[0];
                       })
-                      .attr("y", center[1] - (height + 2.5*visConfig.recDetailsTextMargin))
+                      .attr("y", center[1] - (height + visConfig.recDetailsTextMargin))
                       .attr("width", maxWidth + visConfig.recDetailsTotalPadding)
-                      .attr("height", (height + 2.5*visConfig.recDetailsTextMargin))
+                      .attr("height", (height + visConfig.recDetailsTextMargin))
                       .attr("fill", visConfig.recDetailsRectColor)
                       .transition()
                       .duration(100)
@@ -401,19 +401,13 @@ function createVisRecordists(userWindowWidth) {
 
                    detailsText3.attr("y", center[1] - visConfig.recDetailsTextMargin);
                    detailsText2.attr("y", function() {
-                     var dynamicMargin = ((height + 2.5*visConfig.recDetailsTextMargin) -
-                                              1.6 * visConfig.recDetailsTextMargin -
-                                              detailsText3.node().getBBox().height -
-                                              detailsText1.node().getBBox().height -
-                                              detailsText2.node().getBBox().height) / 2;
-
                      return center[1] - visConfig.recDetailsTextMargin -
-                            detailsText3.node().getBBox().height -
-                            dynamicMargin;
+                            detailsText3.node().getBBox().height;
                    });
                    detailsText1.attr("y", function() {
-                     return center[1] - (height + 2.5*visConfig.recDetailsTextMargin) +
-                            0.6*visConfig.recDetailsTextMargin + detailsText1.node().getBBox().height;
+                     return center[1] - visConfig.recDetailsTextMargin -
+                            detailsText3.node().getBBox().height -
+                            detailsText2.node().getBBox().height;
                    })
 
                    d3.selectAll("text.movie-detail").attr("class", "movie-detail bold").attr("x", function() {
