@@ -203,6 +203,16 @@ function createVisProduction(userWindowWidth) {
       .attr("font-size", visConfig.proLabelSize)
       .text("Anos");
 
+    graph.append("rect")
+      .attr("x", (visConfig.proWMargin + visConfig.proAxisStartW))
+      .attr("y", visConfig.proAxisStartH - visConfig.proYAxisH)
+      .attr("width", visConfig.proXAxisW)
+      .attr("height", visConfig.proYAxisH)
+      .attr("fill", "white")
+      .on("click", function() {
+        d3.select("g.year-detail").remove();
+      });
+
     // Drawing x Axis
 
     graph.append("line")

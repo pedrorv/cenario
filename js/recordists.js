@@ -118,8 +118,7 @@ function createVisRecordists(userWindowWidth) {
       .attr("height", visConfig.recGraphH)
       .attr("fill", "white")
       .on("click", function() {
-        console.log("cliquei");
-          d3.select("g.movie-detail").remove();
+        d3.select("g.movie-detail").remove();
       });
 
 
