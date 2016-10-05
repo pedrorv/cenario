@@ -368,8 +368,8 @@ function createVisOverview(userWindowWidth) {
           })
           .attr("opacity", 0)
           .transition("opacity")
-          .duration(25)
-          .delay((25 * 12 * visConfig.years[year]) + (25 * (parseInt(month) - 1)))
+          .duration(10)
+          .delay((10 * 12 * visConfig.years[year]) + (10 * (parseInt(month) - 1)))
           .attr("opacity", 1);
       }
 

@@ -439,6 +439,76 @@ function createVisProduction(userWindowWidth) {
         })
         .attr("r", visConfig.proCircleRadius)
         .attr("fill", fill)
+
+        .on("mouseover", function() {
+          var self = d3.select(this);
+          self
+            .transition("grow")
+            .duration(100)
+            .attr("r", visConfig.proCircleRadius + 2);
+        })
+        .on("mouseleave", function() {
+          var self = d3.selectAll("circle.graph-points");
+          self
+            .transition("all-shrink")
+            .duration(100)
+            .attr("r", visConfig.proCircleRadius);
+        })
+        .on("click", function(d, i) {
+          d3.select("g.year-detail").remove();
+
+          var self = d3.select(this);
+          var center = [parseFloat(self.attr("cx")), parseFloat(self.attr("cy"))];
+
+          var details = circles.append("g")
+            .attr("class", "year-detail");
+
+          var background = details.append("rect")
+            .attr("class", "details-background")
+            .attr("x", center[0])
+            .attr("y", center[1])
+            .attr("rx", 10)
+            .attr("ry", 10)
+            .attr("height", 0)
+            .attr("width", 0)
+            .attr("opacity", 0);
+
+
+          var detailsText1 = details.append("text")
+            .attr("class", "movie-detail")
+            .attr("fill", "black")
+            .attr("font-size", visConfig.recDetailsTextSize)
+            .attr("opacity", 0)
+            .text(id.toUpperCase() + ": " + d);
+
+
+          var w = detailsText1.node().getBBox().width;
+          var h = detailsText1.node().getBBox().height;
+
+          background.attr("x", function() {
+                if (center[0] > (visConfig.proAxisStartW + visConfig.proXAxisW/2)) return center[0] - w - visConfig.proDetailsPadding;
+                return center[0];
+              })
+              .attr("y", center[1] - (h + 7))
+              .attr("width", w + visConfig.proDetailsPadding)
+              .attr("height", (h + 7))
+              .attr("fill", visConfig.recDetailsRectColor)
+              .transition()
+              .duration(100)
+              .attr("opacity", 0.8);
+
+           detailsText1.attr("y", function() {
+             return center[1] - 7;
+           })
+           .attr("x", function() {
+                 if (center[0] > (visConfig.proAxisStartW + visConfig.proXAxisW/2)) return center[0] - w - visConfig.proDetailsPadding/2;
+                 return center[0] + visConfig.proDetailsPadding/2;
+           })
+           .transition()
+           .duration(100)
+           .delay(50)
+           .attr("opacity", 1);
+        })
         .attr("opacity", 0)
         .transition()
         .duration(150)

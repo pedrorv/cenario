@@ -210,6 +210,7 @@ var visConfig = {
   proGuidelinesColor: "#CCCCCC",
   proPathsColor: "#000000",
   proLinesWidth: 1,
+  proDetailsPadding: 20,
 
 
 
