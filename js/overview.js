@@ -342,7 +342,7 @@ function createVisOverview(userWindowWidth) {
       for (var month in visConfig.dataCircles[year]) {
         var cx, cy;
         visYear.append("circle")
-          .attr("class", "_" + month + year)
+          .attr("class", "year-month _" + month + year)
           .attr("cx", function () {
             return returnXPosition(parseInt(month) - 1);
           })
@@ -369,7 +369,7 @@ function createVisOverview(userWindowWidth) {
           })
           .on("mouseover", function() {
             var self = d3.select(this);
-            self.attr("stroke", "black").attr("stroke-width", 1);
+            self.attr("stroke", visConfig.ovrStrokeCircleColor).attr("stroke-width", visConfig.ovrStrokeCircleW);
           })
           .on("mouseleave", function() {
             var self = d3.select(this);
@@ -428,8 +428,8 @@ function createVisOverview(userWindowWidth) {
       .attr("y", function() {
         return visConfig.height/2 - visConfig.hMonthHighlight/2;
       })
-      .attr("rx", 20)
-      .attr("ry", 20)
+      .attr("rx", 10)
+      .attr("ry", 10)
       .attr("width", function() {
         return visConfig.wMonthHighlight;
       })
@@ -443,18 +443,22 @@ function createVisOverview(userWindowWidth) {
       .duration(500)
       .attr("opacity", 1);
 
+    var visBoxX = parseFloat(d3.select("rect.highlight").attr("x"));
+    var visBoxY = parseFloat(d3.select("rect.highlight").attr("y"));
+
     visBox.append("text")
-      .attr("class", "header")
+      .attr("class", "header bold")
       .attr("id", "header1")
       .attr("x", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return visBoxX + visConfig.ovrHighlightTitleW;
       })
       .attr("y", function() {
-        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightMargin + visConfig.HighlightHeadersSize;
+        return visBoxY + visConfig.ovrHighlightTitleH;
       })
+      .attr("font-size", visConfig.ovrHighlightTitleSize)
       .attr("text-anchor", "start")
       .text(function() {
-        return visConfig.months[parseInt(month)-1] + " - " + year;
+        return visConfig.months[parseInt(month)-1] + " de " + year;
       })
       .attr("opacity", 0)
       .transition()
@@ -463,14 +467,15 @@ function createVisOverview(userWindowWidth) {
       .attr("opacity", 1);
 
     visBox.append("text")
-      .attr("class", "header")
+      .attr("class", "close")
       .attr("id", "close")
       .attr("x", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wMonthHighlight - visConfig.wHighlightMargin;
+        return visBoxX + visConfig.wMonthHighlight - visConfig.wMonthHighlight;
       })
       .attr("y", function() {
-        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightMargin + visConfig.HighlightHeadersSize;
+        return visBoxY + visConfig.ovrHighlightTitleH;
       })
+      .attr("font-size", visConfig.ovrHighlightTitleSize)
       .attr("text-anchor", "end")
       .text("X")
       .attr("opacity", 0)
@@ -486,37 +491,16 @@ function createVisOverview(userWindowWidth) {
       .attr("class", "highlight-division")
       .attr("id", "line1")
       .attr("x1", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return visBoxX + visConfig.ovrHighlightLineW;
       })
       .attr("y1", function() {
-        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine1Spacing;
+        return visBoxY + visConfig.ovrHighlightLineH;
       })
       .attr("x2", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wMonthHighlight - visConfig.wHighlightMargin;
+        return visBoxX + visConfig.wMonthHighlight - visConfig.ovrHighlightLineW;
       })
       .attr("y2", function() {
-        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine1Spacing;
-      })
-      .attr("opacity", 0)
-      .transition()
-      .delay(700)
-      .duration(300)
-      .attr("opacity", 1);
-
-    visBox.append("line")
-      .attr("class", "highlight-division")
-      .attr("id", "line2")
-      .attr("x1", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
-      })
-      .attr("y1", function() {
-        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine2Spacing;
-      })
-      .attr("x2", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wMonthHighlight - visConfig.wHighlightMargin;
-      })
-      .attr("y2", function() {
-        return parseFloat(d3.select("rect.highlight").attr("y")) + visConfig.hHighlightLine2Spacing;
+        return visBoxY + visConfig.ovrHighlightLineH;
       })
       .attr("opacity", 0)
       .transition()
@@ -527,11 +511,12 @@ function createVisOverview(userWindowWidth) {
     visBox.append("text")
       .attr("class", "info")
       .attr("x", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return visBoxX + visConfig.ovrHighlightOvrDetail1W;
       })
       .attr("y", function() {
-        return parseFloat(d3.select("line#line1").attr("y1")) + visConfig.hHighlightTextMargin + visConfig.HighlightTextsSize;
+        return visBoxY + visConfig.ovrHighlightOvrDetailH;
       })
+      .attr("font-size", visConfig.ovrHighlightOvrDetailSize)
       .attr("text-anchor", "start")
       .text(function() {
         return "Total de público: " + formatNumber(visConfig.dataCircles[year][month]["Público"]);
@@ -545,11 +530,12 @@ function createVisOverview(userWindowWidth) {
     visBox.append("text")
       .attr("class", "info")
       .attr("x", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return visBoxX + visConfig.ovrHighlightOvrDetail2W;
       })
       .attr("y", function() {
-        return parseFloat(d3.select("line#line2").attr("y1")) - visConfig.hHighlightTextMargin;
+        return visBoxY + visConfig.ovrHighlightOvrDetailH;
       })
+      .attr("font-size", visConfig.ovrHighlightOvrDetailSize)
       .attr("text-anchor", "start")
       .text(function() {
         return "Total de renda: R$" + formatNumber(visConfig.dataCircles[year][month]["Renda"]);
@@ -561,14 +547,15 @@ function createVisOverview(userWindowWidth) {
       .attr("opacity", 1);
 
     visBox.append("text")
-      .attr("class", "header")
+      .attr("class", "header bold")
       .attr("id", "header2")
       .attr("x", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return visBoxX + visConfig.ovrHighlightSubtitleW;
       })
       .attr("y", function() {
-        return parseFloat(d3.select("line#line2").attr("y1")) + visConfig.hHighlightMargin + visConfig.HighlightHeadersSize;
+        return visBoxY + visConfig.ovrHighlightSubtitleH;
       })
+      .attr("font-size", visConfig.ovrHighlightSubtitleSize)
       .attr("text-anchor", "start")
       .text(function() {
         return "Filmes mais vistos entre os " + visConfig.dataCircles[year][month]["Títulos"] + " lançados";
@@ -584,25 +571,32 @@ function createVisOverview(userWindowWidth) {
         .attr("class", "movies-ranking")
         .attr("id", "ranked-movie-" + i)
         .attr("cx", function() {
-          var boxX = parseFloat(d3.select("rect.highlight").attr("x"));
-          var position = (visConfig.wMonthHighlight - 2*visConfig.wHighlightMargin - 2*visConfig.circleRankingBiggerRadius) / 4;
-          return boxX + visConfig.wHighlightMargin + visConfig.circleRankingBiggerRadius + (position * i);
+          var position = (visConfig.wMonthHighlight - 2*visConfig.ovrHighlightTitleW - 2*visConfig.ovrHighlightBiggerRadius) / 4;
+          return visBoxX + visConfig.wHighlightMargin + visConfig.circleRankingBiggerRadius + (position * i);
         })
         .attr("cy", function() {
-          var headerY = parseFloat(d3.select("text#header2").attr("y"));
-          return headerY + visConfig.circleRankingBiggerRadius + visConfig.circleRankingHMargin;
+          return visBoxY + visConfig.ovrHighlightCircleH;
         })
         .attr("r", function() {
           var max = visConfig.dataHighlight[year][parseInt(month)-1][0]["Público"];
           var min = visConfig.dataHighlight[year][parseInt(month)-1][4]["Público"];
           var rangeVal = max - min;
-          var rangeRadius = visConfig.circleRankingBiggerRadius - visConfig.circleRankingSmallerRadius;
-          return visConfig.circleRankingSmallerRadius + (visConfig.dataHighlight[year][parseInt(month)-1][i]["Público"] - min)*rangeRadius/rangeVal;
+          var rangeRadius = visConfig.ovrHighlightBiggerRadius - visConfig.ovrHighlightSmallerRadius;
+          return visConfig.ovrHighlightSmallerRadius + (visConfig.dataHighlight[year][parseInt(month)-1][i]["Público"] - min)*rangeRadius/rangeVal;
         })
         .attr("i", i)
         .attr("originalmonth", month)
         .attr("originalyear", year)
+        .attr("fill", visConfig.ovrHighlightCircleColor)
         .attr("opacity", 0)
+        .on("mouseover", function() {
+          var self = d3.select(this);
+          self.attr("stroke", visConfig.ovrStrokeCircleColor).attr("stroke-width", visConfig.ovrStrokeCircleW);
+        })
+        .on("mouseleave", function() {
+          var self = d3.select(this);
+          self.attr("stroke", "transparent").attr("stroke-width", 0);
+        })
         .on("click", function() {
           var self = d3.select(this);
           var index = parseInt(self.attr("i"));
@@ -632,15 +626,19 @@ function createVisOverview(userWindowWidth) {
       .append("g")
       .attr("class", "movie-info");
 
+    var visBoxX = parseFloat(d3.select("rect.highlight").attr("x"));
+    var visBoxY = parseFloat(d3.select("rect.highlight").attr("y"));
+
     visBox.append("text")
       .attr("class", "header")
       .attr("id", "header3")
       .attr("x", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return visBoxX + visConfig.ovrHighlightMovieTitleW;
       })
       .attr("y", function() {
-        return parseFloat(d3.select("circle#ranked-movie-0").attr("cy")) + visConfig.circleRankingBiggerRadius + visConfig.circleRankingHMargin + visConfig.HighlightHeadersSize;
+        return visBoxY + visConfig.ovrHighlightMovieTitleH;
       })
+      .attr("font-size", visConfig.ovrHighlightInfoTitleSize)
       .attr("text-anchor", "start")
       .text(function() {
         return visConfig.dataHighlight[year][parseInt(month)-1][index]["Título"];
@@ -654,11 +652,12 @@ function createVisOverview(userWindowWidth) {
     visBox.append("text")
       .attr("class", "info")
       .attr("x", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return visBoxX + visConfig.ovrHighlightMovieTitleW;
       })
       .attr("y", function() {
-        return parseFloat(d3.select("text#header3").attr("y")) + visConfig.hHighlightTextMargin + visConfig.HighlightTextsSize;
+        return visBoxY + visConfig.ovrHighlightMovieGenreH;
       })
+      .attr("font-size", visConfig.ovrHighlightInfoSize)
       .attr("text-anchor", "start")
       .text(function() {
         return "Gênero: " + visConfig.dataHighlight[year][parseInt(month)-1][index]["Gênero"];
@@ -672,14 +671,15 @@ function createVisOverview(userWindowWidth) {
     visBox.append("text")
       .attr("class", "info")
       .attr("x", function() {
-        return parseFloat(d3.select("rect.highlight").attr("x")) + visConfig.wHighlightMargin;
+        return visBoxX + visConfig.ovrHighlightMovieTitleW;
       })
       .attr("y", function() {
-        return parseFloat(d3.select("text#header3").attr("y")) + 2*visConfig.hHighlightTextMargin + 2*visConfig.HighlightTextsSize;
+        return visBoxY + visConfig.ovrHighlightMovieNationH;
       })
+      .attr("font-size", visConfig.ovrHighlightInfoSize)
       .attr("text-anchor", "start")
       .text(function() {
-        return "Nacionalidade: " + visConfig.dataHighlight[year][parseInt(month)-1][index]["País"];
+        return "País: " + visConfig.dataHighlight[year][parseInt(month)-1][index]["País"];
       })
       .attr("opacity", 0)
       .transition()
@@ -690,11 +690,12 @@ function createVisOverview(userWindowWidth) {
     visBox.append("text")
       .attr("class", "info")
       .attr("x", function() {
-        return parseFloat(d3.select("circle#ranked-movie-2").attr("cx"));
+        return visBoxX + visConfig.ovrHighlightMoviePublicW;
       })
       .attr("y", function() {
-        return parseFloat(d3.select("text#header3").attr("y")) + visConfig.hHighlightTextMargin + visConfig.HighlightTextsSize;
+        return visBoxY + visConfig.ovrHighlightMovieGenreH;
       })
+      .attr("font-size", visConfig.ovrHighlightInfoSize)
       .attr("text-anchor", "start")
       .text(function() {
         return "Público: " + formatNumber(visConfig.dataHighlight[year][parseInt(month)-1][index]["Público"]);
@@ -708,11 +709,12 @@ function createVisOverview(userWindowWidth) {
     visBox.append("text")
       .attr("class", "info")
       .attr("x", function() {
-        return parseFloat(d3.select("circle#ranked-movie-2").attr("cx"));
+        return visBoxX + visConfig.ovrHighlightMoviePublicW;
       })
       .attr("y", function() {
-        return parseFloat(d3.select("text#header3").attr("y")) + 2*visConfig.hHighlightTextMargin + 2*visConfig.HighlightTextsSize;
+        return visBoxY + visConfig.ovrHighlightMovieNationH;
       })
+      .attr("font-size", visConfig.ovrHighlightInfoSize)
       .attr("text-anchor", "start")
       .text(function() {
         return "Renda: R$" + formatNumber(visConfig.dataHighlight[year][parseInt(month)-1][index]["Renda"]);

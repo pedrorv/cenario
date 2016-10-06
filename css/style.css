@@ -19,7 +19,7 @@
 body {
   margin: 0 auto;
   display: block;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Raleway', sans-serif;
   background-color: #fff;
   color: white;
 }
@@ -90,7 +90,7 @@ div.vis-selector a:last-child {
   float: right;
 }
 
-text.title, text.title-description, p.uf {
+text, p.uf {
   font-family: "Raleway", sans-serif;
 }
 
@@ -102,19 +102,6 @@ text.light {
   font-weight: normal;
 }
 
-text.header {
-  font-family: "Open Sans", sans-serif;
-  font-size: 16px;
-  fill: #272626;
-  font-weight: 600;
-}
-
-text.info {
-  font-family: "Open Sans", sans-serif;
-  font-size: 13px;
-  fill: #272626;
-  font-weight: 300;
-}
 
 line.highlight-division {
   stroke-width: 0.5;
@@ -129,11 +116,6 @@ text {
   -ms-user-select: none;      /* IE 10+ */
   user-select: none;          /* Likely future */
   cursor: default;
-}
-
-circle.movies-ranking {
-  /* fill: #67a338; */
-  fill: #cb7d9f;
 }
 
 p.sudeste {
@@ -153,7 +135,10 @@ p.norte {
 }
 
 
-circle:hover, rect.month,
+circle.movie-info:hover, circle.menu-option:hover,
+circle.region-selector:hover, circle.graph-points:hover,
+circle.value-selector:hover, circle.year-month:hover,
+circle.movies-ranking:hover, rect.month,
 rect#lightbox:hover, text#close:hover,
 text.month, text.year,
 text.year-selector, rect.country-bar,

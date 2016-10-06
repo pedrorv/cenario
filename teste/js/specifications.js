@@ -176,8 +176,8 @@ var visConfig = {
   hMargin: 0,
 
   // Month Hightlight Box Config
-  wMonthHighlight: 523,
-  hMonthHighlight: 327,
+  wMonthHighlight: 500,
+  hMonthHighlight: 310,
   wHighlightMargin: 30,
   hHighlightMargin: 17,
   hHighlightTextMargin: 15,
@@ -188,6 +188,33 @@ var visConfig = {
   circleRankingBiggerRadius: 25,
   circleRankingSmallerRadius: 7.5,
   circleRankingHMargin: 15,
+
+  ovrHighlightTitleH: 43,
+  ovrHighlightTitleW: 32,
+  ovrHighlightTitleSize: 18,
+  ovrHighlightLineH: 82,
+  ovrHighlightLineW: 28,
+  ovrHighlightOvrDetail1W: 32,
+  ovrHighlightOvrDetail2W: 242,
+  ovrHighlightOvrDetailH: 67,
+  ovrHighlightOvrDetailSize: 13,
+
+  ovrHighlightSubtitleSize: 18,
+  ovrHighlightSubtitleH: 122,
+  ovrHighlightSubtitleW: 32,
+  ovrHighlightInfoTitleSize: 15,
+  ovrHighlightInfoSize: 13,
+  ovrHighlightBiggerRadius: 30,
+  ovrHighlightSmallerRadius: 5,
+  ovrHighlightCircleH: 167,
+  ovrHighlightMovieTitleH: 230,
+  ovrHighlightMovieTitleW: 32,
+  ovrHighlightMovieGenreH: 255,
+  ovrHighlightMovieNationH: 277,
+  ovrHighlightMoviePublicW: 250,
+  ovrHighlightCircleColor: "#333333",
+  ovrStrokeCircleColor: "#333333",
+  ovrStrokeCircleW: 2,
 
 
 
