@@ -338,6 +338,7 @@ function createVisOverview(userWindowWidth) {
     for (var year in visConfig.dataCircles) {
       var visYear = vis.append("g")
         .attr("class", year);
+
       for (var month in visConfig.dataCircles[year]) {
         var cx, cy;
         visYear.append("circle")
@@ -366,10 +367,18 @@ function createVisOverview(userWindowWidth) {
             var self = d3.select(this);
             monthHighlight(self.attr("month"), self.attr("year"));
           })
+          .on("mouseover", function() {
+            var self = d3.select(this);
+            self.attr("stroke", "black").attr("stroke-width", 1);
+          })
+          .on("mouseleave", function() {
+            var self = d3.select(this);
+            self.attr("stroke", "transparent").attr("stroke-width", 0);
+          })
           .attr("opacity", 0)
           .transition("opacity")
-          .duration(10)
-          .delay((10 * 12 * visConfig.years[year]) + (10 * (parseInt(month) - 1)))
+          .duration(350)
+          .delay((25 * 12 * visConfig.years[year]) + (25 * (parseInt(month) - 1)))
           .attr("opacity", 1);
       }
 
@@ -388,7 +397,6 @@ function createVisOverview(userWindowWidth) {
         .attr("currentyear", visConfig.years[year])
         .call(dragY);
     }
-
 
     scaleVis(scaleRatio(userWindowWidth, visConfig.width, visConfig.baseWidth));
 

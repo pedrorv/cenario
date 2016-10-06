@@ -82,10 +82,20 @@ var visConfig = {
   recFirstTextOptionH: 141,
   recFirstTextOptionW: 48,
   recSecondTextOptionH: 176,
-  recDetailsRectColor: "#cdcdcd",
+  recDetailsRectColor: "#F4F4F4",
   recDetailsTotalPadding: 30,
   recDetailsTextMargin: 5,
   recDetailsTextSize: 11,
+  recSubtitleCircleH: 510,
+  recSubtitleCircleW: 8,
+  recSubtitleText: 8,
+  recSubtitleCircleRadius: 7,
+  recSubtitleCircleDist: 20,
+  recSubtitleTextW: 28,
+  recSubtitleTextH: 513,
+  recSubtitleTitleH: 494,
+  recSubtitleTitleW: 8,
+  recSubtitleTitleSize: 10,
 
 
 
@@ -258,12 +268,12 @@ var visConfig = {
     "max": Infinity
   },
   continentsColors: {
-    "América do Sul": "#E56915",
-    "América do Norte": "#14A578",
-    "Europa": "#047089",
-    "Ásia": "#9933FF",
-    "África": "#3399FF",
-    "Oceania": "#0E3233"
+    "América do Sul": "#F16745",
+    "América do Norte": "#FFC65D",
+    "Europa": "#7BC8A4",
+    "Ásia": "#4CC3D9",
+    "África": "#93648D",
+    "Oceania": "#404040"
   },
   decadesColors: {
     "00": "#1A1A1A",
@@ -293,6 +303,28 @@ var visConfig = {
     "#1A1A1A",
     "#808080",
     "#E6E6E6"
+  ],
+  recordistsCategories: [
+    {
+      "text": "Acima de 10 milhões",
+      "color": "#233B40"
+    },
+    {
+      "text": "De 5 a 10 milhões",
+      "color": "#46757F"
+    },
+    {
+      "text": "De 2.5 a 5 milhões",
+      "color": "#6AB0BF"
+    },
+    {
+      "text": "De 1 a 2.5 milhões",
+      "color": "#7FD3E5"
+    },
+    {
+      "text": "De 500 mil a 1 milhão",
+      "color": "#C0EBFF"
+    }
   ],
   publicFilterOptions: [
     {

@@ -25,6 +25,8 @@ function createVisRecordists(userWindowWidth) {
     var superscription = vis.append("g")
       .attr("class", "superscription");
 
+
+
     superscription.append("text")
       .attr("class", "title")
       .attr("x", visConfig.baseWMargin)
@@ -98,6 +100,35 @@ function createVisRecordists(userWindowWidth) {
       .attr("font-size", visConfig.recGraphLabelsSize)
       .attr("text-anchor", "start")
       .text("Décadas");
+
+    superscription.append("text")
+      .attr("class", "subtitle-title bold")
+      .attr("x", (visConfig.recSubtitleTitleW))
+      .attr("y", (visConfig.recSubtitleTitleH))
+      .attr("fill", visConfig.recOptionCircleFill)
+      .attr("font-size", visConfig.recSubtitleTitleSize)
+      .attr("text-anchor", "start")
+      .text("Faixa de Público");
+
+    for (var i = 0; i < 5; i++) {
+
+      superscription.append("circle")
+        .attr("class", "circles-subtitles")
+        .attr("cx", visConfig.recSubtitleCircleW)
+        .attr("cy", visConfig.recSubtitleCircleH + i * visConfig.recSubtitleCircleDist)
+        .attr("r", visConfig.recSubtitleCircleRadius)
+        .attr("fill", visConfig.recordistsCategories[i].color);
+
+      superscription.append("text")
+        .attr("class", "circles-subtitles")
+        .attr("x", (visConfig.recSubtitleTextW))
+        .attr("y", (visConfig.recSubtitleTextH + i * visConfig.recSubtitleCircleDist))
+        .attr("fill", visConfig.recOptionCircleFill)
+        .attr("font-size", visConfig.recSubtitleText)
+        .attr("text-anchor", "start")
+        .text(visConfig.recordistsCategories[i].text);
+
+    }
 
 
     // Start Drawing Axis Base
@@ -302,18 +333,18 @@ function createVisRecordists(userWindowWidth) {
                 .attr("fill", function() {
                   var p = movie["Público"];
                   if (p > 10000000) {
-                    return "#1A1A1A";
+                    return visConfig.recordistsCategories[0].color;
                   }
                   if (p > 5000000) {
-                    return "#666666";
+                    return visConfig.recordistsCategories[1].color;
                   }
                   if (p > 2500000) {
-                    return "#B2B2B2";
+                    return visConfig.recordistsCategories[2].color;
                   }
                   if (p > 1000000) {
-                    return "#CCCCCC";
+                    return visConfig.recordistsCategories[3].color;
                   }
-                  return "#E6E6E6";
+                  return visConfig.recordistsCategories[4].color;
                 })
                 .on("mouseover", function() {
                   var self = d3.select(this);
@@ -342,8 +373,8 @@ function createVisRecordists(userWindowWidth) {
                     .attr("class", "details-background")
                     .attr("x", center[0])
                     .attr("y", center[1])
-                    .attr("rx", 10)
-                    .attr("ry", 10)
+                    .attr("rx", 5)
+                    .attr("ry", 5)
                     .attr("height", 0)
                     .attr("width", 0)
                     .attr("opacity", 0);
@@ -389,22 +420,24 @@ function createVisRecordists(userWindowWidth) {
                         if (center[0] > (visConfig.recOriginW + visConfig.recGraphW/2)) return center[0] - maxWidth - visConfig.recDetailsTotalPadding;
                         return center[0];
                       })
-                      .attr("y", center[1] - (height + visConfig.recDetailsTextMargin))
+                      .attr("y", center[1] - (height + 2*visConfig.recDetailsTextMargin))
                       .attr("width", maxWidth + visConfig.recDetailsTotalPadding)
-                      .attr("height", (height + visConfig.recDetailsTextMargin))
+                      .attr("height", (height + 2*visConfig.recDetailsTextMargin))
                       .attr("fill", visConfig.recDetailsRectColor)
                       .transition()
                       .duration(100)
-                      .attr("opacity", 0.8);
+                      .attr("opacity", 0.7);
 
 
-                   detailsText3.attr("y", center[1] - visConfig.recDetailsTextMargin);
+                   detailsText3.attr("y", center[1] - visConfig.recDetailsTextMargin - 0.7*visConfig.recDetailsTextMargin);
                    detailsText2.attr("y", function() {
                      return center[1] - visConfig.recDetailsTextMargin -
+                            0.7*visConfig.recDetailsTextMargin -
                             detailsText3.node().getBBox().height;
                    });
                    detailsText1.attr("y", function() {
                      return center[1] - visConfig.recDetailsTextMargin -
+                            0.7*visConfig.recDetailsTextMargin -
                             detailsText3.node().getBBox().height -
                             detailsText2.node().getBBox().height;
                    })

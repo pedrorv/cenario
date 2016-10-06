@@ -477,19 +477,28 @@ function createVisProduction(userWindowWidth) {
             .attr("class", "details-background")
             .attr("x", center[0])
             .attr("y", center[1])
-            .attr("rx", 10)
-            .attr("ry", 10)
+            .attr("rx", 5)
+            .attr("ry", 5)
             .attr("height", 0)
             .attr("width", 0)
             .attr("opacity", 0);
 
 
           var detailsText1 = details.append("text")
-            .attr("class", "movie-detail")
+            .attr("class", "movie-detail bold")
             .attr("fill", "black")
             .attr("font-size", visConfig.recDetailsTextSize)
             .attr("opacity", 0)
-            .text(id.toUpperCase() + ": " + d);
+            .text(function() {
+              if (id.length === 2) {
+                return id.toUpperCase() + ": " + d;
+              }
+              for (var region in visConfig.regionsFilter) {
+                if (region.toLowerCase() === id) {
+                  return region + ": " + d;
+                }
+              }
+            });
 
 
           var w = detailsText1.node().getBBox().width;
@@ -505,7 +514,7 @@ function createVisProduction(userWindowWidth) {
               .attr("fill", visConfig.recDetailsRectColor)
               .transition()
               .duration(100)
-              .attr("opacity", 0.8);
+              .attr("opacity", 0.7);
 
            detailsText1.attr("y", function() {
              return center[1] - 7;
