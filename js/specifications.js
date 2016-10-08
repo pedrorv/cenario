@@ -275,12 +275,12 @@ var visConfig = {
     "2014": 5,
   },
   continents: {
-    "América do Sul": 0,
-    "América do Norte": 1,
-    "Europa": 2,
-    "Ásia": 3,
-    "África": 4,
-    "Oceania": 5
+    "Oceania": 0,
+    "África": 1,
+    "Ásia": 2,
+    "Europa": 3,
+    "América do Sul": 4,
+    "América do Norte": 5,
   },
   continentsFilter: {
     "América do Sul": true,
@@ -317,12 +317,12 @@ var visConfig = {
     "90": 2
   },
   continentsArr: [
+    "Oceania",
+    "África",
+    "Ásia",
+    "Europa",
     "América do Sul",
     "América do Norte",
-    "Europa",
-    "Ásia",
-    "África",
-    "Oceania"
   ],
   moviesColors: [
     "#4D4D4D",

@@ -56,6 +56,8 @@ function createVisRecordists(userWindowWidth) {
       .attr("stroke-width", 1)
       .on("click", function() {
         d3.selectAll("circle.menu-option").attr("fill", "white");
+        d3.select("text.public-info").attr("opacity", 0);
+        d3.select("g.subtitle-graph").attr("opacity", 1);
         d3.select(this).attr("fill", visConfig.recOptionCircleFill);
         visConfig.recModeSelected = "titles";
         drawGraph(graphLimit, moviesRadius, moviesDistance, widthForDec);
@@ -79,6 +81,8 @@ function createVisRecordists(userWindowWidth) {
       .attr("stroke-width", 1)
       .on("click", function() {
         d3.selectAll("circle.menu-option").attr("fill", "white");
+        d3.select("text.public-info").attr("opacity", 1);
+        d3.select("g.subtitle-graph").attr("opacity", 0);
         d3.select(this).attr("fill", visConfig.recOptionCircleFill);
         visConfig.recModeSelected = "public";
         drawGraph(graphLimit, moviesRadius, moviesDistance, widthForDec);
@@ -93,6 +97,15 @@ function createVisRecordists(userWindowWidth) {
       .text("Público");
 
     superscription.append("text")
+      .attr("class", "public-info bold")
+      .attr("x", visConfig.recFirstTextOptionW)
+      .attr("y", visConfig.recSecondTextOptionH + 20)
+      .attr("fill", visConfig.recOptionCircleFill)
+      .attr("font-size", visConfig.recOptionsTextSize)
+      .attr("opacity", 0)
+      .text("(em milhões)");
+
+    superscription.append("text")
       .attr("class", "menu-option")
       .attr("x", (visConfig.recOriginW))
       .attr("y", (visConfig.height - visConfig.recGraphXAxisLabelsBottomMargin))
@@ -101,7 +114,10 @@ function createVisRecordists(userWindowWidth) {
       .attr("text-anchor", "start")
       .text("Décadas");
 
-    superscription.append("text")
+    var subtitleGraph = superscription.append("g")
+      .attr("class", "subtitle-graph");
+
+    subtitleGraph.append("text")
       .attr("class", "subtitle-title bold")
       .attr("x", (visConfig.recSubtitleTitleW))
       .attr("y", (visConfig.recSubtitleTitleH))
@@ -112,14 +128,14 @@ function createVisRecordists(userWindowWidth) {
 
     for (var i = 0; i < 5; i++) {
 
-      superscription.append("circle")
+      subtitleGraph.append("circle")
         .attr("class", "circles-subtitles")
         .attr("cx", visConfig.recSubtitleCircleW)
         .attr("cy", visConfig.recSubtitleCircleH + i * visConfig.recSubtitleCircleDist)
         .attr("r", visConfig.recSubtitleCircleRadius)
         .attr("fill", visConfig.recordistsCategories[i].color);
 
-      superscription.append("text")
+      subtitleGraph.append("text")
         .attr("class", "circles-subtitles")
         .attr("x", (visConfig.recSubtitleTextW))
         .attr("y", (visConfig.recSubtitleTextH + i * visConfig.recSubtitleCircleDist))
@@ -477,7 +493,7 @@ function createVisRecordists(userWindowWidth) {
 
             var graphLimit = roundMultPowerTen(maxPublic);
 
-            checkYAxisUpdate(graphLimit, radius);
+            checkYAxisUpdate(graphLimit/1000000, radius);
 
             draw.append("rect")
               .attr("class", "year-info")
@@ -488,26 +504,24 @@ function createVisRecordists(userWindowWidth) {
                        decIndex * (visConfig.recGraphDecadeSpacing + decWidth) +
                        yearIndex * (movDist + radius*2);
               })
-              .attr("y", function() {
-                return (visConfig.height - visConfig.recOriginBottomMargin) - yearSum * visConfig.recGraphH / graphLimit;
-              })
               .attr("width", (radius * 2))
-              .attr("height", function() {
-                return yearSum * visConfig.recGraphH / graphLimit;
-              })
               .attr("fill", function() {
                   return "#1A1A1A";
               })
               .attr("stroke", "black")
               .attr("stroke-width", 1)
-              .attr("opacity", 0)
-              .transition()
-              .duration(50)
-              .delay(function() {
-                var yearIndex = parseInt(year[3]);
-                return 50 + yearIndex * 10;
+              .attr("y", function() {
+                return (visConfig.height - visConfig.recOriginBottomMargin);
               })
-              .attr("opacity", 1);
+              .attr("height", 0)
+              .transition()
+              .duration(600)
+              .attr("y", function() {
+                return (visConfig.height - visConfig.recOriginBottomMargin) - yearSum * visConfig.recGraphH / graphLimit;
+              })
+              .attr("height", function() {
+                return yearSum * visConfig.recGraphH / graphLimit;
+              });
 
           }
         }
