@@ -470,14 +470,14 @@ function createVisOverview(userWindowWidth) {
       .attr("class", "close")
       .attr("id", "close")
       .attr("x", function() {
-        return visBoxX + visConfig.wMonthHighlight - visConfig.wMonthHighlight;
+        return visBoxX + visConfig.wMonthHighlight - visConfig.ovrHighlightTitleW;
       })
       .attr("y", function() {
         return visBoxY + visConfig.ovrHighlightTitleH;
       })
       .attr("font-size", visConfig.ovrHighlightTitleSize)
       .attr("text-anchor", "end")
-      .text("X")
+      .text("x")
       .attr("opacity", 0)
       .on("click", function() {
         removeHighlight();
@@ -591,7 +591,7 @@ function createVisOverview(userWindowWidth) {
         .attr("opacity", 0)
         .on("mouseover", function() {
           var self = d3.select(this);
-          self.attr("stroke", visConfig.ovrStrokeCircleColor).attr("stroke-width", visConfig.ovrStrokeCircleW);
+          self.attr("stroke", visConfig.ovrStrokeCircleColor).attr("stroke-width", 3);
         })
         .on("mouseleave", function() {
           var self = d3.select(this);
