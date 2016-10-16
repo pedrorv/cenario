@@ -10,7 +10,6 @@
     <script type="text/javascript" src="js/recordists.js"></script>
     <script type="text/javascript" src="js/production.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Dosis:400' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
     <link type="text/css" rel="stylesheet" href="css/normalize.css"/>
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
@@ -46,7 +45,7 @@
 
       // Create first vis acoording to user screen
       createVisOverview(userWindowWidth);
-
+      
       // Adjust vis on screen resize
       d3.select(window).on("resize", function() {
         var userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
@@ -70,6 +69,7 @@
         visualSelection(reference);
         deleteVis();
         newVis(userWindowWidth);
+        resizeFun = newVis;
       }
 
       var visOverview = d3.select("a.overview").on("click", function() {

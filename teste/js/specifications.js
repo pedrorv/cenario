@@ -57,7 +57,8 @@ var visConfig = {
   natGraphYAxisLabelH: 270,
   natStrokesWidth: 2,
   natStrokesColor: "#dd1924",
-
+  natSubTitleSize: 13,
+  natMenuTitlesSize: 13,
 
   // Recordists Specs
 
