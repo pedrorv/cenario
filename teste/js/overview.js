@@ -151,7 +151,7 @@ function createVisOverview(userWindowWidth) {
       .text("Público e número de títulos mensais");
 
     superscription.append("text")
-      .attr("class", "title-description bold")
+      .attr("class", "title-description")
       .attr("x", function() {
         return returnXPosition(10);
       })
@@ -164,7 +164,7 @@ function createVisOverview(userWindowWidth) {
       .text("Títulos no mês");
 
     superscription.append("text")
-      .attr("class", "title-description bold")
+      .attr("class", "title-description")
       .attr("x", function() {
         return returnXPosition(10);
       })
@@ -179,7 +179,7 @@ function createVisOverview(userWindowWidth) {
       });
 
     superscription.append("text")
-      .attr("class", "title-description bold")
+      .attr("class", "title-description")
       .attr("x", function() {
         return returnXPosition(11);
       })
@@ -192,7 +192,7 @@ function createVisOverview(userWindowWidth) {
       .text("Público no mês");
 
     superscription.append("text")
-      .attr("class", "title-description bold")
+      .attr("class", "title-description")
       .attr("x", function() {
         return returnXPosition(11);
       })

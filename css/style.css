@@ -84,6 +84,7 @@ div.vis-selector p {
 div.vis-selector p.nav:hover {
   box-shadow: 0px -5px 0px #dd1924 inset;
   cursor: pointer;
+  transition: box-shadow 0.6s ease 0s;
 }
 
 div.vis-selector p.selected-vis {
