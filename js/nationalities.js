@@ -47,7 +47,7 @@ function createVisNationalities(userWindowWidth) {
       .attr("fill", visConfig.baseVisTitlesColors)
       .attr("font-size", visConfig.baseVisTitleSize)
       .attr("font-weight", "bold")
-      .text("Nacionalidades exibidas no cinema no Brasil");
+      .text("Nacionalidades exibidas no Brasil");
 
     // Vis Subtitle
 
