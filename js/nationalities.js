@@ -93,7 +93,7 @@ function createVisNationalities(userWindowWidth) {
       // Squares for first selection
 
       menuFilters.append("rect")
-        .attr("class", "continent-selector")
+        .attr("class", "continent-selector light")
         .attr("r", visConfig.natMenuCirclesRadius)
         .attr("i", i)
         .attr("x", function() {
@@ -162,7 +162,7 @@ function createVisNationalities(userWindowWidth) {
       // Texts for second selection
 
       menuFilters.append("text")
-        .attr("class", "subtitle")
+        .attr("class", "subtitle light")
         .attr("x", function() {
           return visConfig.natSecondOptionsTextW + (i*visConfig.natMenuWDistance);
         })

@@ -20,11 +20,11 @@
       <nav class="menu">
         <div class="vis-selector">
           <a href="http://pedrorv.github.io/cenario"><h1>CEN&Aacute;RIO</h1></a>
-          <a class="nav vis-selection overview selected-vis" href="#">P&uacute;blico e N&uacute;mero de T&iacute;tulos</a>
-          <a class="nav vis-selection nationalities" href="#">Nacionalidades</a>
-          <a class="nav vis-selection recordists" href="#">Nacionais Recordistas de P&uacute;blico</a>
-          <a class="nav vis-selection production" href="#">Produ&ccedil;&atilde;o Nacional</a>
-          <a class="nav " href="#">Sobre | Quem</a>
+          <p class="nav vis-selection overview selected-vis">P&uacute;blico e N&uacute;mero de T&iacute;tulos</p>
+          <p class="nav vis-selection nationalities">Nacionalidades</p>
+          <p class="nav vis-selection recordists">Nacionais Recordistas de P&uacute;blico</p>
+          <p class="nav vis-selection production">Produ&ccedil;&atilde;o Nacional</p>
+          <p class="nav " href="#">Sobre | Quem</p>
         </div>
       </nav>
     </div>
@@ -45,13 +45,43 @@
 
       // Create first vis acoording to user screen
       createVisOverview(userWindowWidth);
-      
+
       // Adjust vis on screen resize
       d3.select(window).on("resize", function() {
         var userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
             ratio = scaleRatio(userWindowWidth, visConfig.width, visConfig.baseWidth);
+
+
+
+        var wordcloud = d3.select("div#word-cloud");
+
+        if (!wordcloud.empty()) {
+          wordcloud.style({
+              position: "absolute",
+              top: ((visConfig.proMenuTextOptionsH/visConfig.height) * 100) + "%",
+              left: ((visConfig.proMenuTextOptionsW/visConfig.width) * 100) + "%",
+              width: ((visConfig.proMenuTextOptionsWTotal/visConfig.width) * 100) + "%",
+              height: ((visConfig.proMenuTextOptionsHTotal/visConfig.height) * 100) + "%"
+            });
+
+          wordcloud.selectAll("p")
+            .style({
+              "font-size": function() {
+                var value = parseFloat(d3.select(this).attr("base-size"));
+                return (value * ratio) + "px";
+              },
+              color: "#000",
+              display: "inline-block",
+              margin: "0 5px 5px 0"
+            });
+        }
+
         scaleSvg(ratio);
         scaleVis(ratio);
+
+        d3.select("div.visualization").style({
+          width: (visConfig.width * ratio) + "px"
+        });
       });
 
       function visualSelection(reference) {
@@ -72,19 +102,19 @@
         resizeFun = newVis;
       }
 
-      var visOverview = d3.select("a.overview").on("click", function() {
+      var visOverview = d3.select("p.overview").on("click", function() {
         changeVis(this, createVisOverview);
       });
 
-      var visNationalities = d3.select("a.nationalities").on("click", function() {
+      var visNationalities = d3.select("p.nationalities").on("click", function() {
         changeVis(this, createVisNationalities);
       });
 
-      var visRecordists = d3.select("a.recordists").on("click", function() {
+      var visRecordists = d3.select("p.recordists").on("click", function() {
         changeVis(this, createVisRecordists);
       });
 
-      var visProduction = d3.select("a.production").on("click", function() {
+      var visProduction = d3.select("p.production").on("click", function() {
         changeVis(this, createVisProduction);
       });
 

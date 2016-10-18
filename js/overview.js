@@ -139,7 +139,7 @@ function createVisOverview(userWindowWidth) {
       .attr("fill", visConfig.baseVisTitlesColors)
       .attr("font-size", visConfig.baseVisTitleSize)
       .attr("font-weight", "bold")
-      .text("As variações do cinema brasileiro");
+      .text("As variações do cinema no Brasil");
 
     superscription.append("text")
       .attr("class", "title-description")
@@ -151,7 +151,7 @@ function createVisOverview(userWindowWidth) {
       .text("Público e número de títulos mensais");
 
     superscription.append("text")
-      .attr("class", "title-description")
+      .attr("class", "title-description bold")
       .attr("x", function() {
         return returnXPosition(10);
       })
@@ -159,25 +159,27 @@ function createVisOverview(userWindowWidth) {
         return visConfig.superHMargin + visConfig.superTextSize;
       })
       .attr("text-anchor", "middle")
-      .attr("fill", visConfig.monthBoxHexValue)
-      .attr("font-size", visConfig.superSubSubtextSize)
-      .text("Área do círculo:");
-
-    superscription.append("text")
-      .attr("class", "title-description")
-      .attr("x", function() {
-        return returnXPosition(10);
-      })
-      .attr("y", function() {
-        return visConfig.superHMargin/2 + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize;
-      })
-      .attr("text-anchor", "middle")
-      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("fill", visConfig.superSubSubTextColor)
       .attr("font-size", visConfig.superSubSubtextSize)
       .text("Títulos no mês");
 
     superscription.append("text")
-      .attr("class", "title-description")
+      .attr("class", "title-description bold")
+      .attr("x", function() {
+        return returnXPosition(10);
+      })
+      .attr("y", function() {
+        return visConfig.superHMargin/2 + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize;
+      })
+      .attr("text-anchor", "middle")
+      .attr("fill", visConfig.superSubSubTextColor)
+      .attr("font-size", visConfig.superSubSubtextSize)
+      .text(function() {
+        return minDataCirclesTitles + " a " + maxDataCirclesTitles;
+      });
+
+    superscription.append("text")
+      .attr("class", "title-description bold")
       .attr("x", function() {
         return returnXPosition(11);
       })
@@ -185,12 +187,12 @@ function createVisOverview(userWindowWidth) {
         return visConfig.superHMargin + visConfig.superTextSize;
       })
       .attr("text-anchor", "middle")
-      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("fill", visConfig.superSubSubTextColor)
       .attr("font-size", visConfig.superSubSubtextSize)
-      .text("Escala de cor:");
+      .text("Público no mês");
 
     superscription.append("text")
-      .attr("class", "title-description")
+      .attr("class", "title-description bold")
       .attr("x", function() {
         return returnXPosition(11);
       })
@@ -198,9 +200,12 @@ function createVisOverview(userWindowWidth) {
         return visConfig.superHMargin/2 + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize;
       })
       .attr("text-anchor", "middle")
-      .attr("fill", visConfig.monthBoxHexValue)
+      .attr("fill", visConfig.superSubSubTextColor)
       .attr("font-size", visConfig.superSubSubtextSize)
-      .text("Público no mês");
+      .text(function() {
+        var million = 1000000;
+        return (minDataCirclesPublic/million).toFixed(1) + " a " + (maxDataCirclesPublic/million).toFixed(1) + " milhões";
+      });
 
     superscription.append("circle")
       .attr("cx", function() {

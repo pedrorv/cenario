@@ -111,7 +111,7 @@ function createVisRecordists(userWindowWidth) {
       .attr("y", (visConfig.height - visConfig.recGraphXAxisLabelsBottomMargin))
       .attr("fill", visConfig.recOptionCircleFill)
       .attr("font-size", visConfig.recGraphLabelsSize)
-      .attr("text-anchor", "start")
+      .attr("text-anchor", "middle")
       .text("Décadas");
 
     var subtitleGraph = superscription.append("g")
@@ -217,7 +217,10 @@ function createVisRecordists(userWindowWidth) {
         .attr("fill", visConfig.recGraphColor)
         .attr("font-size", visConfig.recGraphLabelsSize)
         .attr("text-anchor", "middle")
-        .text(decade);
+        .text(function() {
+          if (parseInt(decade) <= 20) return "20" + decade;
+          return "19" + decade;
+        });
     }
 
     function drawYAxisLabels(limit, radius) {

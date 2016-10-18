@@ -71,14 +71,17 @@ function createVisProduction(userWindowWidth) {
       ufs.append("p")
         .attr("class", "uf bold")
         .attr("id", uf)
+        .attr("base-size", function() {
+          var max = visConfig.ufsData['RJ']['Total'];
+          var min = visConfig.ufsData['AM']['Total'];
+          return visConfig.proMenuTextOptionsSmallerFont +
+                 (visConfig.ufsData[uf]["Total"] - min) *
+                 (visConfig.proMenuTextOptionsBiggerFont - visConfig.proMenuTextOptionsSmallerFont) /
+                 (max - min);
+        })
         .style({
           "font-size": function() {
-            var max = visConfig.ufsData['RJ']['Total'];
-            var min = visConfig.ufsData['AM']['Total'];
-            return visConfig.proMenuTextOptionsSmallerFont +
-                   (visConfig.ufsData[uf]["Total"] - min) *
-                   (visConfig.proMenuTextOptionsBiggerFont - visConfig.proMenuTextOptionsSmallerFont) /
-                   (max - min) + "px";
+            return parseFloat(d3.select(this).attr("base-size")) + "px";
           },
           color: "#000",
           display: "inline-block",
@@ -383,7 +386,10 @@ function createVisProduction(userWindowWidth) {
       var lineGraph = paths.append("path")
                         .attr("id", id)
                         .attr("d", lineFunction(dataset))
-                        .attr("stroke", visConfig.proPathsColor)
+                        .attr("stroke", function() {
+                          if (id.length === 2) return visConfig.regionsColors[visConfig.ufsData[identifier]["Região"]];
+                          return visConfig.regionsColors[identifier];
+                        })
                         .attr("stroke-width", visConfig.proLinesWidth)
                         .attr("fill", "none")
                         .attr("opacity", 0)
@@ -418,7 +424,10 @@ function createVisProduction(userWindowWidth) {
       var lineGraph = paths.append("path")
                         .attr("id", id)
                         .attr("d", lineFunction(dataset))
-                        .attr("stroke", visConfig.proPathsColor)
+                        .attr("stroke", function() {
+                          if (id.length === 2) return visConfig.regionsColors[visConfig.ufsData[identifier]["Região"]];
+                          return visConfig.regionsColors[identifier];
+                        })
                         .attr("stroke-width", visConfig.proLinesWidth)
                         .attr("fill", "none")
                         .attr("opacity", 0)
@@ -544,6 +553,8 @@ function createVisProduction(userWindowWidth) {
     }
 
     function drawGraph() {
+
+      d3.select("g.year-detail").remove();
 
       // Calculate Paramaters
 

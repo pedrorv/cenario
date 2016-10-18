@@ -59,7 +59,7 @@ div.vis-selector h1 {
   font-family: 'Dosis', sans-serif;
   font-weight: 200;
   margin: 0;
-  font-size: 30px;
+  font-size: 35px;
   line-height: 60px;
   display: block;
   float: left;
@@ -67,26 +67,30 @@ div.vis-selector h1 {
 }
 
 div.vis-selector a {
+  text-decoration: none;
+  color: white;
+}
+
+div.vis-selector p {
   display: block;
   float: left;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 60px;
   color: white;
-  text-decoration: none;
   text-transform: uppercase;
-  font-family: 'Raleway', sans-serif;
   padding: 0 10px;
 }
 
-div.vis-selector a.nav:hover {
+div.vis-selector p.nav:hover {
+  box-shadow: 0px -5px 0px #dd1924 inset;
+  cursor: pointer;
+}
+
+div.vis-selector p.selected-vis {
   box-shadow: 0px -5px 0px #dd1924 inset;
 }
 
-div.vis-selector a.selected-vis {
-  box-shadow: 0px -5px 0px #dd1924 inset;
-}
-
-div.vis-selector a:last-child {
+div.vis-selector p:last-child {
   float: right;
 }
 
@@ -95,11 +99,11 @@ text, p.uf {
 }
 
 text.bold, p.bold {
-  font-weight: bold;
+  font-weight: 600;
 }
 
 text.light {
-  font-weight: normal;
+  font-weight: 400;
 }
 
 
@@ -119,19 +123,19 @@ text {
 }
 
 p.sudeste {
-  border-bottom: 2px solid #1A1A1A;
+  border-bottom: 2px solid #404040;
 }
 p.sul {
-  border-bottom: 2px solid #666666;
+  border-bottom: 2px solid #93648D;
 }
 p.nordeste {
-  border-bottom: 2px solid #b2b2b2;
+  border-bottom: 2px solid #4CC3D9;
 }
 p.centro-oeste {
-  border-bottom: 2px solid #cccccc;
+  border-bottom: 2px solid #7BC8A4;
 }
 p.norte {
-  border-bottom: 2px solid #e6e6e6;
+  border-bottom: 2px solid #F16745;
 }
 
 

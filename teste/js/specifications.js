@@ -22,7 +22,7 @@ var visConfig = {
   natOptionsSquareH: 109,
   natFirstOptionsTextW: 96,
   natFirstOptionsTextH: 107,
-  natFirstOptionsTextSize: 10,
+  natFirstOptionsTextSize: 11,
   natOptionsCircleCenterH: 153,
   natOptionsCircleRadius: 5,
   natOptionsCircleCenterW: 84,
@@ -43,7 +43,7 @@ var visConfig = {
   natGraphXAxisBottomMargin: 50,
   natGraphXAxisDivisionH: 10,
   natGraphXAxisLabelsH: 23,
-  natGraphXAxisLabelsSize: 9,
+  natGraphXAxisLabelsSize: 11,
   natGraphXAxisLabelColor: "#000000",
   natGraphRectBottomMargin: 333,
   natGraphRectH: 63,
@@ -70,7 +70,7 @@ var visConfig = {
   recGraphColor: "#000000",
   recGraphDecadeSpacing: 25,
   recGraphXAxisLabelsBottomMargin: 15,
-  recGraphLabelsSize: 10,
+  recGraphLabelsSize: 11,
   recGraphXLabelsSize: 12,
   recGraphYAxisWMargin: 10,
   recGraphMoviesRadius: 5,
@@ -79,7 +79,7 @@ var visConfig = {
   recOptionCircleRadius: 5,
   recSecondOptionCircleH: 173,
   recOptionCircleFill: "#000000",
-  recOptionsTextSize: 10,
+  recOptionsTextSize: 11,
   recFirstTextOptionH: 141,
   recFirstTextOptionW: 48,
   recSecondTextOptionH: 176,
@@ -89,14 +89,14 @@ var visConfig = {
   recDetailsTextSize: 11,
   recSubtitleCircleH: 510,
   recSubtitleCircleW: 8,
-  recSubtitleText: 8,
+  recSubtitleText: 11,
   recSubtitleCircleRadius: 7,
   recSubtitleCircleDist: 20,
   recSubtitleTextW: 28,
   recSubtitleTextH: 513,
   recSubtitleTitleH: 494,
   recSubtitleTitleW: 8,
-  recSubtitleTitleSize: 10,
+  recSubtitleTitleSize: 12,
 
 
 
@@ -120,7 +120,7 @@ var visConfig = {
   proMenuTextOptionsH: 194,
   proMenuTextOptionsWTotal: 230,
   proMenuTextOptionsHTotal: 190,
-  proMenuTextOptionsSmallerFont: 8,
+  proMenuTextOptionsSmallerFont: 10,
   proMenuTextOptionsBiggerFont: 25,
   proMenuDivisionLineW: 250,
   proMenuDivisionLineH: 86,
@@ -142,8 +142,8 @@ var visConfig = {
   superTextSize: 18,
   superHMargin: 10,
   superSubtextSize: 12,
-  superSubSubtextSize: 8,
-
+  superSubSubtextSize: 10,
+  superSubSubTextColor: "#000000",
 
   // Circles Config
   circleBiggerRadius: 37.5,
@@ -303,6 +303,13 @@ var visConfig = {
     "África": "#93648D",
     "Oceania": "#404040"
   },
+  regionsColors: {
+    "Sudeste": "#404040",
+    "Sul": "#93648D",
+    "Nordeste": "#4CC3D9",
+    "Centro-Oeste": "#7BC8A4",
+    "Norte": "#F16745"
+  },
   decadesColors: {
     "00": "#1A1A1A",
     "10": "#666666",
@@ -393,13 +400,6 @@ var visConfig = {
     "Centro-Oeste",
     "Norte"
   ],
-  regionsColors: {
-    "Sudeste": "#1A1A1A",
-    "Sul": "#666666",
-    "Nordeste": "#B2B2B2",
-    "Centro-Oeste": "#CCCCCC",
-    "Norte": "#E6E6E6"
-  },
   regionsFilter: {
     "Sudeste": true,
     "Sul": true,
