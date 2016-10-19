@@ -9,6 +9,7 @@
     <script type="text/javascript" src="js/overview.js"></script>
     <script type="text/javascript" src="js/recordists.js"></script>
     <script type="text/javascript" src="js/production.js"></script>
+    <script type="text/javascript" src="js/about.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Dosis:400' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
     <link type="text/css" rel="stylesheet" href="css/normalize.css"/>
@@ -24,7 +25,7 @@
           <p class="nav vis-selection nationalities">Nacionalidades</p>
           <p class="nav vis-selection recordists">Nacionais Recordistas de P&uacute;blico</p>
           <p class="nav vis-selection production">Produ&ccedil;&atilde;o Nacional</p>
-          <p class="nav " href="#">Sobre | Quem</p>
+          <p class="nav vis-selection about" href="#">Sobre | Quem</p>
         </div>
       </nav>
     </div>
@@ -96,6 +97,8 @@
       function changeVis (reference, newVis) {
         userWindowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         d3.selectAll("div#word-cloud").remove();
+        d3.select("div.about-page").remove();
+        d3.select("svg").classed("hidden", false);
         visualSelection(reference);
         deleteVis();
         newVis(userWindowWidth);
@@ -116,6 +119,10 @@
 
       var visProduction = d3.select("p.production").on("click", function() {
         changeVis(this, createVisProduction);
+      });
+
+      var visAbout = d3.select("p.about").on("click", function() {
+        changeVis(this, createAboutPage);
       });
 
 
