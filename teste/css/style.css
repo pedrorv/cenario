@@ -123,6 +123,14 @@ text {
   cursor: default;
 }
 
+p.nav, h1, p.uf {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
+}
+
+
 p.sudeste {
   border-bottom: 2px solid #404040;
 }
