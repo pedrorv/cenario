@@ -66,7 +66,7 @@ function createVisNationalities(userWindowWidth) {
     // Fist menu filter title
 
     menuFilters.append("text")
-      .attr("class", "subtitle")
+      .attr("class", "subtitle bold")
       .attr("x", visConfig.baseWMargin)
       .attr("y", visConfig.natMenuFirstTitleH)
       .attr("text-anchor", "start")
@@ -77,7 +77,7 @@ function createVisNationalities(userWindowWidth) {
     // Second menu filter title
 
     menuFilters.append("text")
-      .attr("class", "subtitle")
+      .attr("class", "subtitle bold")
       .attr("x", visConfig.baseWMargin)
       .attr("y", visConfig.natMenuSecondTitleH)
       .attr("text-anchor", "start")
@@ -315,12 +315,12 @@ function createVisNationalities(userWindowWidth) {
 
       graph.append("text")
         .attr("class", "graph-description")
-        .attr("x", visConfig.natGraphAxisLabelsW)
+        .attr("x", visConfig.baseWMargin)
         .attr("y", (visConfig.height - visConfig.natGraphXAxisLabelH))
         .attr("text-anchor", "start")
         .attr("fill", visConfig.natContinentColor)
         .attr("font-size", visConfig.natSubTitleSize)
-        .text("Média");
+        .text("Média de Público");
 
       graph.append("text")
         .attr("class", "graph-description")

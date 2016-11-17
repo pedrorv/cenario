@@ -24,6 +24,15 @@ body {
   color: white;
 }
 
+div.about-page {
+  text-align: justify;
+  text-justify: inter-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
 #container {
   position: relative;
 }
@@ -161,6 +170,17 @@ rect.continent-selector {
   cursor: pointer;
 }
 
+rect.month:hover, text.month:hover, rect.year:hover, text.year:hover {
+  cursor: grab;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+}
+
+rect[grab="yes"], text[grab="yes"] {
+  cursor: grabbing !important;
+  cursor: -webkit-grabbing !important;
+  cursor: -moz-grabbing !important;
+}
 
 div.about-page {
   width: inherit;

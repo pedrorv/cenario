@@ -20,6 +20,8 @@ function createVisOverview(userWindowWidth) {
             var dx = d3.event.x,
                 self = d3.select(this);
 
+            self.attr('grab', 'yes');
+
             var index = testXPosition(dx);
             index = (index < 0) ? 0 : (index > 11) ? 11 : index;
 
@@ -54,6 +56,7 @@ function createVisOverview(userWindowWidth) {
           .on("dragend", function() {
 
             var self = d3.select(this);
+            self.attr('grab', 'no');
             var x = returnXPosition(parseInt(self.attr("currentmonth")));
             var selfCurrentMonth = self.attr("currentmonth");
 
