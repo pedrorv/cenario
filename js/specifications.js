@@ -43,7 +43,7 @@ var visConfig = {
   natGraphXAxisBottomMargin: 70,
   natGraphXAxisDivisionH: 10,
   natGraphXAxisLabelsH: 43,
-  natGraphXAxisLabelsSize: 11,
+  natGraphXAxisLabelsSize: 13,
   natGraphXAxisLabelColor: "#000000",
   natGraphRectBottomMargin: 333,
   natGraphRectH: 63,
@@ -70,7 +70,7 @@ var visConfig = {
   recGraphColor: "#000000",
   recGraphDecadeSpacing: 25,
   recGraphXAxisLabelsBottomMargin: 15,
-  recGraphLabelsSize: 11,
+  recGraphLabelsSize: 13,
   recGraphXLabelsSize: 12,
   recGraphYAxisWMargin: 10,
   recGraphMoviesRadius: 5,
@@ -97,38 +97,6 @@ var visConfig = {
   recSubtitleTitleH: 494,
   recSubtitleTitleW: 8,
   recSubtitleTitleSize: 12,
-
-
-
-  // Production Specs
-
-  proMenuFirstTitleH: 97,
-  proMenuFirstTitleW: 25,
-  proCircleOptionsRadius: 5,
-  proCircleOptionsW: 30,
-  proCircleOptionsWDistance: 80,
-  proCircleOptionsH: 115,
-  proCircleOptionsHDistance: 23,
-  proFirstOptionsW: 40,
-  proFirstOptionsH: 118,
-  proFirstOptionsSize: 10,
-  proMenuSecondTitleH: 184,
-  proMenuSecondTitleW: 25,
-  proMenuTitleSize: 18,
-  proMenuTitleColor: "#1A1A1A",
-  proMenuTextOptionsW: 25,
-  proMenuTextOptionsH: 194,
-  proMenuTextOptionsWTotal: 230,
-  proMenuTextOptionsHTotal: 190,
-  proMenuTextOptionsSmallerFont: 10,
-  proMenuTextOptionsBiggerFont: 25,
-  proMenuDivisionLineW: 250,
-  proMenuDivisionLineH: 86,
-  proMenuDivisionLineSize: 500,
-  proMenuDivisionLineColor: "#808080",
-  proCircleRadius: 5,
-
-
 
 
   // Overview Visualization Specs
@@ -201,7 +169,7 @@ var visConfig = {
   ovrHighlightOvrDetailSize: 13,
 
   ovrHighlightSubtitleSize: 18,
-  ovrHighlightSubtitleH: 122,
+  ovrHighlightSubtitleH: 117,
   ovrHighlightSubtitleW: 32,
   ovrHighlightInfoTitleSize: 15,
   ovrHighlightInfoSize: 13,
@@ -220,6 +188,38 @@ var visConfig = {
 
 
   // Production Visualization Specs
+
+  proMenuFirstTitleH: 97,
+  proMenuFirstTitleW: 25,
+  proSquareOptionsSize: 10,
+  proSquareOptionsW: 25,
+  proSquareOptionsH: 110,
+  proSquareOptionsHDistance: 23,
+  proSquareOptionsWDistance: 100,
+  proCircleOptionsRadius: 5,
+  proCircleOptionsW: 30,
+  proCircleOptionsWDistance: 100,
+  proCircleOptionsH: 115,
+  proCircleOptionsHDistance: 23,
+  proFirstOptionsW: 40,
+  proFirstOptionsH: 120,
+  proFirstOptionsSize: 13,
+  proMenuSecondTitleH: 204,
+  proMenuSecondTitleW: 25,
+  proMenuTitleSize: 18,
+  proMenuTitleColor: "#1A1A1A",
+  proMenuTextOptionsW: 25,
+  proMenuTextOptionsH: 214,
+  proMenuTextOptionsWTotal: 230,
+  proMenuTextOptionsHTotal: 190,
+  proMenuTextOptionsSmallerFont: 10,
+  proMenuTextOptionsBiggerFont: 25,
+  proMenuDivisionLineW: 250,
+  proMenuDivisionLineH: 86,
+  proMenuDivisionLineSize: 500,
+  proMenuDivisionLineColor: "#808080",
+  proCircleRadius: 5,
+  proGuidelinesWidth: 0.5,
 
   // Menu
 
@@ -247,7 +247,8 @@ var visConfig = {
   proLabelRightMargin: 10,
   proGuidelinesColor: "#CCCCCC",
   proPathsColor: "#000000",
-  proLinesWidth: 1,
+  proLinesWidth: 1.2,
+  proPathsWidth: 1,
   proDetailsPadding: 20,
 
 
@@ -304,11 +305,11 @@ var visConfig = {
     "Oceania": "#404040"
   },
   regionsColors: {
-    "Sudeste": "#404040",
-    "Sul": "#93648D",
-    "Nordeste": "#4CC3D9",
-    "Centro-Oeste": "#7BC8A4",
-    "Norte": "#F16745"
+    "Sudeste": "#7DB2DD",
+    "Sul": "#F8A40D",
+    "Nordeste": "#688BAD",
+    "Centro-Oeste": "#0079B5",
+    "Norte": "#FC4F68"
   },
   decadesColors: {
     "00": "#1A1A1A",

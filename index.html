@@ -16,7 +16,7 @@
     <link type="text/css" rel="stylesheet" href="css/normalize.css"/>
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
   </head>
-  <body>
+  <body lang="pt-BR">
 
     <div class="menu-container">
       <nav class="menu">
@@ -100,6 +100,7 @@
         d3.selectAll("div#word-cloud").remove();
         d3.select("div.about-page").remove();
         d3.select("svg").classed("hidden", false);
+        clearInterval(visConfig.animationTimer);
         visualSelection(reference);
         deleteVis();
         newVis(userWindowWidth);

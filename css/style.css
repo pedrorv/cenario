@@ -141,24 +141,24 @@ p.nav, h1, p.uf {
 
 
 p.sudeste {
-  border-bottom: 2px solid #404040;
+  border-bottom: 2px solid #7DB2DD;
 }
 p.sul {
-  border-bottom: 2px solid #93648D;
+  border-bottom: 2px solid #F8A40D;
 }
 p.nordeste {
-  border-bottom: 2px solid #4CC3D9;
+  border-bottom: 2px solid #688BAD;
 }
 p.centro-oeste {
-  border-bottom: 2px solid #7BC8A4;
+  border-bottom: 2px solid #0079B5;
 }
 p.norte {
-  border-bottom: 2px solid #F16745;
+  border-bottom: 2px solid #FC4F68;
 }
 
 
 circle.movie-info:hover, circle.menu-option:hover,
-circle.region-selector:hover, circle.graph-points:hover,
+rect.region-selector:hover, circle.graph-points:hover,
 circle.value-selector:hover, circle.year-month:hover,
 circle.movies-ranking:hover, rect.month,
 rect#lightbox:hover, text#close:hover,

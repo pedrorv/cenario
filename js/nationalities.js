@@ -183,6 +183,7 @@ function createVisNationalities(userWindowWidth) {
           if (year == 2009) return "year-selector bold";
           return "year-selector light";
         })
+        .attr("id", "y" + year)
         .attr("year", year)
         .attr("x", function() {
           return visConfig.natMenuYearsW + (visConfig.years[year]*visConfig.natMenuWDistance);
@@ -210,6 +211,19 @@ function createVisNationalities(userWindowWidth) {
 
 
     drawGraph();
+    // timeAnimation();
+    //
+    // function timeAnimation() {
+    //   visConfig.animationTimer = setInterval(function () {
+    //     var year = parseInt(visConfig.natYearSelected) + 1;
+    //     year = (year === 2015) ? 2009 : year;
+    //
+    //     visConfig.natYearSelected = "" + year;
+    //     d3.selectAll("text.year-selector").classed("bold", false);
+    //     d3.select("#y" + year).classed("light", false).classed("bold", true);
+    //     drawGraph();
+    //   }, 2000);
+    // }
 
     function drawGraph() {
 

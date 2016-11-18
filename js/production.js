@@ -122,17 +122,18 @@ function createVisProduction(userWindowWidth) {
       .text("Estados brasileiros produtores");
 
     for (var i = 0; i < visConfig.regionsArr.length; i++) {
-      menuFilters.append("circle")
+      menuFilters.append("rect")
         .attr("class", "region-selector")
-        .attr("r", visConfig.proCircleOptionsRadius)
+        .attr("width", visConfig.proSquareOptionsSize)
+        .attr("height", visConfig.proSquareOptionsSize)
+        .attr("x", function () {
+          return visConfig.proSquareOptionsW + ((i%2)*visConfig.proSquareOptionsWDistance);
+        })
+        .attr("y", function () {
+          return visConfig.proSquareOptionsH + ((Math.floor(i/2)) * visConfig.proSquareOptionsHDistance);
+        })
         .attr("i", i)
-        .attr("cx", function() {
-          return visConfig.proCircleOptionsW + ((i%3)*visConfig.proCircleOptionsWDistance);
-        })
-        .attr("cy", function() {
-          return visConfig.proCircleOptionsH + ((Math.floor(i/3)) * visConfig.proCircleOptionsHDistance);
-        })
-        .attr("fill", function() {
+        .attr("fill", function () {
           return visConfig.regionsColors[visConfig.regionsArr[i]];
         })
         .attr("stroke", "black")
@@ -150,10 +151,10 @@ function createVisProduction(userWindowWidth) {
       menuFilters.append("text")
         .attr("class", "subtitle")
         .attr("x", function() {
-          return visConfig.proFirstOptionsW + ((i%3)*visConfig.proCircleOptionsWDistance);
+          return visConfig.proFirstOptionsW + ((i%2)*visConfig.proCircleOptionsWDistance);
         })
         .attr("y", function() {
-          return visConfig.proFirstOptionsH + ((Math.floor(i/3)) * visConfig.proCircleOptionsHDistance);
+          return visConfig.proFirstOptionsH + ((Math.floor(i/2)) * visConfig.proCircleOptionsHDistance);
         })
         .attr("text-anchor", "start")
         .attr("fill", visConfig.proMenuTitleColor)
@@ -216,7 +217,7 @@ function createVisProduction(userWindowWidth) {
         d3.select("g.year-detail").remove();
       });
 
-    // Drawing x Axis
+    // Drawing x axis
 
     graph.append("line")
       .attr("x1", (visConfig.proWMargin + visConfig.proAxisStartW))
@@ -224,7 +225,7 @@ function createVisProduction(userWindowWidth) {
         return visConfig.proAxisStartH;
       })
       .attr("x2", function() {
-        return (visConfig.proWMargin + visConfig.proAxisStartW + visConfig.proXAxisW);
+        return (visConfig.proWMargin + visConfig.proAxisStartW + visConfig.proXAxisW + 8);
       })
       .attr("y2", function() {
         return visConfig.proAxisStartH;
@@ -233,7 +234,7 @@ function createVisProduction(userWindowWidth) {
       .attr("stroke-width", visConfig.proLinesWidth);
 
 
-    // Draw y line
+    // Draw y axis
 
     graph.append("line")
       .attr("x1", (visConfig.proWMargin + visConfig.proAxisStartW))
@@ -244,7 +245,7 @@ function createVisProduction(userWindowWidth) {
         return (visConfig.proWMargin + visConfig.proAxisStartW);
       })
       .attr("y2", function() {
-        return visConfig.proAxisStartH - visConfig.proYAxisH;
+        return visConfig.proAxisStartH - visConfig.proYAxisH - 15;
       })
       .attr("stroke", visConfig.proPathsColor)
       .attr("stroke-width", visConfig.proLinesWidth);
@@ -278,10 +279,10 @@ function createVisProduction(userWindowWidth) {
             return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
           })
           .attr("y2", function() {
-            return visConfig.proAxisStartH - visConfig.proYAxisH;
+            return visConfig.proAxisStartH - visConfig.proYAxisH - 15;
           })
           .attr("stroke", visConfig.proGuidelinesColor)
-          .attr("stroke-width", visConfig.proLinesWidth);
+          .attr("stroke-width", visConfig.proGuidelinesWidth);
       }
     }
 
@@ -290,11 +291,11 @@ function createVisProduction(userWindowWidth) {
         .attr("class", "y-guidelines")
         .attr("i", i)
         .attr("x1", (visConfig.proWMargin + visConfig.proAxisStartW))
-        .attr("x2", (visConfig.proWMargin + visConfig.proAxisStartW + visConfig.proXAxisW))
+        .attr("x2", (visConfig.proWMargin + visConfig.proAxisStartW + visConfig.proXAxisW + 8))
         .attr("y1", (visConfig.proAxisStartH - i * (visConfig.proYAxisH/10)))
         .attr("y2", (visConfig.proAxisStartH - i * (visConfig.proYAxisH/10)))
         .attr("stroke", visConfig.proGuidelinesColor)
-        .attr("stroke-width", visConfig.proLinesWidth)
+        .attr("stroke-width", visConfig.proGuidelinesWidth)
     }
 
     drawGraph();
@@ -390,7 +391,7 @@ function createVisProduction(userWindowWidth) {
                           if (id.length === 2) return visConfig.regionsColors[visConfig.ufsData[identifier]["Região"]];
                           return visConfig.regionsColors[identifier];
                         })
-                        .attr("stroke-width", visConfig.proLinesWidth)
+                        .attr("stroke-width", visConfig.proPathsWidth)
                         .attr("fill", "none")
                         .attr("opacity", 0)
                         .transition()
@@ -428,7 +429,7 @@ function createVisProduction(userWindowWidth) {
                           if (id.length === 2) return visConfig.regionsColors[visConfig.ufsData[identifier]["Região"]];
                           return visConfig.regionsColors[identifier];
                         })
-                        .attr("stroke-width", visConfig.proLinesWidth)
+                        .attr("stroke-width", visConfig.proPathsWidth)
                         .attr("fill", "none")
                         .attr("opacity", 0)
                         .transition()
@@ -456,9 +457,10 @@ function createVisProduction(userWindowWidth) {
           var y = amount * visConfig.proYAxisH / (visConfig.proMaxYValue);
           return visConfig.proAxisStartH - y;
         })
-        .attr("r", visConfig.proCircleRadius)
+        .attr("r", function () {
+          return (id.length === 2) ? visConfig.proCircleRadius : (visConfig.proCircleRadius + 1.5);
+        })
         .attr("fill", fill)
-
         .on("mouseover", function() {
           var self = d3.select(this);
           self

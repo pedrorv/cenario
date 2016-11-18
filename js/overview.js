@@ -566,7 +566,7 @@ function createVisOverview(userWindowWidth) {
       .attr("font-size", visConfig.ovrHighlightSubtitleSize)
       .attr("text-anchor", "start")
       .text(function() {
-        return "Filmes mais vistos entre os " + visConfig.dataCircles[year][month]["Títulos"] + " lançados";
+        return "Ranking dos mais vistos entre os " + visConfig.dataCircles[year][month]["Títulos"] + " lançados";
       })
       .attr("opacity", 0)
       .transition()
@@ -599,7 +599,7 @@ function createVisOverview(userWindowWidth) {
         .attr("opacity", 0)
         .on("mouseover", function() {
           var self = d3.select(this);
-          self.attr("stroke", visConfig.ovrStrokeCircleColor).attr("stroke-width", 3);
+          self.attr("stroke", visConfig.ovrStrokeCircleColor).attr("stroke-width", 5);
         })
         .on("mouseleave", function() {
           var self = d3.select(this);
