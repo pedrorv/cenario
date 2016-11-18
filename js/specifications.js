@@ -225,7 +225,9 @@ var visConfig = {
 
   proMenuTopMargin: 96,
   proSelStartTopMargin: 48,
-  proMenuCirclesRadius: 5,
+  proMenuCirclesRadiusState: 5,
+  proMenuCirclesRadiusRegion: 6.5,
+  proMenuCirclesGrowFactor: 2,
   proMenuCirclesHDist: 25,
   proMenuCirclesWDist: 85,
   proMenuSelectionSize: 10,

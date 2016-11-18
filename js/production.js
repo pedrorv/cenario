@@ -449,33 +449,43 @@ function createVisProduction(userWindowWidth) {
         .append("circle")
         .attr("id", id)
         .attr("class", "graph-points")
-        .attr("cx", function(d,i) {
+        .attr("cx", function (d,i) {
           return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
         })
-        .attr("cy", function(d,i) {
+        .attr("cy", function (d,i) {
           var amount = d;
           var y = amount * visConfig.proYAxisH / (visConfig.proMaxYValue);
           return visConfig.proAxisStartH - y;
         })
         .attr("r", function () {
-          return (id.length === 2) ? visConfig.proCircleRadius : (visConfig.proCircleRadius + 1.5);
+          return (id.length === 2) ? visConfig.proMenuCirclesRadiusState : (visConfig.proMenuCirclesRadiusRegion);
         })
         .attr("fill", fill)
-        .on("mouseover", function() {
+        .on("mouseover", function () {
           var self = d3.select(this);
           self
             .transition("grow")
             .duration(100)
-            .attr("r", visConfig.proCircleRadius + 2);
+            .attr("r", function () {
+              console.log(self.attr('id'));
+              return (self.attr("id").length === 2) ? visConfig.proMenuCirclesRadiusState +
+                                                      visConfig.proMenuCirclesGrowFactor
+                                                    : visConfig.proMenuCirclesRadiusRegion +
+                                                      visConfig.proMenuCirclesGrowFactor;
+            });
         })
-        .on("mouseleave", function() {
-          var self = d3.selectAll("circle.graph-points");
-          self
+        .on("mouseleave", function () {
+          var allCircles = d3.selectAll("circle.graph-points");
+          allCircles
             .transition("all-shrink")
             .duration(100)
-            .attr("r", visConfig.proCircleRadius);
+            .attr("r", function () {
+              var self = d3.select(this);
+              return (self.attr('id').length === 2) ? visConfig.proMenuCirclesRadiusState
+                                                    : visConfig.proMenuCirclesRadiusRegion;
+            });
         })
-        .on("click", function(d, i) {
+        .on("click", function (d, i) {
           d3.select("g.year-detail").remove();
 
           var self = d3.select(this);
