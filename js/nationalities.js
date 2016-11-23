@@ -19,6 +19,8 @@ function createVisNationalities(userWindowWidth) {
 
   function createVis() {
 
+    deleteVis();
+
     // Initial state of vis
     for (var continent in visConfig.continentsFilter) {
       visConfig.continentsFilter[continent] = true;

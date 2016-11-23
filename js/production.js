@@ -17,6 +17,8 @@ function createVisProduction(userWindowWidth) {
 
   function createVis() {
 
+    deleteVis();
+
     // Initial state of vis
     for (var uf in visConfig.proUfsFilter) {
       visConfig.proUfsFilter[uf] = false;

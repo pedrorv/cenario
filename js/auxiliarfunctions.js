@@ -4,10 +4,6 @@
 
 function deleteVis() {
   d3.select("g.vis").remove();
-  if (d3.select("svg.datamap")) {
-    d3.select("svg.datamap").remove();
-    d3.select("div.datamaps-hoverover").remove();
-  }
 }
 
 function formatNumber(number) {
