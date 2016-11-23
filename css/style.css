@@ -191,11 +191,12 @@ div.about-content {
   float: left;
   box-sizing: border-box;
   min-height: 100px;
-  padding: 40px 20px;
+  padding: 20px;
+  margin: 40px 0;
 }
 
 div.about-content:first-child {
-  border-right: 2px solid gray;
+  border-right: 1px solid gray;
 }
 
 div.team-member {

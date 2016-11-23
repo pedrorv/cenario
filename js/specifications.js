@@ -79,7 +79,7 @@ var visConfig = {
   recOptionCircleRadius: 5,
   recSecondOptionCircleH: 173,
   recOptionCircleFill: "#000000",
-  recOptionsTextSize: 11,
+  recOptionsTextSize: 13,
   recFirstTextOptionH: 141,
   recFirstTextOptionW: 48,
   recSecondTextOptionH: 176,
@@ -89,14 +89,14 @@ var visConfig = {
   recDetailsTextSize: 11,
   recSubtitleCircleH: 510,
   recSubtitleCircleW: 8,
-  recSubtitleText: 11,
+  recSubtitleText: 13,
   recSubtitleCircleRadius: 7,
   recSubtitleCircleDist: 20,
   recSubtitleTextW: 28,
-  recSubtitleTextH: 513,
-  recSubtitleTitleH: 494,
+  recSubtitleTextH: 514,
+  recSubtitleTitleH: 492,
   recSubtitleTitleW: 8,
-  recSubtitleTitleSize: 12,
+  recSubtitleTitleSize: 13,
 
 
   // Overview Visualization Specs
