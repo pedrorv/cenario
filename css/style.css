@@ -157,6 +157,7 @@ p.norte {
 }
 
 
+rect.pause-button, path.play-button,
 circle.movie-info:hover, circle.menu-option:hover,
 rect.region-selector:hover, circle.graph-points:hover,
 circle.value-selector:hover, circle.year-month:hover,

@@ -49,6 +49,10 @@ function roundMultPowerTen(num) {
   return num + (power - (num % power));
 }
 
+function toRadians(degrees) {
+  return degrees * Math.PI / 180;
+}
+
 // ----------------------------------------------------------------
 //               Overview visualization functions
 // ----------------------------------------------------------------

@@ -213,19 +213,19 @@ function createVisNationalities(userWindowWidth) {
 
 
     drawGraph();
-    // timeAnimation();
-    //
-    // function timeAnimation() {
-    //   visConfig.animationTimer = setInterval(function () {
-    //     var year = parseInt(visConfig.natYearSelected) + 1;
-    //     year = (year === 2015) ? 2009 : year;
-    //
-    //     visConfig.natYearSelected = "" + year;
-    //     d3.selectAll("text.year-selector").classed("bold", false);
-    //     d3.select("#y" + year).classed("light", false).classed("bold", true);
-    //     drawGraph();
-    //   }, 2000);
-    // }
+    timeAnimation();
+    
+    function timeAnimation() {
+      visConfig.animationTimer = setInterval(function () {
+        var year = parseInt(visConfig.natYearSelected) + 1;
+        year = (year === 2015) ? 2009 : year;
+    
+        visConfig.natYearSelected = "" + year;
+        d3.selectAll("text.year-selector").classed("bold", false);
+        d3.select("#y" + year).classed("light", false).classed("bold", true);
+        drawGraph();
+      }, 3000);
+    }
 
     function drawGraph() {
 
@@ -348,6 +348,48 @@ function createVisNationalities(userWindowWidth) {
         .text("Títulos");
 
 
+      // Play/Pause Controllers
+
+      graph.append("path")
+        .attr("class", "play-button")
+        .attr("d", function() {
+          var str = "";
+          str += "M " + visConfig.baseWMargin + " " + visConfig.natPlayButtonStartH + " ";
+          str += "L " + (visConfig.baseWMargin + (Math.cos(toRadians(30)) * visConfig.natPlayButtonSize)) + " " +
+                        (visConfig.natPlayButtonStartH - (Math.cos(toRadians(60)) * visConfig.natPlayButtonSize)) + " ";
+          str += "L " + visConfig.baseWMargin + " " + (visConfig.natPlayButtonStartH - visConfig.natPlayButtonSize) + " Z";
+          return str;
+        })
+        .attr("fill", visConfig.natPlayButtonColor)
+        .on("click", timeAnimation);
+
+      graph.append("rect")
+        .attr("class", "pause-button")
+        .attr("y", visConfig.natPauseButtonH)
+        .attr("x", visConfig.natPauseButtonW)
+        .attr("width", visConfig.natPauseButtonWidthSize)
+        .attr("height", visConfig.natPauseButtonHeight)
+        .attr("fill", visConfig.natPlayButtonColor);
+
+      graph.append("rect")
+        .attr("class", "pause-button")
+        .attr("y", visConfig.natPauseButtonH)
+        .attr("x", (visConfig.natPauseButtonW + visConfig.natPauseButtonWidthSize + visConfig.natPauseButtonDivision))
+        .attr("width", visConfig.natPauseButtonWidthSize)
+        .attr("height", visConfig.natPauseButtonHeight)
+        .attr("fill", visConfig.natPlayButtonColor);
+
+      graph.append("rect")
+        .attr("class", "pause-button")
+        .attr("y", visConfig.natPauseButtonH)
+        .attr("x", visConfig.natPauseButtonW)
+        .attr("width", (2*visConfig.natPauseButtonWidthSize + visConfig.natPauseButtonDivision))
+        .attr("height", visConfig.natPauseButtonHeight)
+        .attr("fill", "transparent")
+        .on("click", function() {
+          clearInterval(visConfig.animationTimer);
+        });
+        
 
       // Continent line
 

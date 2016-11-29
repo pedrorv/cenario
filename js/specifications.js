@@ -59,6 +59,14 @@ var visConfig = {
   natStrokesColor: "#dd1924",
   natSubTitleSize: 13,
   natMenuTitlesSize: 14,
+  natPlayButtonStartH: 235,
+  natPlayButtonSize: 15,
+  natPlayButtonColor: "#000000",
+  natPauseButtonH: 220,
+  natPauseButtonW: 100,
+  natPauseButtonHeight: 15,
+  natPauseButtonWidthSize: 4,
+  natPauseButtonDivision: 5,
 
   // Recordists Specs
 
