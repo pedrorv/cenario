@@ -509,11 +509,7 @@ function createVisRecordists(userWindowWidth) {
                        yearIndex * (movDist + radius*2);
               })
               .attr("width", (radius * 2))
-              .attr("fill", function() {
-                  return "#1A1A1A";
-              })
-              .attr("stroke", "black")
-              .attr("stroke-width", 1)
+              .attr("fill", "#46757F")
               .attr("y", function() {
                 return (visConfig.height - visConfig.recOriginBottomMargin);
               })
