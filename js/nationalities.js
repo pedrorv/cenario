@@ -218,6 +218,7 @@ function createVisNationalities(userWindowWidth) {
           self.classed("light", false).classed("bold", true).attr("fill", visConfig.natMenuYearsColorSelected);
 
           visConfig.natYearSelected = self.attr("year");
+          moveYearIndicator();
           drawGraph();
         })
 
@@ -282,15 +283,7 @@ function createVisNationalities(userWindowWidth) {
       .attr("fill", "transparent")
       .on("click", function() {
         clearInterval(visConfig.animationTimer);
-
-        d3.select("rect.year-indicator")
-        .transition('changing-year')
-        .duration(300)
-        .attr("x", function() {
-          return visConfig.natYearIndicatorW + 
-                 visConfig.years[visConfig.natYearSelected] * visConfig.natYearIndicatorDistance -
-                 visConfig.natYearIndicatorSize/2
-        })
+        moveYearIndicator();
       });
 
 
@@ -298,6 +291,7 @@ function createVisNationalities(userWindowWidth) {
     timeAnimation();
     
     function timeAnimation() {
+      clearInterval(visConfig.animationTimer);
       visConfig.animationTimer = setInterval(function () {
         var year = parseInt(visConfig.natYearSelected) + 1;
         year = (year === 2015) ? 2009 : year;
@@ -306,7 +300,14 @@ function createVisNationalities(userWindowWidth) {
         d3.selectAll("text.year-selector").classed("bold", false);
         d3.select("#y" + year).classed("light", false).classed("bold", true);
 
-        d3.select("rect.year-indicator")
+        
+        moveYearIndicator();
+        drawGraph();
+      }, 3000);
+    }
+
+    function moveYearIndicator() {
+      d3.select("rect.year-indicator")
         .transition('changing-year')
         .duration(300)
         .attr("x", function() {
@@ -314,9 +315,6 @@ function createVisNationalities(userWindowWidth) {
                  visConfig.years[visConfig.natYearSelected] * visConfig.natYearIndicatorDistance -
                  visConfig.natYearIndicatorSize/2
         })
-
-        drawGraph();
-      }, 3000);
     }
 
     function drawGraph() {
