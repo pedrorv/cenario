@@ -203,7 +203,7 @@ function createVisOverview(userWindowWidth) {
         return visConfig.superHMargin + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize + 15;
       })
       .attr("r", 4)
-      .attr("fill", visConfig.monthBoxHexValue);
+      .attr("fill", visConfig.monthBoxColor);
 
     superscription.append("circle")
       .attr("cx", function() {
@@ -213,7 +213,7 @@ function createVisOverview(userWindowWidth) {
         return visConfig.superHMargin + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize + 15;
       })
       .attr("r", 6)
-      .attr("fill", visConfig.monthBoxHexValue);
+      .attr("fill", visConfig.monthBoxColor);
 
     superscription.append("circle")
       .attr("cx", function() {
@@ -223,7 +223,7 @@ function createVisOverview(userWindowWidth) {
         return visConfig.superHMargin + visConfig.superHMargin + visConfig.superTextSize + visConfig.superSubSubtextSize + 15;
       })
       .attr("r", 8)
-      .attr("fill", visConfig.monthBoxHexValue);
+      .attr("fill", visConfig.monthBoxColor);
 
     superscription.append("rect")
       .attr("x", function() {
@@ -283,25 +283,28 @@ function createVisOverview(userWindowWidth) {
       .attr("class", "monthBoxes");
 
     for (var month in visConfig.months) {
+
       visMonths.append("rect")
-        .attr("class", "month")
+        .attr("class", "month month-button")
         .attr("x", function() {
-          return returnXPosition(parseInt(month)) - visConfig.circleBiggerRadius;
+          return returnXPosition(parseInt(month)) - visConfig.circleBiggerRadius - visConfig.wMonthBoxExtra;
         })
         .attr("y", visConfig.hMonthMargin)
-        .attr("width", (visConfig.circleBiggerRadius*2))
+        .attr("rx", visConfig.monthBoxRadius)
+        .attr("ry", visConfig.monthBoxRadius)
+        .attr("width", (visConfig.circleBiggerRadius + visConfig.wMonthBoxExtra)*2)
         .attr("height", visConfig.hMonthBox)
-        .attr("fill", visConfig.monthBoxHexValue)
+        .attr("fill", visConfig.monthBoxColor)
         .attr("originalmonth", month)
         .attr("currentmonth", month);
 
       visMonths.append("text")
-        .attr("class", "month")
+        .attr("class", "month bold")
         .attr("x", function() {
           return returnXPosition(parseInt(month));
         })
         .attr("y", function() {
-          return visConfig.hMonthMargin + visConfig.hMonthBox - 4;
+          return visConfig.hMonthMargin + visConfig.hMonthBox - 5;
         })
         .attr("text-anchor", "middle")
         .attr("fill", "#ffffff")
@@ -313,15 +316,22 @@ function createVisOverview(userWindowWidth) {
       visMonths.append("rect")
         .attr("class", "month")
         .attr("x", function() {
-          return returnXPosition(parseInt(month)) - visConfig.circleBiggerRadius;
+          return returnXPosition(parseInt(month)) - visConfig.circleBiggerRadius - visConfig.wMonthBoxExtra;
         })
         .attr("y", visConfig.hMonthMargin)
         .attr("width", (visConfig.circleBiggerRadius*2))
         .attr("height", visConfig.hMonthBox)
-        .attr("fill", "#ffffff")
-        .attr("opacity", 0.01)
+        .attr("fill", "transparent")
         .attr("originalmonth", month)
         .attr("currentmonth", month)
+        .on("mouseover", function() {
+          d3.select("rect.month-button[currentmonth='" + d3.select(this).attr('currentmonth') + "']")
+            .attr('fill', visConfig.monthBoxHoverColor);        
+        })
+        .on("mouseout", function() {
+          d3.select("rect.month-button[currentmonth='" + d3.select(this).attr('currentmonth') + "']")
+            .attr('fill', visConfig.monthBoxColor);          
+        })
         .call(dragX);
 
     }

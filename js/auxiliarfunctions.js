@@ -208,7 +208,7 @@ function moveMainElementsX(position, currentValue, duration) {
     .transition("moveXmain")
     .duration(duration)
     .attr("x", function() {
-      return position - visConfig.circleBiggerRadius;
+      return position - visConfig.circleBiggerRadius - visConfig.wMonthBoxExtra;
     });
 
   d3.selectAll("text[currentmonth='"+currentValue+"']")
@@ -234,7 +234,7 @@ function moveAllElementsX(indexShift, initialIndex, currentValue) {
     .transition("moveXall")
     .duration(visConfig.monthMovingDuration)
     .attr("x", function() {
-      return returnXPosition(indexShift) - visConfig.circleBiggerRadius;
+      return returnXPosition(indexShift) - visConfig.circleBiggerRadius - visConfig.wMonthBoxExtra;
     });
 
   d3.selectAll("text[currentmonth='"+initialIndex+"']")

@@ -148,11 +148,14 @@ var visConfig = {
   yearTextSize: 16,
 
   // Month Text Config
-  hMonthMargin: 85,
-  hMonthBox: 17,
-  monthBoxHexValue: "#666666",
+  hMonthMargin: 83,
+  wMonthBoxExtra: 5,
+  hMonthBox: 20,
+  monthBoxColor: "#666666",
+  monthBoxHoverColor: "#333333",
   monthBoxTextSize: 14,
   monthMovingDuration: 300,
+  monthBoxRadius: 4,
 
   // Vis Margins
   wMargin: 37,
