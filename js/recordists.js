@@ -318,9 +318,31 @@ function createVisRecordists(userWindowWidth) {
 
       d3.select("g.graph-draw").remove();
 
+      // 
+      function xPositionCirclesAndGuidelines(yearLastDigit, decade, radius, movDist, decWidth) {
+        var decIndex = visConfig.decadesIndex[decade];
+        var yearIndex = parseInt(yearLastDigit);
+        return visConfig.recOriginW + radius +
+                decIndex * (visConfig.recGraphDecadeSpacing + decWidth) +
+                yearIndex * (movDist + radius*2);
+      }
+
       var draw = d3.select("g.data")
         .append("g")
         .attr("class", "graph-draw");
+
+      for (var decade in visConfig.recordistsData) {
+          for (var i = 0; i < 10; i++) {
+            draw.append("line")
+                  .attr("class", "years-guidelines")
+                  .attr("x1", xPositionCirclesAndGuidelines(i, decade, radius, movDist, decWidth))
+                  .attr("x2", xPositionCirclesAndGuidelines(i, decade, radius, movDist, decWidth))
+                  .attr("y1", visConfig.height - visConfig.recOriginBottomMargin + 10)
+                  .attr("y2", visConfig.height - visConfig.recOriginBottomMargin - visConfig.recGraphH)
+                  .attr("stroke", "#cccccc")
+                  .attr("stroke-width", 0.5);
+          }
+      }
 
 
       if (visConfig.recModeSelected === "titles") {
@@ -330,6 +352,7 @@ function createVisRecordists(userWindowWidth) {
 
         for (var decade in visConfig.recordistsData) {
           for (var year in visConfig.recordistsData[decade]) {
+
             visConfig.recordistsData[decade][year].sort(function(a,b) {
               return a["Público"] - b["Público"];
             });
@@ -338,13 +361,7 @@ function createVisRecordists(userWindowWidth) {
               draw.append("circle")
                 .datum(movie)
                 .attr("class", "movie-info")
-                .attr("cx", function() {
-                  var decIndex = visConfig.decadesIndex[decade];
-                  var yearIndex = parseInt(year[3]);
-                  return visConfig.recOriginW + radius +
-                         decIndex * (visConfig.recGraphDecadeSpacing + decWidth) +
-                         yearIndex * (movDist + radius*2);
-                })
+                .attr("cx", xPositionCirclesAndGuidelines(year[3], decade, radius, movDist, decWidth))
                 .attr("cy", function() {
                   return (visConfig.height - visConfig.recOriginBottomMargin - radius) -
                          (radius*2 * movieIndex);

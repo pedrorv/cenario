@@ -97,6 +97,18 @@ function createVisProduction(userWindowWidth) {
           var region = visConfig.ufsData[uf]["Região"].toLowerCase();
           self.classed(region, !self.classed(region));
           updateGraph();
+        })
+        .on("mouseover", function() {
+          var self = d3.select(this);
+          var uf = self.attr("id");
+          var region = visConfig.ufsData[uf]["Região"].toLowerCase();
+          self.classed(region + "-hold", !self.classed(region + "-hold"));
+        })
+        .on("mouseout", function() {
+          var self = d3.select(this);
+          var uf = self.attr("id");
+          var region = visConfig.ufsData[uf]["Região"].toLowerCase();
+          self.classed(region + "-hold", !self.classed(region + "-hold"));
         });
     }
 
