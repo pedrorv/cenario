@@ -13,6 +13,7 @@ var visConfig = {
   baseVisSubtitle: 15,
   baseVisTitlesColors: "#333333",
   baseVisMenusColors: "#000000",
+  menusCheckBoxRadius: 2,
 
   // Nationalities specs
 
@@ -61,7 +62,7 @@ var visConfig = {
   natMenuTitlesSize: 14,
   natPlayButtonStartH: 235,
   natPlayButtonSize: 15,
-  natPlayButtonColor: "#000000",
+  natPlayButtonColor: "#333333",
   natPauseButtonH: 220,
   natPauseButtonW: 100,
   natPauseButtonHeight: 15,
@@ -73,6 +74,7 @@ var visConfig = {
   natYearIndicatorW: 170,
   natYearIndicatorDistance: 150,
   natYearIndicatorColor: "#000000",
+  natAnimationNotSelectedOpacity: 0.5,
 
   // Recordists Specs
 

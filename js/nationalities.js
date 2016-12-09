@@ -122,6 +122,8 @@ function createVisNationalities(userWindowWidth) {
         })
         .attr("stroke", "black")
         .attr("stroke-width", 1)
+        .attr("rx", visConfig.menusCheckBoxRadius)
+        .attr("ry", visConfig.menusCheckBoxRadius)
         .on("click", function() {
           var self = d3.select(this);
           var continent = parseInt(self.attr("i"));
@@ -130,6 +132,12 @@ function createVisNationalities(userWindowWidth) {
           });
           visConfig.continentsFilter[visConfig.continentsArr[continent]] = !visConfig.continentsFilter[visConfig.continentsArr[continent]];
           drawGraph();
+        })
+        .on("mouseover", function() {
+          d3.select(this).attr("stroke-width", 2);
+        })
+        .on("mouseout", function() {
+          d3.selectAll("rect.continent-selector").attr("stroke-width", 1);
         });
 
       // Texts for first selection
@@ -172,6 +180,12 @@ function createVisNationalities(userWindowWidth) {
           visConfig.publicFilter.min = visConfig.publicFilterOptions[publicFilter].min;
           visConfig.publicFilter.max = visConfig.publicFilterOptions[publicFilter].max;
           drawGraph();
+        })
+        .on("mouseover", function() {
+          d3.select(this).attr("stroke-width", 2);
+        })
+        .on("mouseout", function() {
+          d3.selectAll("circle.value-selector").attr("stroke-width", 1);
         });
 
       // Texts for second selection
@@ -256,20 +270,32 @@ function createVisNationalities(userWindowWidth) {
         return str;
       })
       .attr("fill", visConfig.natPlayButtonColor)
-      .on("click", timeAnimation);
+      .attr("stroke", visConfig.natPlayButtonColor)
+      .attr("stroke-width", 0)
+      .on("click", timeAnimation)
+      .on("mouseover", function() {
+        d3.select(this).attr("stroke-width", 2);
+      })
+      .on("mouseout", function() {
+        d3.select("path.play-button").attr("stroke-width", 0);
+      });
 
     menuFilters.append("rect")
-      .attr("class", "pause-button")
+      .attr("class", "pause-button pause-visible")
       .attr("y", visConfig.natPauseButtonH)
       .attr("x", visConfig.natPauseButtonW)
+      .attr("stroke", visConfig.natPlayButtonColor)
+      .attr("stroke-width", 0)
       .attr("width", visConfig.natPauseButtonWidthSize)
       .attr("height", visConfig.natPauseButtonHeight)
       .attr("fill", visConfig.natPlayButtonColor);
 
     menuFilters.append("rect")
-      .attr("class", "pause-button")
+      .attr("class", "pause-button pause-visible")
       .attr("y", visConfig.natPauseButtonH)
       .attr("x", (visConfig.natPauseButtonW + visConfig.natPauseButtonWidthSize + visConfig.natPauseButtonDivision))
+      .attr("stroke", visConfig.natPlayButtonColor)
+      .attr("stroke-width", 0)
       .attr("width", visConfig.natPauseButtonWidthSize)
       .attr("height", visConfig.natPauseButtonHeight)
       .attr("fill", visConfig.natPlayButtonColor);
@@ -283,7 +309,15 @@ function createVisNationalities(userWindowWidth) {
       .attr("fill", "transparent")
       .on("click", function() {
         clearInterval(visConfig.animationTimer);
+        d3.select("path.play-button").attr("opacity", visConfig.natAnimationNotSelectedOpacity);
+        d3.selectAll("rect.pause-button").attr("opacity", 1);
         moveYearIndicator();
+      })
+      .on("mouseover", function() {
+        d3.selectAll("rect.pause-visible").attr("stroke-width", 2);
+      })
+      .on("mouseout", function() {
+        d3.selectAll("rect.pause-visible").attr("stroke-width", 0);
       });
 
 
@@ -292,6 +326,9 @@ function createVisNationalities(userWindowWidth) {
     
     function timeAnimation() {
       clearInterval(visConfig.animationTimer);
+      d3.select("path.play-button").attr("opacity", 1);
+      d3.selectAll("rect.pause-button").attr("opacity", visConfig.natAnimationNotSelectedOpacity);
+
       visConfig.animationTimer = setInterval(function () {
         var year = parseInt(visConfig.natYearSelected) + 1;
         year = (year === 2015) ? 2009 : year;

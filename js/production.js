@@ -138,8 +138,8 @@ function createVisProduction(userWindowWidth) {
         .attr("fill", function () {
           return visConfig.regionsColors[visConfig.regionsArr[i]];
         })
-        .attr("rx", 2)
-        .attr("ry", 2)
+        .attr("rx", visConfig.menusCheckBoxRadius)
+        .attr("ry", visConfig.menusCheckBoxRadius)
         .attr("stroke", "black")
         .attr("stroke-width", 1)
         .on("click", function() {
