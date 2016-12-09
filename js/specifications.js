@@ -254,10 +254,10 @@ var visConfig = {
 
   // Graph
 
-  proYAxisH: 334,
+  proYAxisH: 434,
   proXAxisW: 840,
   proAxisStartW: 311,
-  proAxisStartH: 458,
+  proAxisStartH: 558,
   proYearsLabelTopMargin: 35,
   proYearsLabelLeftMargin: 262,
   proProdLabelTopMargin: 97,

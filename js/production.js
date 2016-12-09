@@ -138,6 +138,8 @@ function createVisProduction(userWindowWidth) {
         .attr("fill", function () {
           return visConfig.regionsColors[visConfig.regionsArr[i]];
         })
+        .attr("rx", 2)
+        .attr("ry", 2)
         .attr("stroke", "black")
         .attr("stroke-width", 1)
         .on("click", function() {
@@ -148,6 +150,12 @@ function createVisProduction(userWindowWidth) {
           });
           visConfig.regionsFilter[visConfig.regionsArr[region]] = !visConfig.regionsFilter[visConfig.regionsArr[region]];
           updateGraph();
+        })
+        .on("mouseover", function() {
+          d3.select(this).attr("stroke-width", 2);
+        })
+        .on("mouseout", function() {
+          d3.selectAll("rect.region-selector").attr("stroke-width", 1);
         });
 
       menuFilters.append("text")
