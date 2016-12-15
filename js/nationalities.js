@@ -1,14 +1,13 @@
 function createVisNationalities(userWindowWidth) {
 
-  if (!visConfig.countries) {
-    d3.json("js/data2.json", function(error, json) {
+  if (visConfig.countries === undefined) {
+    d3.json("js/countries-and-continents.json", function(error, json) {
       if (error) return console.warn(error);
       visConfig.countries = json;
 
-      d3.json("js/data.json", function(error2, json2) {
+      d3.json("js/nationalities-vis-data.json", function(error2, json2) {
         if (error2) return console.warn(error2);
-        visConfig.dataNationalitiesVis = json2;
-        visConfig.datasetGraphAux = returnNationsData(visConfig.dataNationalitiesVis, visConfig.countries);
+        visConfig.datasetGraphAux = json2;
         createVis();
       });
 
@@ -27,6 +26,10 @@ function createVisNationalities(userWindowWidth) {
     }
 
     visConfig.natYearSelected = "2009";
+    visConfig.publicFilter = {
+      min: 0,
+      max: Infinity
+    };
 
 
 
@@ -272,6 +275,7 @@ function createVisNationalities(userWindowWidth) {
       .attr("fill", visConfig.natPlayButtonColor)
       .attr("stroke", visConfig.natPlayButtonColor)
       .attr("stroke-width", 0)
+      .attr("opacity", visConfig.natAnimationNotSelectedOpacity)
       .on("click", timeAnimation)
       .on("mouseover", function() {
         d3.select(this).attr("stroke-width", 2);
@@ -322,7 +326,6 @@ function createVisNationalities(userWindowWidth) {
 
 
     drawGraph();
-    timeAnimation();
     
     function timeAnimation() {
       clearInterval(visConfig.animationTimer);

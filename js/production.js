@@ -1,10 +1,10 @@
 function createVisProduction(userWindowWidth) {
 
-  if (!visConfig.productionData) {
-    d3.json("js/ufsData.json", function(error, json) {
+  if (visConfig.productionData === undefined) {
+    d3.json("js/ufs-count-data.json", function(error, json) {
       if (error) return console.warn(error);
       visConfig.productionData = json;
-      d3.json("js/ufs.json", function(error, json) {
+      d3.json("js/ufs-region-count-data.json", function(error, json) {
         if (error) return console.warn(error);
         visConfig.ufsData = json;
         visConfig.regionsData = returnRegionsData(visConfig.productionData);

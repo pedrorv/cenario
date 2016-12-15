@@ -1,7 +1,7 @@
 function createVisRecordists(userWindowWidth) {
 
-  if (!visConfig.recordistsData) {
-    d3.json("js/dataRec.json", function(error, json) {
+  if (visConfig.recordistsData === undefined) {
+    d3.json("js/recordists-vis-data.json", function(error, json) {
       if (error) return console.warn(error);
       visConfig.recordistsData = json;
       createVis();

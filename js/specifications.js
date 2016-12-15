@@ -156,7 +156,7 @@ var visConfig = {
   monthBoxColor: "#666666",
   monthBoxHoverColor: "#333333",
   monthBoxTextSize: 14,
-  monthMovingDuration: 300,
+  monthMovingDuration: 100,
   monthBoxRadius: 4,
 
   // Vis Margins

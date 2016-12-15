@@ -41,11 +41,9 @@ function scaleVis(ratio) {
 }
 
 function roundMultPowerTen(num) {
-  var n = 0;
-  while (num > Math.pow(10, n)) {
-    n++;
-  }
-  var power = Math.pow(10, (n<=1) ? 1 : (n-1));
+  var n = Math.floor(Math.log10(num));
+  var power = Math.pow(10, (n<=1) ? 1 : n);
+
   return num + (power - (num % power));
 }
 
@@ -133,55 +131,33 @@ function returnYPosition(index) {
 
 function testXPosition(x) {
   var index = (x - 64 - visConfig.circleBiggerRadius) / ((visConfig.circleBiggerRadius * 2) + visConfig.wCircleMargin);
-  if (Math.abs(index - Math.floor(index + 0.5)) <= 0.3) {
-    return Math.floor(index + 0.5);
-  }
-  return false;
+
+  return Math.floor(index + 0.5);
 }
 
 function testYPosition(y) {
   var index = (y - visConfig.hMonthMargin - visConfig.circleBiggerRadius - visConfig.hMonthBox - 4) / ((visConfig.circleBiggerRadius * 2) + visConfig.hCircleMargin);
-  if (Math.abs(index - Math.floor(index + 0.5)) <= 0.3) {
-    return Math.floor(index + 0.5);
-  }
-  return false;
+
+  return Math.floor(index + 0.5);
 }
 
-function moveAllSpecificMonthDrag(index, month, dx) {
-  d3.selectAll("rect.month[currentmonth='" + month + "']")
-    .attr("x", function() {
-      return returnXPosition(index) - visConfig.circleBiggerRadius + dx;
-    });
-
-  d3.select("text.month[currentmonth='" + month + "']")
-    .attr("x", function() {
-      return returnXPosition(index) + dx;
-    });
-
-  d3.selectAll("circle[currentmonth='" + month + "']")
-    .attr("cx", function() {
-      return returnXPosition(index) + dx;
-    });
-}
-
-
-function moveMainElementsY(position, currentValue, duration) {
+function moveSelfY(position, currentValue, duration) {
   d3.selectAll("text[currentyear='"+currentValue+"']")
-    .transition("moveYmain")
+    .transition('moveSelfY')
     .duration(duration)
     .attr("y", function() {
       return position + (visConfig.yearTextSize/3);
     });
 
   d3.selectAll("circle[currentyear='"+currentValue+"']")
-    .transition("moveYmain")
+    .transition('moveSelfY')
     .duration(duration)
     .attr("cy", function() {
       return position;
     });
 }
 
-function moveAllElementsY(indexShift, initialIndex, currentValue) {
+function moveOthersY(indexShift, initialIndex, currentValue) {
   var shiftAux = d3.selectAll("[currentyear='"+initialIndex+"']");
   var selfCurrAux = d3.selectAll("[currentyear='"+currentValue+"']");
 
@@ -203,30 +179,30 @@ function moveAllElementsY(indexShift, initialIndex, currentValue) {
   selfCurrAux.attr("currentyear", initialIndex);
 }
 
-function moveMainElementsX(position, currentValue, duration) {
+function moveSelfX(position, currentValue, duration) {
   d3.selectAll("rect[currentmonth='"+currentValue+"']")
-    .transition("moveXmain")
+    .transition('moveSelfX')
     .duration(duration)
     .attr("x", function() {
       return position - visConfig.circleBiggerRadius - visConfig.wMonthBoxExtra;
     });
 
   d3.selectAll("text[currentmonth='"+currentValue+"']")
-    .transition("moveXmain")
+    .transition('moveSelfX')
     .duration(duration)
     .attr("x", function() {
       return position;
     });
 
   d3.selectAll("circle[currentmonth='"+currentValue+"']")
-    .transition("moveXmain")
+    .transition('moveSelfX')
     .duration(duration)
     .attr("cx", function() {
       return position;
     });
 }
 
-function moveAllElementsX(indexShift, initialIndex, currentValue) {
+function moveOthersX(indexShift, initialIndex, currentValue) {
   var shiftAux = d3.selectAll("[currentmonth='"+initialIndex+"']");
   var selfCurrAux = d3.selectAll("[currentmonth='"+currentValue+"']");
 
@@ -334,38 +310,6 @@ function returnGraphData(datasetGraph, continentFilter, publicFilter) {
 //             Recordists visualization functions
 // ----------------------------------------------------------------
 
-function returnTreemapDecadeData(dataset) {
-  var newObj = {
-    "name": "decades",
-    "children": []
-  };
-
-  for (var i in dataset) {
-    newObj.children.push({
-      "name": i,
-      "size": 0
-    });
-    for (var j in dataset[i]) {
-      newObj.children[newObj.children.length - 1].size += dataset[i][j].length;
-    }
-  }
-  return newObj;
-}
-
-function returnTreemapYearsData(dataset, property) {
-  var newObj = {
-    "name": "years",
-    "children": []
-  };
-
-  for (var i in dataset[property]) {
-    newObj.children.push({
-      "name": i,
-      "size": dataset[property][i].length
-    });
-  }
-  return newObj;
-}
 
 
 // ----------------------------------------------------------------
