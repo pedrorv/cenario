@@ -379,20 +379,54 @@ function createVisOverview(userWindowWidth) {
           .attr("opacity", 1);
       }
 
+      visYear.append("rect")
+        .attr("class", "year year-button")
+        .attr("x", visConfig.wYearRectMargin)
+        .attr("y", returnYPosition(visConfig.years[year]) + (visConfig.yearTextSize/3) - visConfig.yearTextSize)
+        .attr("width", visConfig.yearRectWidth)
+        .attr("height", visConfig.yearRectHeight)
+        .attr("rx", visConfig.monthBoxRadius)
+        .attr("ry", visConfig.monthBoxRadius)
+        .attr("originalyear", visConfig.years[year])
+        .attr("currentyear", visConfig.years[year])
+        .attr("fill", visConfig.monthBoxColor);
+
       visYear.append("text")
-        .attr("class", "year")
+        .attr("class", "year bold")
         .attr("x", function() {
           return visConfig.wYearMargin;
         })
         .attr("y", function() {
           return returnYPosition(visConfig.years[year]) + (visConfig.yearTextSize/3);
         })
-        .attr("text-anchor", "start")
+        .attr("text-anchor", "middle")
         .attr("font-size", visConfig.yearTextSize)
+        .attr("fill", "#FFFFFF")
         .text(year)
         .attr("originalyear", visConfig.years[year])
+        .attr("currentyear", visConfig.years[year]);
+
+      visYear.append("rect")
+        .attr("class", "year")
+        .attr("x", visConfig.wYearRectMargin)
+        .attr("y", returnYPosition(visConfig.years[year]) + (visConfig.yearTextSize/3) - 16)
+        .attr("width", visConfig.yearRectWidth)
+        .attr("height", visConfig.yearRectHeight)
+        .attr("rx", visConfig.monthBoxRadius)
+        .attr("ry", visConfig.monthBoxRadius)
+        .attr("originalyear", visConfig.years[year])
         .attr("currentyear", visConfig.years[year])
+        .attr("fill", "transparent")
+        .on("mouseover", function() {
+          d3.select("rect.year-button[currentyear='" + d3.select(this).attr('currentyear') + "']")
+            .attr('fill', visConfig.monthBoxHoverColor);        
+        })
+        .on("mouseout", function() {
+          d3.select("rect.year-button[currentyear='" + d3.select(this).attr('currentyear') + "']")
+            .attr('fill', visConfig.monthBoxColor);          
+        })
         .call(dragY);
+
     }
 
     scaleVis(scaleRatio(userWindowWidth, visConfig.width, visConfig.baseWidth));

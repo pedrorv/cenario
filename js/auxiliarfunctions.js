@@ -142,6 +142,13 @@ function testYPosition(y) {
 }
 
 function moveSelfY(position, currentValue, duration) {
+  d3.selectAll("rect[currentyear='"+currentValue+"']")
+    .transition('moveSelfY')
+    .duration(duration)
+    .attr("y", function() {
+      return position + (visConfig.yearTextSize/3) - visConfig.yearTextSize;
+    });
+
   d3.selectAll("text[currentyear='"+currentValue+"']")
     .transition('moveSelfY')
     .duration(duration)
@@ -160,6 +167,13 @@ function moveSelfY(position, currentValue, duration) {
 function moveOthersY(indexShift, initialIndex, currentValue) {
   var shiftAux = d3.selectAll("[currentyear='"+initialIndex+"']");
   var selfCurrAux = d3.selectAll("[currentyear='"+currentValue+"']");
+
+  d3.selectAll("rect[currentyear='"+initialIndex+"']")
+    .transition("moveXall")
+    .duration(visConfig.monthMovingDuration)
+    .attr("y", function() {
+      return returnYPosition(indexShift) + (visConfig.yearTextSize/3) - visConfig.yearTextSize;
+    });
 
   d3.selectAll("text[currentyear='"+initialIndex+"']")
     .transition("moveYall")

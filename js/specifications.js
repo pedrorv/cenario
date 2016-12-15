@@ -90,15 +90,15 @@ var visConfig = {
   recGraphXLabelsSize: 12,
   recGraphYAxisWMargin: 10,
   recGraphMoviesRadius: 5,
-  recFirstOptionCircleW: 35,
-  recFirstOptionCircleH: 138,
+  recFirstOptionCircleW: 40,
+  recFirstOptionCircleH: 115,
   recOptionCircleRadius: 5,
-  recSecondOptionCircleH: 173,
+  recSecondOptionCircleH: 150,
   recOptionCircleFill: "#000000",
   recOptionsTextSize: 13,
-  recFirstTextOptionH: 141,
-  recFirstTextOptionW: 48,
-  recSecondTextOptionH: 176,
+  recFirstTextOptionH: 119,
+  recFirstTextOptionW: 53,
+  recSecondTextOptionH: 154,
   recDetailsRectColor: "#F4F4F4",
   recDetailsTotalPadding: 30,
   recDetailsTextMargin: 5,
@@ -146,7 +146,10 @@ var visConfig = {
 
   // Year Text Config
   hYearMargin: 61,
-  wYearMargin: 5,
+  wYearMargin: 30,
+  wYearRectMargin: 5,
+  yearRectWidth: 50,
+  yearRectHeight: 23,
   yearTextSize: 16,
 
   // Month Text Config
