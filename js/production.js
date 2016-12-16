@@ -274,7 +274,7 @@ function createVisProduction(userWindowWidth) {
 
     for (var i = 0; i <= visConfig.proYearsArr.length; i++) {
       graph.append("text")
-        .attr("class", "xaxis-description")
+        .attr("class", "xaxis-description label")
         .attr("x", function() {
           return (visConfig.proWMargin + visConfig.proAxisStartW) + i*visConfig.proXAxisW/(visConfig.proYearsArr.length-1);
         })
@@ -328,7 +328,7 @@ function createVisProduction(userWindowWidth) {
 
       for (var i = 0; i <= 10; i++) {
         graph.append("text")
-          .attr("class", "yaxis-description")
+          .attr("class", "yaxis-description label")
           .attr("i", i)
           .attr("x", function() {
             return (visConfig.proWMargin + visConfig.proAxisStartW - visConfig.proLabelRightMargin);

@@ -275,3 +275,7 @@ img.photo {
 .hidden {
   display: none;
 }
+
+text.label {
+  font-family: sans-serif !important; 
+}

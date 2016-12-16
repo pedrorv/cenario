@@ -210,7 +210,9 @@ function createVisRecordists(userWindowWidth) {
     var moviesDistance = (widthForDec - 10*2*moviesRadius)/9;
 
     for (var decade in visConfig.recordistsData) {
+
       graph.append("text")
+        .attr("class", "light label")
         .attr("x", function() {
           return visConfig.recOriginW + widthForDec/2 + visConfig.decadesIndex[decade] * (widthForDec + visConfig.recGraphDecadeSpacing);
         })
@@ -222,13 +224,14 @@ function createVisRecordists(userWindowWidth) {
           if (parseInt(decade) <= 20) return "20" + decade;
           return "19" + decade;
         });
-    }
+        
+  }
 
     function drawYAxisLabels(limit, radius) {
 
       for (var i = 0; i <= 10; i++) {
         graph.append("text")
-          .attr("class", "yaxis-description")
+          .attr("class", "yaxis-description label")
           .attr("i", i)
           .attr("x", visConfig.recOriginW - visConfig.recGraphYAxisWMargin)
           .attr("y", function() {
@@ -341,6 +344,18 @@ function createVisRecordists(userWindowWidth) {
                   .attr("y2", visConfig.height - visConfig.recOriginBottomMargin - visConfig.recGraphH)
                   .attr("stroke", "#cccccc")
                   .attr("stroke-width", 0.5);
+
+            draw.append("text")
+                  .attr("class", "light label")
+                  .attr("x", xPositionCirclesAndGuidelines(i, decade, radius, movDist, decWidth))
+                  .attr("y", (visConfig.height - visConfig.recGraphXAxisLabelsBottomMargin - 20))
+                  .attr("fill", visConfig.recGraphColor)
+                  .attr("font-size", 11)
+                  .attr("text-anchor", "middle")
+                  .text(function() {
+                    return decade[0] + '' + i;
+                  });
+
           }
       }
 

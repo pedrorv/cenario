@@ -517,7 +517,7 @@ function createVisNationalities(userWindowWidth) {
           .attr("stroke-width", visConfig.natDivisionLineThickness);
 
       graph.append("text")
-        .attr("class", "axis-description")
+        .attr("class", "axis-description label")
         .attr("x", function() {
           return visConfig.baseWMargin + i * ((visConfig.natGraphXAxisW)/10);
         })
