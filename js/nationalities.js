@@ -365,7 +365,7 @@ function createVisNationalities(userWindowWidth) {
 
         configuration = calculateParameters();
         updateGraph();
-      }, 3000);
+      }, 6000);
     }
 
     function moveYearIndicator() {
@@ -453,18 +453,23 @@ function createVisNationalities(userWindowWidth) {
 
     function updateGraph() {
 
+      // Remove warning text
+
       removeWarning();
+
+      // Remove graph paths
+
       removePaths();
 
       // Ajusting graph labels
 
       d3.selectAll('text.axis-description.label')
-          .attr("text-anchor", "middle")
-          .attr("fill", visConfig.natGraphXAxisLabelColor)
-          .attr("font-size", visConfig.natGraphXAxisLabelsSize)
-          .text(function(d, i) {
-            return formatNumber((visConfig.publicFilter.min + i*(configuration.maxDataNations - visConfig.publicFilter.min)/10));
-          });
+        .attr("text-anchor", "middle")
+        .attr("fill", visConfig.natGraphXAxisLabelColor)
+        .attr("font-size", visConfig.natGraphXAxisLabelsSize)
+        .text(function(d, i) {
+          return formatNumber((visConfig.publicFilter.min + i*(configuration.maxDataNations - visConfig.publicFilter.min)/10));
+        });
 
       
       var countriesRects = d3.select('g.graph')
@@ -530,7 +535,7 @@ function createVisNationalities(userWindowWidth) {
           .attr("opacity", function(d) {
             if (visConfig.natCountrySelected === undefined || visConfig.natCountrySelected === d['País']) return 1;
 
-            return 0.7;
+            return visConfig.natGraphNotSelectedOpacity;
           });
 
       countriesRects
@@ -545,7 +550,7 @@ function createVisNationalities(userWindowWidth) {
           .attr("opacity", function(d) {
             if (visConfig.natCountrySelected === undefined || visConfig.natCountrySelected === d['País']) return 1;
 
-            return 0.7;
+            return visConfig.natGraphNotSelectedOpacity;
           });
 
       countriesPaths
@@ -580,7 +585,7 @@ function createVisNationalities(userWindowWidth) {
           .attr("opacity", function(d) {
             if (visConfig.natCountrySelected === undefined || visConfig.natCountrySelected === d['País']) return 1;
 
-            return 0.7;
+            return visConfig.natGraphNotSelectedOpacity;
           });
 
       if (selectedCountryIsInTheVis) {
@@ -640,8 +645,8 @@ function createVisNationalities(userWindowWidth) {
       var data = self.data()[0];
       visConfig.natCountrySelected = data['País'];
       updateTextsCountry(data);
-      d3.selectAll("rect.country-bar").attr("opacity", function(d) { return (d['País'] === visConfig.natCountrySelected) ? 1 : 0.7; } );
-      d3.selectAll("path.country-path").attr("opacity", function(d) { return (d['País'] === visConfig.natCountrySelected) ? 1 : 0.7; } );
+      d3.selectAll("rect.country-bar").attr("opacity", function(d) { return (d['País'] === visConfig.natCountrySelected) ? 1 : visConfig.natGraphNotSelectedOpacity; } );
+      d3.selectAll("path.country-path").attr("opacity", function(d) { return (d['País'] === visConfig.natCountrySelected) ? 1 : visConfig.natGraphNotSelectedOpacity; } );
     }
 
     function countryMouseoverInteration(self) {

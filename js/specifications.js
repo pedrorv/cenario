@@ -75,6 +75,8 @@ var visConfig = {
   natYearIndicatorDistance: 150,
   natYearIndicatorColor: "#000000",
   natAnimationNotSelectedOpacity: 0.5,
+  natGraphNotSelectedOpacity: 0.6,
+
 
   // Recordists Specs
 
