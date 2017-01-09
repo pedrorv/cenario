@@ -624,6 +624,8 @@ function createVisNationalities(userWindowWidth) {
     }
 
     function countryClickInteration(self) {
+      removeWarning();
+
       var data = self.data()[0];
       visConfig.natCountrySelected = data['País'];
       updateTextsCountry(data);
