@@ -456,6 +456,44 @@ function createVisNationalities(userWindowWidth) {
       removeWarning();
       removePaths();
 
+      // Ajusting graph labels
+
+      d3.selectAll('.label').remove();
+
+      for (var i = 0; i <= 10; i++) {
+        d3.select('g.graph').append("line")
+          .attr('class', 'label')
+          .attr("x1", function() {
+            return visConfig.baseWMargin + i * (visConfig.natGraphXAxisW/10);
+          })
+          .attr("y1", function() {
+            return visConfig.height - visConfig.natGraphXAxisBottomMargin - visConfig.natGraphXAxisDivisionH;
+          })
+          .attr("x2", function() {
+            return visConfig.baseWMargin + i * (visConfig.natGraphXAxisW/10);
+          })
+          .attr("y2", function() {
+            return visConfig.height - visConfig.natGraphXAxisBottomMargin + visConfig.natGraphXAxisDivisionH;
+          })
+          .attr("stroke", visConfig.natDivisionLineColor)
+          .attr("stroke-width", visConfig.natDivisionLineThickness);
+
+        d3.select('g.graph').append("text")
+          .attr("class", "axis-description label")
+          .attr("x", function() {
+            return visConfig.baseWMargin + i * ((visConfig.natGraphXAxisW)/10);
+          })
+          .attr("y", function() {
+            return visConfig.height - visConfig.natGraphXAxisLabelsH;
+          })
+          .attr("text-anchor", "middle")
+          .attr("fill", visConfig.natGraphXAxisLabelColor)
+          .attr("font-size", visConfig.natGraphXAxisLabelsSize)
+          .text(function() {
+            return formatNumber((visConfig.publicFilter.min + i*(configuration.maxDataNations - visConfig.publicFilter.min)/10));
+          });
+      }
+
       var countriesRects = d3.select('g.graph')
                              .selectAll('rect.country-bar')
                              .data(configuration.finalData, function(d) { return d["País"]; });
@@ -749,6 +787,7 @@ function createVisNationalities(userWindowWidth) {
 
       for (var i = 0; i <= 10; i++) {
         graph.append("line")
+          .attr('class', 'label')
           .attr("x1", function() {
             return visConfig.baseWMargin + i * (visConfig.natGraphXAxisW/10);
           })
