@@ -30,7 +30,8 @@ function createVisNationalities(userWindowWidth) {
       min: 0,
       max: Infinity
     };
-
+    visConfig.natPreviousYearSelected = undefined;
+    visConfig.natCountrySelected = undefined;
 
 
     var vis = d3.select("svg.vis")
@@ -49,7 +50,8 @@ function createVisNationalities(userWindowWidth) {
        .on("click", function() {
          d3.selectAll("path.country-path").attr("opacity", 1);
          d3.selectAll("rect.country-bar").attr("opacity", 1);
-         d3.selectAll("text.description-texts").text("");
+         removeTextsCountry();
+         visConfig.natCountrySelected = undefined;
        });
 
     var superscription = vis.append("g")
@@ -134,7 +136,18 @@ function createVisNationalities(userWindowWidth) {
             return (self.attr("fill") == "white") ? visConfig.continentsColors[visConfig.continentsArr[continent]] : "white";
           });
           visConfig.continentsFilter[visConfig.continentsArr[continent]] = !visConfig.continentsFilter[visConfig.continentsArr[continent]];
-          drawGraph();
+          
+          configuration = calculateParameters();
+
+          try {
+            if (visConfig.countries[visConfig.natCountrySelected]['continente'] === visConfig.continentsArr[continent] && !visConfig.continentsFilter[visConfig.continentsArr[continent]]) {
+              visConfig.natCountrySelected = undefined;
+              removeTextsCountry();
+              removeWarning();
+            }
+          } catch (e) {}
+
+          updateGraph();
         })
         .on("mouseover", function() {
           d3.select(this).attr("stroke-width", 2);
@@ -182,7 +195,9 @@ function createVisNationalities(userWindowWidth) {
           });
           visConfig.publicFilter.min = visConfig.publicFilterOptions[publicFilter].min;
           visConfig.publicFilter.max = visConfig.publicFilterOptions[publicFilter].max;
-          drawGraph();
+
+          configuration = calculateParameters();
+          updateGraph();
         })
         .on("mouseover", function() {
           d3.select(this).attr("stroke-width", 2);
@@ -234,9 +249,12 @@ function createVisNationalities(userWindowWidth) {
           var self = d3.select(this);
           self.classed("light", false).classed("bold", true).attr("fill", visConfig.natMenuYearsColorSelected);
 
+          visConfig.natPreviousYearSelected = visConfig.natYearSelected;
           visConfig.natYearSelected = self.attr("year");
           moveYearIndicator();
-          drawGraph();
+
+          configuration = calculateParameters();
+          updateGraph();
         })
 
     }
@@ -324,6 +342,7 @@ function createVisNationalities(userWindowWidth) {
         d3.selectAll("rect.pause-visible").attr("stroke-width", 0);
       });
 
+    var configuration = calculateParameters();
 
     drawGraph();
     
@@ -336,13 +355,16 @@ function createVisNationalities(userWindowWidth) {
         var year = parseInt(visConfig.natYearSelected) + 1;
         year = (year === 2015) ? 2009 : year;
     
+        visConfig.natPreviousYearSelected = visConfig.natYearSelected;
         visConfig.natYearSelected = "" + year;
         d3.selectAll("text.year-selector").classed("bold", false);
         d3.select("#y" + year).classed("light", false).classed("bold", true);
 
         
         moveYearIndicator();
-        drawGraph();
+
+        configuration = calculateParameters();
+        updateGraph();
       }, 3000);
     }
 
@@ -357,11 +379,7 @@ function createVisNationalities(userWindowWidth) {
         })
     }
 
-    function drawGraph() {
-
-      d3.selectAll("g.graph").remove();
-
-      // Calculate Paramaters
+    function calculateParameters() {
 
       visConfig.datasetGraph = returnGraphData(visConfig.datasetGraphAux, visConfig.continentsFilter, visConfig.publicFilter);
 
@@ -372,6 +390,7 @@ function createVisNationalities(userWindowWidth) {
       var spacingSum = 0;
       var maxDataNations = 0;
       var minDataNations = Infinity;
+      var finalData = [];
 
       dataHolder.forEach(function(continent) {
         continent.sort(function(a, b){return b["Dados"]["Títulos"]-a["Dados"]["Títulos"]});
@@ -389,6 +408,7 @@ function createVisNationalities(userWindowWidth) {
             minDataNations = country["Dados"]["Média"];
           }
         })
+        finalData = finalData.concat(continent);
       });
 
       if (visConfig.publicFilter.max === Infinity) {
@@ -402,11 +422,237 @@ function createVisNationalities(userWindowWidth) {
 
       var totalAxisWidth = visConfig.natGraphXAxisW;
 
+      var accumulator = visConfig.baseWMargin;
+      var calculatePositions = finalData.map((el, country) => {
+        var x = accumulator;
+        var width = (el["Dados"]["Títulos"] * totalWidthAvailable)/titlesSum;
+
+        accumulator += width;
+
+        if ((country !== finalData.length-1) && (visConfig.countries[finalData[country]["País"]]["continente"] === visConfig.countries[finalData[country+1]["País"]]["continente"])) {
+          accumulator += visConfig.natGraphCountrySpacing;
+        } else {
+          accumulator += visConfig.natGraphContinentSpacing;
+        }
+
+        return {
+          x: x,
+          width: width
+        };
+      });
+
+      return {
+        dataHolder: dataHolder,
+        titlesSum: titlesSum,
+        maxDataNations: maxDataNations,
+        totalWidthAvailable: totalWidthAvailable,
+        finalData: finalData,
+        positions: calculatePositions
+      };
+    }
+
+    function updateGraph() {
+
+      removeWarning();
+      removePaths();
+
+      var countriesRects = d3.select('g.graph')
+                             .selectAll('rect.country-bar')
+                             .data(configuration.finalData, function(d) { return d["País"]; });
+      
+      var countriesPaths = d3.select('g.graph')
+                             .selectAll('path.country-path')
+                             .data(configuration.finalData, function(d) { return d["País"]; });
+
+      if (visConfig.natCountrySelected !== undefined) {
+        var selectedCountryWasInTheVis,
+            selectedCountryIsInTheVis;
+        try {
+          selectedCountryWasInTheVis = countryWasInTheVis(visConfig.natCountrySelected);
+        } catch (e) {
+        }
+
+        try {
+          selectedCountryIsInTheVis = countryIsInTheVis(visConfig.natCountrySelected);
+        } catch (e) {
+        }
+
+        if (!selectedCountryIsInTheVis) {
+          removeTextsCountry();
+          alertCountryIsNotPresent();
+        }
+      }
+
+      countriesRects.exit().remove();
+
+      countriesRects
+          .enter()
+          .append('rect')
+          .attr("class", "country-bar")
+          .attr("fill", function(d, country) {
+            return visConfig.continentsColors[visConfig.countries[d["País"]]["continente"]];
+          })
+          .attr("x", function(d, country) {
+            return configuration.positions[country].x;
+          })
+          .attr("y", function() {
+            return visConfig.height - visConfig.natGraphRectBottomMargin;
+          })
+          .attr("height", visConfig.natGraphRectH)
+          .attr("width", function(d, country) {
+            return configuration.positions[country].width;
+          })
+          .on("click", function() {
+            countryClickInteration(d3.select(this));
+          })
+          .on("mouseover", function() {
+            countryMouseoverInteration(d3.select(this));
+          })
+          .on("mouseleave", function() {
+            countryMouseleaveInteration(d3.selectAll("rect.country-bar"));
+          })
+          .attr("stroke-width", 0)
+          .attr("stroke", "transparent")
+          .attr("opacity", 0)
+          .transition('new-rect-appearing')
+          .duration(300)
+          .attr("opacity", function(d) {
+            if (visConfig.natCountrySelected === undefined || visConfig.natCountrySelected === d['País']) return 1;
+
+            return 0.7;
+          });
+
+      countriesRects
+          .transition('old-rect-moving-and-resizing')
+          .duration(300)
+          .attr("x", function(d, country) {
+            return configuration.positions[country].x;
+          })
+          .attr("width", function(d, country) {
+            return configuration.positions[country].width;
+          })
+          .attr("opacity", function(d) {
+            if (visConfig.natCountrySelected === undefined || visConfig.natCountrySelected === d['País']) return 1;
+
+            return 0.7;
+          });
+
+      countriesPaths
+          .enter()
+          .append('path')
+          .attr("class", "country-path")
+          .attr("d", function(d, country) {
+            var startingX = configuration.positions[country].x;
+            var width = configuration.positions[country].width;
+            var startingY = visConfig.height - visConfig.natGraphRectBottomMargin + visConfig.natGraphRectH;
+            var endingY = visConfig.height - visConfig.natGraphXAxisBottomMargin;
+            var avrg = d["Dados"]["Média"];
+            var endingX = (avrg - visConfig.publicFilter.min) * visConfig.natGraphXAxisW / (configuration.maxDataNations - visConfig.publicFilter.min) + visConfig.baseWMargin;
+             
+            return "M" + startingX + " " +
+                    startingY +
+                    " L" + (startingX + width) + " " + startingY +
+                    " L" + endingX + " " + endingY + " Z";
+          })
+          .attr("fill", function(d, country) {
+            return visConfig.continentsColors[visConfig.countries[d["País"]]["continente"]];
+          })
+          .attr("stroke-width", 0)
+          .attr("stroke", "transparent")
+          .on("click", function() {
+            countryClickInteration(d3.select(this));            
+          })
+          .attr("opacity", 0)
+          .transition('updated-paths-showing')
+          .duration(300)
+          .delay(300)
+          .attr("opacity", function(d) {
+            if (visConfig.natCountrySelected === undefined || visConfig.natCountrySelected === d['País']) return 1;
+
+            return 0.7;
+          });
+
+      if (selectedCountryIsInTheVis) {
+        d3.selectAll('rect.country-bar')
+          .filter(function(d) {
+            if (d['País'] === visConfig.natCountrySelected) updateTextsCountry(d);
+          });
+      }
+      
+      if (configuration.finalData.length === 0) {
+        d3.select("text.warning-description").text(function() {
+          return "Não há filmes desse(s) continente(s) com essa média de público selecionada.";
+        });
+      }
+    }
+
+    function removePaths() {
+      d3.selectAll('path.country-path').remove();
+    }
+
+    function alertCountryIsNotPresent() {
+      d3.select("text.warning-description").text("O país selecionado não se encontra nesse ano e/ou com essas condições.");
+    }
+
+    function countryWasInTheVis(country) {
+      return visConfig.datasetGraphAux[visConfig.natPreviousYearSelected][visConfig.countries[country]['continente']][country] !== undefined;
+    }
+
+    function countryIsInTheVis(country) {
+      return visConfig.datasetGraphAux[visConfig.natYearSelected][visConfig.countries[country]['continente']][country] !== undefined &&
+             visConfig.datasetGraphAux[visConfig.natYearSelected][visConfig.countries[country]['continente']][country]['Média'] >= visConfig.publicFilter.min &&
+             visConfig.datasetGraphAux[visConfig.natYearSelected][visConfig.countries[country]['continente']][country]['Média'] <= visConfig.publicFilter.max;
+    }
+
+    function removeWarning() {
+      d3.select("text.warning-description").text("");
+    }
+
+    function removeTextsCountry() {
+      d3.selectAll("text.description-texts").text("");
+    }
+
+    function updateTextsCountry(data) {
+      d3.select("text.country-description").text(data["País"]);
+      d3.select("text.titles-description").text(function() {
+        if (data["Dados"]["Títulos"] > 1) return data["Dados"]["Títulos"] + " filmes lançados";
+        return data["Dados"]["Títulos"] + " filme lançado";
+      });
+      d3.select("text.public-description").text(function() {
+        return formatNumber(parseInt(data["Dados"]["Média"])) + " espectadores em média";
+      });
+    }
+
+    function countryClickInteration(self) {
+      var data = self.data()[0];
+      visConfig.natCountrySelected = data['País'];
+      updateTextsCountry(data);
+      d3.selectAll("rect.country-bar").attr("opacity", function(d) { return (d['País'] === visConfig.natCountrySelected) ? 1 : 0.7; } );
+      d3.selectAll("path.country-path").attr("opacity", function(d) { return (d['País'] === visConfig.natCountrySelected) ? 1 : 0.7; } );
+    }
+
+    function countryMouseoverInteration(self) {
+      self
+        .transition((self.datum()["País"] + "up"))
+        .duration(100)
+        .attr("y", (visConfig.height - visConfig.natGraphRectBottomMargin) - 10)
+        .attr("height", visConfig.natGraphRectH + 10);
+    }
+
+    function countryMouseleaveInteration(all) {
+      all
+        .transition("all-down")
+        .duration(100)
+        .attr("y", (visConfig.height - visConfig.natGraphRectBottomMargin))
+        .attr("height", visConfig.natGraphRectH);
+    }
+
+    function drawGraph() {
+
       // Start Drawing
 
       var graph = vis.append("g")
         .attr("class", "graph");
-
 
       // Messages to user
 
@@ -528,157 +774,83 @@ function createVisNationalities(userWindowWidth) {
         .attr("fill", visConfig.natGraphXAxisLabelColor)
         .attr("font-size", visConfig.natGraphXAxisLabelsSize)
         .text(function() {
-          return formatNumber((visConfig.publicFilter.min + i*(maxDataNations - visConfig.publicFilter.min)/10));
+          return formatNumber((visConfig.publicFilter.min + i*(configuration.maxDataNations - visConfig.publicFilter.min)/10));
         });
       }
 
       // Drawing Graph
 
-      var auxContinent = 0;
-      for (var continent = 0; continent < dataHolder.length; continent++) {
+      var accumulator = visConfig.baseWMargin;
+      graph.selectAll('rect.country-bar')
+            .data(configuration.finalData, function(d) { return d["País"]; })
+            .enter()
+            .append('rect')
+            .attr("class", "country-bar");
 
-        if (dataHolder[continent].length > 0) {
+      d3.selectAll("rect.country-bar")
+        .attr("x", function(d, country) {
+          return configuration.positions[country].x;
+        })
+        .attr("y", function() {
+          return visConfig.height - visConfig.natGraphRectBottomMargin;
+        })
+        .attr("width", function(d, country) {
+          return configuration.positions[country].width;
+        })
+        .attr("height", visConfig.natGraphRectH)
+        .attr("fill", function(d, country) {
+          return visConfig.continentsColors[visConfig.countries[configuration.finalData[country]["País"]]["continente"]];
+        })
+        .attr("stroke-width", 0)
+        .attr("stroke", "transparent")
+        .on("click", function() {
+          countryClickInteration(d3.select(this));
+        })
+        .on("mouseover", function() {
+          countryMouseoverInteration(d3.select(this));
+        })
+        .on("mouseleave", function() {
+          countryMouseleaveInteration(d3.selectAll("rect.country-bar"));
+        })
+        .attr("opacity", 0)
+        .transition('initial-rects-showing')
+        .duration(300)
+        .attr("opacity", 1);
 
-          for (var country = 0; country < dataHolder[continent].length; country++) {
+        // Drawing Paths
 
-            // Drawing Bars
-
-            graph.append("rect")
-              .attr("class", function() {
-                return "country-bar bar" + auxContinent + "-" + country;
-              })
-              .attr("item", function() {
-                return auxContinent + "-" + country;
-              })
-              .datum(dataHolder[continent][country])
-              .attr("x", function() {
-                if (auxContinent == 0 && country == 0) {
-                    return visConfig.baseWMargin;
-                } else {
-                  if (country > 0) {
-                    var reference = "rect.bar" + auxContinent + "-" + (country - 1);
-                    var x = parseFloat(d3.select(reference).attr("x"));
-                    var width = parseFloat(d3.select(reference).attr("width"));
-                    return x + width + visConfig.natGraphCountrySpacing;
-                  } else {
-                    var reference = "rect.bar" + (auxContinent-1) + "-" + (dataHolder[lastContinent].length - 1);
-                    var x = parseFloat(d3.select(reference).attr("x"));
-                    var width = parseFloat(d3.select(reference).attr("width"));
-                    return x + width + visConfig.natGraphCountrySpacing + visConfig.natGraphContinentSpacing;
-                  }
-                }
-              })
-              .attr("y", function() {
-                return visConfig.height - visConfig.natGraphRectBottomMargin;
-              })
-              .attr("width", function() {
-                var titles = dataHolder[continent][country]["Dados"]["Títulos"];
-                return (titles * totalWidthAvailable)/titlesSum;
-              })
-              .attr("height", visConfig.natGraphRectH)
-              .attr("fill", visConfig.continentsColors[visConfig.continentsArr[continent]])
-              .attr("stroke-width", 0)
-              .attr("stroke", "transparent")
-              .on("click", function() {
-                var self = d3.select(this);
-                var data = self.data()[0];
-                d3.select("text.country-description").text(data["País"]);
-                d3.select("text.titles-description").text(function() {
-                  if (data["Dados"]["Títulos"] > 1) return data["Dados"]["Títulos"] + " filmes lançados";
-                  return data["Dados"]["Títulos"] + " filme lançado";
-                });
-                d3.select("text.public-description").text(function() {
-                  return formatNumber(parseInt(data["Dados"]["Média"])) + " espectadores em média";
-                });
-                d3.selectAll("rect.country-bar").attr("opacity", 0.7);
-                d3.selectAll("path.country-path").attr("opacity", 0.7);
-                self.attr("opacity", 1);
-                d3.select("path.path" + self.attr("item")).attr("opacity", 1);
-              })
-              .on("mouseover", function() {
-                var self = d3.select(this);
-                self
-                  .transition((self.datum()["País"] + "up"))
-                  .duration(100)
-                  .attr("y", (visConfig.height - visConfig.natGraphRectBottomMargin) - 10)
-                  .attr("height", visConfig.natGraphRectH + 10);
-              })
-              .on("mouseleave", function() {
-                var self = d3.selectAll("rect.country-bar");
-                self
-                  .transition("all-down")
-                  .duration(100)
-                  .attr("y", (visConfig.height - visConfig.natGraphRectBottomMargin))
-                  .attr("height", visConfig.natGraphRectH);
-              })
-              .attr("opacity", 0)
-              .transition()
-              .duration(50)
-              .delay(50 * country)
-              .attr("opacity", 1);
-
-            // Drawing Paths
-
-            graph.append("path")
-              .attr("class", function() {
-                return "country-path path" + auxContinent + "-" + country;
-              })
-              .attr("item", function() {
-                return auxContinent + "-" + country;
-              })
-              .datum(dataHolder[continent][country])
-              .attr("d", function() {
-                  var avrg = dataHolder[continent][country]["Dados"]["Média"];
-                  var endingX = (avrg - visConfig.publicFilter.min) * totalAxisWidth / (maxDataNations - visConfig.publicFilter.min);
-                  endingX += visConfig.baseWMargin;
-                  var reference = "rect.bar" + auxContinent + "-" + (country);
-                  var width = parseFloat(d3.select(reference).attr("width"));
-                  var startingX = parseFloat(d3.select(reference).attr("x"));
-                  var startingY = parseFloat(d3.select(reference).attr("y")) + visConfig.natGraphRectH;
-                  var endingY = visConfig.height - visConfig.natGraphXAxisBottomMargin;
-
-                  return "M" + startingX + " " +
-                          startingY +
-                         " L" + (startingX + width) + " " + startingY +
-                         " L" + endingX + " " + endingY + " Z";
-              })
-              .attr("fill", visConfig.continentsColors[visConfig.continentsArr[continent]])
-              .attr("stroke-width", 0)
-              .attr("stroke", "transparent")
-              .on("click", function() {
-                var self = d3.select(this);
-                var data = self.data()[0];
-                d3.select("text.country-description").text(data["País"]);
-                d3.select("text.titles-description").text(function() {
-                  if (data["Dados"]["Títulos"] > 1) return data["Dados"]["Títulos"] + " filmes lançados";
-                  return data["Dados"]["Títulos"] + " filme lançado";
-                });
-                d3.select("text.public-description").text(function() {
-                  return formatNumber(parseInt(data["Dados"]["Média"])) + " espectadores em média";
-                });
-                d3.selectAll("rect.country-bar").attr("opacity", 0.7);
-                d3.selectAll("path.country-path").attr("opacity", 0.7);
-                self.attr("opacity", 1);
-                d3.select("rect.bar" + self.attr("item")).attr("opacity", 1);
-              })
-              .attr("opacity", 0)
-              .transition()
-              .duration(50)
-              .delay(50 + (50 * country))
-              .attr("opacity", 1);
-
-          }
-
-          auxContinent++;
-          lastContinent = continent;
-        }
-      }
-      if (auxContinent === 0) {
-        d3.select("text.warning-description").text(function() {
-          return "Não há filmes desse(s) continente(s) com essa média de público selecionada.";
-        });
-      }
-
+        graph
+          .selectAll('path.country-path')
+          .data(configuration.finalData, function(d) { return d["País"]; })
+          .enter()
+          .append('path')
+          .attr("class", "country-path")
+          .attr("d", function(d, country) {
+            var startingX = configuration.positions[country].x;
+            var width = configuration.positions[country].width;
+            var startingY = visConfig.height - visConfig.natGraphRectBottomMargin + visConfig.natGraphRectH;
+            var endingY = visConfig.height - visConfig.natGraphXAxisBottomMargin;
+            var avrg = d["Dados"]["Média"];
+            var endingX = (avrg - visConfig.publicFilter.min) * visConfig.natGraphXAxisW / (configuration.maxDataNations - visConfig.publicFilter.min) + visConfig.baseWMargin;
+             
+            return "M" + startingX + " " +
+                    startingY +
+                    " L" + (startingX + width) + " " + startingY +
+                    " L" + endingX + " " + endingY + " Z";
+          })
+          .attr("fill", function(d, country) {
+            return visConfig.continentsColors[visConfig.countries[configuration.finalData[country]["País"]]["continente"]];
+          })
+          .attr("stroke-width", 0)
+          .attr("stroke", "transparent")
+          .on("click", function() {
+            countryClickInteration(d3.select(this));            
+          })
+          .attr("opacity", 0)
+          .transition('initial-paths-showing')
+          .duration(300)
+          .delay(300)
+          .attr("opacity", 1);
     }
 
     scaleVis(ratio);
