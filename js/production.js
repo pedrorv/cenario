@@ -83,7 +83,7 @@ function createVisProduction(userWindowWidth) {
         })
         .style({
           "font-size": function() {
-            return parseFloat(d3.select(this).attr("base-size")) + "px";
+            return (parseFloat(d3.select(this).attr("base-size")) * ratio) + "px";
           },
           color: "#000",
           display: "inline-block",
