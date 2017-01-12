@@ -457,7 +457,9 @@ function createVisProduction(userWindowWidth) {
                         .transition()
                         .duration(100)
                         .delay(200)
-                        .attr("opacity", 1);
+                        .attr("opacity", function () {
+                          return (id.length === 2) ? 0.6 : 1;
+                        });
 
       if (!visConfig.regionsColors[identifier]) {
         var fill = visConfig.regionsColors[visConfig.ufsData[identifier]["Região"]];
@@ -577,7 +579,9 @@ function createVisProduction(userWindowWidth) {
         .delay(function(d,i) {
           return i*10;
         })
-        .attr("opacity", 1);
+        .attr("opacity", function() {
+          return (id.length === 2) ? 0.6 : 1;
+        });
 
 
     }
