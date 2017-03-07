@@ -256,6 +256,16 @@ function createVisNationalities(userWindowWidth) {
           configuration = calculateParameters();
           updateGraph();
         })
+        .on("mouseover", function() {
+          if (d3.select(this).attr("year") !== String(visConfig.natYearSelected)) {
+            d3.select(this).classed("bold", true).classed("light", false);
+          }
+        })
+        .on("mouseout", function() {
+          if (d3.select(this).attr("year") !== String(visConfig.natYearSelected)) {
+            d3.select(this).classed("bold", false).classed("light", true);
+          }
+        });
 
     }
 
