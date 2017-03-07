@@ -62,6 +62,12 @@ function createVisRecordists(userWindowWidth) {
         d3.select(this).attr("fill", visConfig.recOptionCircleFill);
         visConfig.recModeSelected = "titles";
         drawGraph(graphLimit, moviesRadius, moviesDistance, widthForDec);
+      })
+      .on("mouseover", function() {
+          d3.select(this).attr("stroke-width", 2);
+        })
+      .on("mouseout", function() {
+        d3.selectAll("circle.menu-option").attr("stroke-width", 1);
       });
 
     superscription.append("text")
@@ -87,6 +93,12 @@ function createVisRecordists(userWindowWidth) {
         d3.select(this).attr("fill", visConfig.recOptionCircleFill);
         visConfig.recModeSelected = "public";
         drawGraph(graphLimit, moviesRadius, moviesDistance, widthForDec);
+      })
+      .on("mouseover", function() {
+          d3.select(this).attr("stroke-width", 2);
+        })
+      .on("mouseout", function() {
+        d3.selectAll("circle.menu-option").attr("stroke-width", 1);
       });
 
     superscription.append("text")
