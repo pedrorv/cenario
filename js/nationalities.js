@@ -361,21 +361,25 @@ function createVisNationalities(userWindowWidth) {
       d3.select("path.play-button").attr("opacity", 1);
       d3.selectAll("rect.pause-button").attr("opacity", visConfig.natAnimationNotSelectedOpacity);
 
-      visConfig.animationTimer = setInterval(function () {
-        var year = parseInt(visConfig.natYearSelected) + 1;
-        year = (year === 2015) ? 2009 : year;
-    
-        visConfig.natPreviousYearSelected = visConfig.natYearSelected;
-        visConfig.natYearSelected = "" + year;
-        d3.selectAll("text.year-selector").classed("bold", false);
-        d3.select("#y" + year).classed("light", false).classed("bold", true);
+      changeVisCurrentYear()
 
-        
-        moveYearIndicator();
+      visConfig.animationTimer = setInterval(changeVisCurrentYear, 4000);
+    }
 
-        configuration = calculateParameters();
-        updateGraph();
-      }, 6000);
+    function changeVisCurrentYear() {
+      var year = parseInt(visConfig.natYearSelected) + 1;
+      year = (year === 2015) ? 2009 : year;
+  
+      visConfig.natPreviousYearSelected = visConfig.natYearSelected;
+      visConfig.natYearSelected = "" + year;
+      d3.selectAll("text.year-selector").classed("bold", false);
+      d3.select("#y" + year).classed("light", false).classed("bold", true);
+
+      
+      moveYearIndicator();
+
+      configuration = calculateParameters();
+      updateGraph();
     }
 
     function moveYearIndicator() {
