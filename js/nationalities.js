@@ -670,7 +670,7 @@ function createVisNationalities(userWindowWidth) {
         .attr("y", (visConfig.height - visConfig.natGraphRectBottomMargin) - 10)
         .attr("height", visConfig.natGraphRectH + 10);
 
-      d3.select("text.country-mouseover").text(self.datum()["País"]);
+      // d3.select("text.country-mouseover").text(self.datum()["País"]);
     }
 
     function countryMouseleaveInteration(all) {
@@ -680,7 +680,7 @@ function createVisNationalities(userWindowWidth) {
         .attr("y", (visConfig.height - visConfig.natGraphRectBottomMargin))
         .attr("height", visConfig.natGraphRectH);
 
-      d3.select("text.country-mouseover").text("");
+      // d3.select("text.country-mouseover").text("");
     }
 
     function drawGraph() {
